@@ -6,17 +6,21 @@
 ## New Session
 ![new-session]
 
-## NotesIndex / NoteIndexItem / NoteForm
-![notes]
+## HostsIndex / HostIndexItem / TravellerForm
+![hosts]
 
-## NotebooksIndex / NotebookIndexItem
-![notebooks]
+## TravellersIndex / TravellerIndexItem / HostForm
+![travellers]
 
-## NotebookForm
-![notebook-form]
+## TravellerForm
+![traveller-form]
+
+## HostForm
+![host-form]
 
 [new-user]: ./wireframes/new_user.png
 [new-session]: ./wireframes/new_session.png
-[notes]: ./wireframes/root_notes.png
-[notebooks]: ./wireframes/root_notebooks.png
-[notebook-form]: ./wireframes/notebook_form.png
+[hosts]: ./wireframes/root_hosts.png
+[travellers]: ./wireframes/root_traveller.png
+[traveller-form]: ./wireframes/traveller_form.png
+[host-form]: ./wireframes/host_form.png

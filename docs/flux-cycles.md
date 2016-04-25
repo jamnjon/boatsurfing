@@ -12,108 +12,79 @@ because once you start implementing your flux loops, that's precisely
 what you'll need to do.
 
 
-## Note Cycles
+## Lake Cycles
 
-### Notes API Request Actions
+### Lakes API Request Actions
 
-* `fetchAllNotes`
-  0. invoked from `NotesIndex` `didMount`/`willReceiveProps`
-  0. `GET /api/notes` is called.
-  0. `receiveAllNotes` is set as the callback.
+* `fetchAllLakes`
+  0. invoked from `SearchLakesIndex` `didMount`/`willReceiveProps`
+  0. `GET /api/lakes` is called.
+  0. `receiveAllLakes` is set as the callback.
 
-* `createNote`
-  0. invoked from new note button `onClick`
-  0. `POST /api/notes` is called.
-  0. `receiveSingleNote` is set as the callback.
+### Hosts API Response Actions
 
-* `fetchSingleNote`
-  0. invoked from `NoteDetail` `didMount`/`willReceiveProps`
-  0. `GET /api/notes/:id` is called.
-  0. `receiveSingleNote` is set as the callback.
+* `fetchAllHosts`
+0. invoked from `HostsIndex` `didMount`/`willReceiveProps`
+0. `GET /api/lakes/:id` is called.
+0. `receiveAllHosts` is set as the callback.
 
-* `updateNote`
-  0. invoked from `NoteForm` `onSubmit`
-  0. `POST /api/notes` is called.
-  0. `receiveSingleNote` is set as the callback.
 
-* `destroyNote`
-  0. invoked from delete note button `onClick`
-  0. `DELETE /api/notes/:id` is called.
-  0. `removeNote` is set as the callback.
-
-### Notes API Response Actions
-
-* `receiveAllNotes`
+* `receiveAllHosts`
   0. invoked from an API callback.
-  0. `Note` store updates `_notes` and emits change.
+  0. `Hosts` store updates `_hosts` and emits change.
 
-* `receiveSingleNote`
+* `receiveSingleHost`
   0. invoked from an API callback.
-  0. `Note` store updates `_notes[id]` and emits change.
+  0. `Hosts` store updates `traveller[id]` and emits change.
 
-* `removeNote`
+* `removeHost`
   0. invoked from an API callback.
-  0. `Note` store removes `_notes[id]` and emits change.
+  0. `Host` store removes `_hosts[id]` and emits change.
+
+* `updateHost`
+  0. invoked from an API callback.
+  0. `Host` store updates `_hosts[id]` and emits change.
 
 ### Store Listeners
 
-* `NotesIndex` component listens to `Note` store.
-* `NoteDetail` component listens to `Note` store.
+* `HostsIndex` component listens to `Host` store.
+* `HostDetail` component listens to `Host` store.
 
 
-## Notebook Cycles
+### Hosts API Response Actions
 
-### Notebooks API Request Actions
+* `fetchAllTravellers`
+0. invoked from `TravellersIndex` `didMount`/`willReceiveProps`
+0. `GET /api/lakes/:id` is called.
+0. `receiveAllTravellers` is set as the callback.
 
-* `fetchAllNotebooks`
-  0. invoked from `NotebooksIndex` `didMount`/`willReceiveProps`
-  0. `GET /api/notebooks` is called.
-  0. `receiveAllNotebooks` is set as the callback.
 
-* `createNotebook`
-  0. invoked from new notebook button `onClick`
-  0. `POST /api/notebooks` is called.
-  0. `receiveSingleNotebook` is set as the callback.
-
-* `fetchSingleNotebook`
-  0. invoked from `NotebookDetail` `didMount`/`willReceiveProps`
-  0. `GET /api/notebooks/:id` is called.
-  0. `receiveSingleNotebook` is set as the callback.
-
-* `updateNotebook`
-  0. invoked from `NotebookForm` `onSubmit`
-  0. `POST /api/notebooks` is called.
-  0. `receiveSingleNotebook` is set as the callback.
-
-* `destroyNotebook`
-  0. invoked from delete notebook button `onClick`
-  0. `DELETE /api/notebooks/:id` is called.
-  0. `removeNotebook` is set as the callback.
-
-### Notebooks API Response Actions
-
-* `receiveAllNotebooks`
+* `receiveAllTravellers`
   0. invoked from an API callback.
-  0. `Notebook` store updates `_notebooks` and emits change.
+  0. `Travellers` store updates `traveller` and emits change.
 
-* `receiveSingleNotebook`
+* `receiveSingleTraveller`
   0. invoked from an API callback.
-  0. `Notebook` store updates `_notebooks[id]` and emits change.
+  0. `Travellers` store updates `traveller[id]` and emits change.
 
-* `removeNotebook`
+* `removeTraveller`
   0. invoked from an API callback.
-  0. `Notebook` store removes `_notebooks[id]` and emits change.
+  0. `Traveller` store removes `traveller[id]` and emits change.
+
+* `updateTraveller`
+  0. invoked from an API callback.
+  0. `Traveller` store updates `traveller[id]` and emits change.
 
 ### Store Listeners
 
-* `NotebooksIndex` component listens to `Notebook` store.
-
+* `TravellersIndex` component listens to `Traveller` store.
+* `TravellerDetail` component listens to `Traveller` store.
 
 ## SearchSuggestion Cycles
 
 * `fetchSearchSuggestions`
-  0. invoked from `NoteSearchBar` `onChange` when there is text
-  0. `GET /api/notes` is called with `text` param.
+  0. invoked from `LakeSearchBar` `onChange` when there is text
+  0. `GET /api/lakes` is called with `text` param.
   0. `receiveSearchSuggestions` is set as the callback.
 
 * `receiveSearchSuggestions`

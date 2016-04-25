@@ -1,4 +1,4 @@
-# FresherNote
+# BoatSurfing
 
 [Heroku link][heroku] **NB:** This should be a link to your production site
 
@@ -6,29 +6,30 @@
 
 ## Minimum Viable Product
 
-FresherNote is a web application inspired by Evernote that will be build using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
+BoatSurfing is a web application inspired by CouchSurfing that will be build using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
 
 - [ ] New account creation, login, and guest/demo login
 - [ ] Smooth, bug-free navigation
 - [ ] Adequate seed data to demonstrate the site's features
-- [ ] The minimally necessary features for an Evernote-inspired site: note creation and saving, note editing, and notes organized into notebooks
+- [ ] The minimally necessary features for an Couchsurfing-inspired site: find a host to allow you to wakeboard/waterski/...behind their boat or be a host and allow someone to come out with you on your boat (after all, you can't drive yourself).
 - [ ] Hosting on Heroku
 - [ ] CSS styling that is satisfactorily visually appealing
 - [ ] A production README, replacing this README (**NB**: check out the [sample production README](https://github.com/appacademy/sample-project-proposal/blob/master/docs/production_readme.md) -- you'll write this later)
 
 ## Product Goals and Priorities
 
-FresherNote will allow users to do the following:
+BoatSurfing will allow users to do the following:
 
 <!-- This is a Markdown checklist. Use it to keep track of your
 progress. Put an x between the brackets for a checkmark: [x] -->
 
 - [ ] Create an account (MVP)
 - [ ] Log in / Log out, including as a Guest/Demo User (MVP)
-- [ ] Create, read, edit, and delete notes (MVP)
-- [ ] Organize notes within Notebooks (MVP)
-- [ ] Tag notes with multiple tags (expected feature, but not MVP)
-- [ ] Apply complex styling to notes while editing (expected feature, but not MVP)
+- [ ] Search a lake for potential hosts (MVP)
+- [ ] Search a lake for potential guests (MVP)
+- [ ] Rate a host/guest (expected feature, but not MVP)
+- [ ] Sort potential hosts/guests by specific water sport and/or by rating (expected feature, but not MVP)
+- [ ] Favorite previous hosts or guests so that they will come up first in future searches (expected feature, but not MVP)
 
 ## Design Docs
 * [View Wireframes][views]
@@ -55,34 +56,46 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 - [ ] user signup/signin pages
 - [ ] blank landing page after signin
 
-### Phase 2: Notes Model, API, and basic APIUtil (1.5 days)
+### Phase 2: Lakes Model, API, and basic APIUtil (1.0 days)
 
-**Objective:** Notes can be created, read, edited and destroyed through
-the API.
+**Objective:** Lakes can only be indexed and shown through the API.
 
-- [ ] create `Note` model
+- [ ] create `Lake` model
 - [ ] seed the database with a small amount of test data
-- [ ] CRUD API for notes (`NotesController`)
-- [ ] jBuilder views for notes
+- [ ] CRUD API for notes (`LakesController`)
+- [ ] jBuilder views for lakes
 - [ ] setup Webpack & Flux scaffold
 - [ ] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
 
-### Phase 3: Flux Architecture and Router (1.5 days)
+### Phase 3: Hosts Model, API, and basic APIUtil (1.5 days)
 
-**Objective:** Notes can be created, read, edited and destroyed with the
+**Objective:** Hosts can be created, edited, read, and destroyed through the API.
+
+- [ ] create `Host` model
+- [ ] seed the database with a small amount of test data
+- [ ] CRUD API for notes (`HostsController`)
+- [ ] jBuilder views for hosts
+- [ ] setup Webpack & Flux scaffold
+- [ ] setup `APIUtil` to interact with the API
+- [ ] test out API interaction in the console.
+
+
+### Phase 4: Flux Architecture and Router (1.5 days)
+
+**Objective:** Hosts can be created, read, edited and destroyed with the
 user interface.
 
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router
 - implement each note component, building out the flux loop as needed.
-  - [ ] `NotesIndex`
-  - [ ] `NoteIndexItem`
-  - [ ] `NoteForm`
-- [ ] save Notes to the DB when the form loses focus or is left idle
+  - [ ] `HostssIndex`
+  - [ ] `HostsIndexItem`
+  - [ ] `HostForm`
+- [ ] save Hosts to the DB when the form loses focus or is left idle
   after editing.
 
-### Phase 4: Start Styling (0.5 days)
+### Phase 5: Start Styling (0.5 days)
 
 **Objective:** Existing pages (including singup/signin) will look good.
 
@@ -90,40 +103,33 @@ user interface.
 - [ ] position elements on the page
 - [ ] add basic colors & styles
 
-### Phase 5: Notebooks (1 day)
+### Phase 6: Travellers Model, API, and basic APIUtil (1.5 days)
 
-**Objective:** Notes belong to Notebooks, and can be viewed by notebook.
+**Objective:** Travellers can be created, edited, read, and destroyed through the API.
 
-- [ ] create `Notebook` model
-- build out API, Flux loop, and components for:
-  - [ ] Notebook CRUD
-  - [ ] adding notes requires a notebook
-  - [ ] moving notes to a different notebook
-  - [ ] viewing notes by notebook
-- Use CSS to style new views
+- [ ] create `Traveller` model
+- [ ] seed the database with a small amount of test data
+- [ ] CRUD API for notes (`TravellersController`)
+- [ ] jBuilder views for hosts
+- [ ] setup Webpack & Flux scaffold
+- [ ] setup `APIUtil` to interact with the API
+- [ ] test out API interaction in the console.
 
-Phase 3 adds organization to the Notes. Notes belong to a Notebook,
-which has its own `Index` view.
 
-### Phase 6: Tags (1.5 days)
+### Phase 7: Flux Architecture and Router (1.5 days)
 
-**Objective:** Notes can be tagged with multiple tags, and tags are searchable.
+**Objective:** Travellers can be created, read, edited and destroyed with the
+user interface.
 
-- [ ] create `Tag` model and join table
-- build out API, Flux loop, and components for:
-  - [ ] fetching tags for notebook
-  - [ ] adding tags to notebook
-  - [ ] creating tags while adding to notebooks
-  - [ ] searching notebooks by tag
-- [ ] Style new elements
+- [ ] setup the flux loop with skeleton files
+- [ ] setup React Router
+- implement each note component, building out the flux loop as needed.
+  - [ ] `TravellerssIndex`
+  - [ ] `TravellersIndexItem`
+  - [ ] `TravellerForm`
+- [ ] save Travellers to the DB when the form loses focus or is left idle
+  after editing.
 
-### Phase 7: Allow Complex Styling in Notes (0.5 days)
-
-**objective:** Enable complex styling of notes.
-
-- [ ] Integrate `react-quill` (based on Quill.js).
-- [ ] Use Rails helpers to sanitize HTML before rendering.
-- [ ] Style the new Quill elements.
 
 ### Phase 8: Styling Cleanup and Seeding (1 day)
 
@@ -134,14 +140,7 @@ which has its own `Index` view.
 - [ ] Add modals, transitions, and other styling flourishes.
 
 ### Bonus Features (TBD)
-- [ ] Search through notes for blocks of text
-- [ ] Pagination / infinite scroll for Notes Index
-- [ ] Set reminders on notes
-- [ ] Changelogs for Notes
+- [ ] Rate hosts/travellers
+- [ ] Pagination / infinite scroll for Hosts/Travellers Index
+- [ ] Favorite previous Hosts/Travellers and have them show up at top of search
 - [ ] Multiple sessions
-
-[phase-one]: ./docs/phases/phase1.md
-[phase-two]: ./docs/phases/phase2.md
-[phase-three]: ./docs/phases/phase3.md
-[phase-four]: ./docs/phases/phase4.md
-[phase-five]: ./docs/phases/phase5.md
