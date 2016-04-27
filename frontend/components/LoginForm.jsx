@@ -9,6 +9,14 @@ var LoginForm = React.createClass({
 	getInitialState: function(){
 		return {form: "login", username: "", password: ""};
 	},
+
+  componentDidUpdate: function(){
+    if (this.state.currentUser) {
+      hashHistory.push("/");
+    }
+    return true;
+  },
+
 	setForm: function(e){
 		this.setState({form: e.currentTarget.value});
 	},
@@ -23,6 +31,7 @@ var LoginForm = React.createClass({
     UserActions.guestLogin();
     this.setState({username: "I_Should_Hire_Jon", password: "password"});
   },
+
 	logout: function(e){
 		e.preventDefault();
 		UserActions.logout();
@@ -30,7 +39,7 @@ var LoginForm = React.createClass({
 	},
 	greeting: function(){
 		if (!this.state.currentUser) {
-			return;
+			return (<h2>Welcome to BoatSurfing</h2>);
 		}
 		return (
 			<div>
@@ -64,7 +73,6 @@ var LoginForm = React.createClass({
 	},
 	form: function(){
 		if (this.state.currentUser) {
-      hashHistory.push("/");
 			return;
 		}
 		return(
