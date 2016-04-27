@@ -2,6 +2,7 @@ var React = require("react");
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var UserActions = require("../actions/user_actions");
 var CurrentUserState = require("../mixins/current_user_state");
+var hashHistory = require('react-router').hashHistory;
 
 var LoginForm = React.createClass({
 	mixins: [LinkedStateMixin, CurrentUserState],
@@ -33,6 +34,7 @@ var LoginForm = React.createClass({
 		}
 		return (
 			<div>
+        <h1>BoatSurfing</h1>
 				<h2>Hi, {this.state.currentUser.username}!</h2>
 				<input type="submit" value="logout" onClick={this.logout}/>
 			</div>
@@ -62,6 +64,7 @@ var LoginForm = React.createClass({
 	},
 	form: function(){
 		if (this.state.currentUser) {
+      hashHistory.push("/");
 			return;
 		}
 		return(

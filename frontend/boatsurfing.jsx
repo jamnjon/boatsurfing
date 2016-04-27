@@ -8,6 +8,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 //Components
 var LoginForm = require('./components/LoginForm');
+var Splash = require('./components/splash');
 //Mixins
 var CurrentUserState = require('./mixins/current_user_state');
 
@@ -16,8 +17,7 @@ var App = React.createClass({
   render: function(){
     return (
       <div>
-        <header><h1>BoatSurfing</h1></header>
-        <LoginForm/>
+        <header></header>
         {this.props.children}
       </div>
     );
@@ -26,7 +26,10 @@ var App = React.createClass({
 
 var Router = (
   <Router history={hashHistory}>
-    <Route path="/" component={App} />
+    <Route path="/" component={App}>
+      <IndexRoute component={Splash} />
+      <Route path="register" component={LoginForm} />
+    </Route>
   </Router>
 );
 

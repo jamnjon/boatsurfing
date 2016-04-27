@@ -54,6 +54,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	//Components
 	var LoginForm = __webpack_require__(225);
+	var Splash = __webpack_require__(256);
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
 
@@ -65,16 +66,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'header',
-	        null,
-	        React.createElement(
-	          'h1',
-	          null,
-	          'BoatSurfing'
-	        )
-	      ),
-	      React.createElement(LoginForm, null),
+	      React.createElement('header', null),
 	      this.props.children
 	    );
 	  }
@@ -83,7 +75,12 @@
 	var Router = React.createElement(
 	  Router,
 	  { history: hashHistory },
-	  React.createElement(Route, { path: '/', component: App })
+	  React.createElement(
+	    Route,
+	    { path: '/', component: App },
+	    React.createElement(IndexRoute, { component: Splash }),
+	    React.createElement(Route, { path: 'register', component: LoginForm })
+	  )
 	);
 
 	document.addEventListener('DOMContentLoaded', function () {
@@ -25465,6 +25462,7 @@
 	var LinkedStateMixin = __webpack_require__(226);
 	var UserActions = __webpack_require__(230);
 	var CurrentUserState = __webpack_require__(255);
+	var hashHistory = __webpack_require__(166).hashHistory;
 
 	var LoginForm = React.createClass({
 		displayName: "LoginForm",
@@ -25499,6 +25497,11 @@
 			return React.createElement(
 				"div",
 				null,
+				React.createElement(
+					"h1",
+					null,
+					"BoatSurfing"
+				),
 				React.createElement(
 					"h2",
 					null,
@@ -25537,6 +25540,7 @@
 		},
 		form: function () {
 			if (this.state.currentUser) {
+				hashHistory.push("/");
 				return;
 			}
 			return React.createElement(
@@ -32772,6 +32776,45 @@
 	};
 
 	module.exports = CurrentUserState;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(166).hashHistory;
+	var CurrentUserState = __webpack_require__(255);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  registerPage: function (e) {
+	    e.preventDefault();
+	    hashHistory.push("/register");
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Welcome to BoatSurfing'
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        'The Best Place for Boat Sharing'
+	      ),
+	      React.createElement(
+	        'button',
+	        { onClick: this.registerPage },
+	        'Sign up/Sign in'
+	      )
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);
