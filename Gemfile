@@ -25,7 +25,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bcrypt'
 gem 'pry-rails'
-
+gem 'better_errors'
+gem 'binding_of_caller'
+gem 'rails_12factor'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
