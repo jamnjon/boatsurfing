@@ -13,20 +13,24 @@ module.exports = React.createClass({
     LakeClientActions.fetchLakes();
   },
 
+  componentWillUpdate: function(){
+
+  },
+
   componentDidUpdate: function(){
-    this.lakes = this.getLakes();
-    // console.log(this)
-    this.lakeList = [];
-    if(this.lakes){
-      this.lakes.forEach(function(lake){
-        if(this.lakeList.length < 5){
-          this.lakeList.push(<li
-            data-lakeId={lake.id} key={lake.id}
-            onClick={this.fillLakeName} lake={lake}
-            >{lake.name}</li>);
-        }
-      }.bind(this));
-    }
+    // this.lakes = this.getLakes();
+    // console.log(this.lakes.forEach(function()))
+    // this.lakeList = [];
+    // if(this.lakes){
+    //   this.lakes.forEach(function(lake){
+    //     if(this.lakeList.length < 5){
+    //       this.lakeList.push(<li
+    //         data-lakeId={lake.id} key={lake.id}
+    //         onClick={this.fillLakeName} lake={lake}
+    //         >{lake.name}</li>);
+    //     }
+    //   }.bind(this));
+    // }
   },
 
   fillLakeName: function(e){
@@ -43,14 +47,21 @@ module.exports = React.createClass({
     this.setState({lakeName: e.target.value});
   },
 
-  handleSubmit: function(e){
-    e.preventDefault();
-  },
 
   render: function(){
+    var lakes = this.getLakes();
+    var lakesHTML;
+    if(lakes.length > 0){
+      lakesHTML = lakes.map(function(lake){
+        return <li data-lakeId={lake.id} key={lake.id} onClick={this.fillLakeName} lake={lake}>{lake.name}</li>;
+      });
+    }  else{
+      lakesHTML="";
+    }
+
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <select>
             <option value="find_host">Find Host</option>
             <option value="find_guest">Find Guest</option>
@@ -58,9 +69,8 @@ module.exports = React.createClass({
           <label> Lake:
             <input type="text" placeholder="Lake Name Here" onChange={this.updateLake} value={this.state.lakeName} />
           </label>
-          <input type="submit" value="Search" />
         </form>
-        <ul>{this.lakeList}</ul>
+        <ul>{lakesHTML}</ul>
       </div>
     );
   }

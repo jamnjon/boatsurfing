@@ -32865,24 +32865,22 @@
 	    LakeClientActions.fetchLakes();
 	  },
 	
+	  componentWillUpdate: function () {},
+	
 	  componentDidUpdate: function () {
-	    this.lakes = this.getLakes();
-	    // console.log(this)
-	    this.lakeList = [];
-	    if (this.lakes) {
-	      this.lakes.forEach(function (lake) {
-	        if (this.lakeList.length < 5) {
-	          this.lakeList.push(React.createElement(
-	            'li',
-	            {
-	              'data-lakeId': lake.id, key: lake.id,
-	              onClick: this.fillLakeName, lake: lake
-	            },
-	            lake.name
-	          ));
-	        }
-	      }.bind(this));
-	    }
+	    // this.lakes = this.getLakes();
+	    // console.log(this.lakes.forEach(function()))
+	    // this.lakeList = [];
+	    // if(this.lakes){
+	    //   this.lakes.forEach(function(lake){
+	    //     if(this.lakeList.length < 5){
+	    //       this.lakeList.push(<li
+	    //         data-lakeId={lake.id} key={lake.id}
+	    //         onClick={this.fillLakeName} lake={lake}
+	    //         >{lake.name}</li>);
+	    //     }
+	    //   }.bind(this));
+	    // }
 	  },
 	
 	  fillLakeName: function (e) {
@@ -32899,17 +32897,27 @@
 	    this.setState({ lakeName: e.target.value });
 	  },
 	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	  },
-	
 	  render: function () {
+	    var lakes = this.getLakes();
+	    var lakesHTML;
+	    if (lakes.length > 0) {
+	      lakesHTML = lakes.map(function (lake) {
+	        return React.createElement(
+	          'li',
+	          { 'data-lakeId': lake.id, key: lake.id, onClick: this.fillLakeName, lake: lake },
+	          lake.name
+	        );
+	      });
+	    } else {
+	      lakesHTML = "";
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit },
+	        null,
 	        React.createElement(
 	          'select',
 	          null,
@@ -32929,13 +32937,12 @@
 	          null,
 	          ' Lake:',
 	          React.createElement('input', { type: 'text', placeholder: 'Lake Name Here', onChange: this.updateLake, value: this.state.lakeName })
-	        ),
-	        React.createElement('input', { type: 'submit', value: 'Search' })
+	        )
 	      ),
 	      React.createElement(
 	        'ul',
 	        null,
-	        this.lakeList
+	        lakesHTML
 	      )
 	    );
 	  }
@@ -33022,7 +33029,7 @@
 	    if (duplicate) {
 	      return;
 	    }
-	    for (i = 0; i < lake.name.length - partialName.length; i++) {
+	    for (i = 0; i < lake.name.length - partialName.length + 1; i++) {
 	      var mismatch = false;
 	      for (var j = 0; j < partialName.length; j++) {
 	        if (partialName[j].toUpperCase() !== lake.name[i + j].toUpperCase()) {

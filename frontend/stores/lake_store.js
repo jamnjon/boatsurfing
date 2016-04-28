@@ -30,7 +30,7 @@ LakeStore.find = function(partialName){
     if(duplicate){
       return;
     }
-    for (i = 0; i < (lake.name.length-partialName.length); i++) {
+    for (i = 0; i < (lake.name.length-partialName.length + 1); i++) {
       var mismatch = false;
       for(var j = 0; j < partialName.length; j++){
         if(partialName[j].toUpperCase() !== lake.name[i+j].toUpperCase()){
