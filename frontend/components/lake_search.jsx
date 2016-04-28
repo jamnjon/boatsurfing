@@ -15,6 +15,21 @@ module.exports = React.createClass({
 
   componentDidUpdate: function(){
     this.lakes = this.getLakes();
+    // console.log(this)
+    this.lakeList = [];
+    if(this.lakes){
+      this.lakes.forEach(function(lake){
+        if(this.lakeList.length < 5){
+          this.lakeList.push(<li data-lakeId={lake.id} key={lake.id} onClick={this.fillLakeName} lake={lake}>{lake.name}</li>);
+        }
+      }.bind(this));
+    }
+  },
+
+  fillLakeName: function(e){
+    var lake = LakeStore.findById(e.target.attributes[0].value);
+    // hashHistory.push('/lakes/' + lake.id);
+    this.setState({lakeName: lake.name});
   },
 
   getLakes: function(){
@@ -30,7 +45,6 @@ module.exports = React.createClass({
   },
 
   render: function(){
-
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -43,6 +57,7 @@ module.exports = React.createClass({
           </label>
           <input type="submit" value="Search" />
         </form>
+        <ul>{this.lakeList}</ul>
       </div>
     );
   }

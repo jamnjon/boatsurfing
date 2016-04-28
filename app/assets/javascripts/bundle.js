@@ -55,6 +55,7 @@
 	//Components
 	var LoginForm = __webpack_require__(225);
 	var Splash = __webpack_require__(256);
+	// var Lake = require('./components/lake');
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
 	
@@ -32892,6 +32893,25 @@
 	
 	  componentDidUpdate: function () {
 	    this.lakes = this.getLakes();
+	    // console.log(this)
+	    this.lakeList = [];
+	    if (this.lakes) {
+	      this.lakes.forEach(function (lake) {
+	        if (this.lakeList.length < 5) {
+	          this.lakeList.push(React.createElement(
+	            'li',
+	            { 'data-lakeId': lake.id, key: lake.id, onClick: this.fillLakeName, lake: lake },
+	            lake.name
+	          ));
+	        }
+	      }.bind(this));
+	    }
+	  },
+	
+	  fillLakeName: function (e) {
+	    var lake = LakeStore.findById(e.target.attributes[0].value);
+	    // hashHistory.push('/lakes/' + lake.id);
+	    this.setState({ lakeName: lake.name });
 	  },
 	
 	  getLakes: function () {
@@ -32907,7 +32927,6 @@
 	  },
 	
 	  render: function () {
-	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32935,6 +32954,11 @@
 	          React.createElement('input', { type: 'text', placeholder: 'Lake Name Here', onChange: this.updateLake, value: this.state.lakeName })
 	        ),
 	        React.createElement('input', { type: 'submit', value: 'Search' })
+	      ),
+	      React.createElement(
+	        'ul',
+	        null,
+	        this.lakeList
 	      )
 	    );
 	  }
@@ -33001,8 +33025,12 @@
 	  });
 	};
 	
+	LakeStore.findById = function (id) {
+	  return _lakes[id];
+	};
+	
 	LakeStore.find = function (partialName) {
-	  if (partialName.length === 0) {
+	  if (partialName.length < 3) {
 	    return [];
 	  }
 	  var potentialLakes = [];
@@ -33025,7 +33053,7 @@
 	        }
 	      }
 	      if (!mismatch) {
-	        potentialLakes.push(lake.name);
+	        potentialLakes.push(lake);
 	      }
 	    }
 	  });

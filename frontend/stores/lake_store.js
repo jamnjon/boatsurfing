@@ -10,8 +10,12 @@ LakeStore.all = function(){
   });
 };
 
+LakeStore.findById = function(id){
+  return _lakes[id];
+};
+
 LakeStore.find = function(partialName){
-  if(partialName.length === 0){
+  if(partialName.length < 3){
     return [];
   }
   var potentialLakes = [];
@@ -34,7 +38,7 @@ LakeStore.find = function(partialName){
         }
       }
       if(!mismatch){
-        potentialLakes.push(lake.name);
+        potentialLakes.push(lake);
       }
     }
   });

@@ -9,6 +9,7 @@ var hashHistory = ReactRouter.hashHistory;
 //Components
 var LoginForm = require('./components/LoginForm');
 var Splash = require('./components/splash');
+// var Lake = require('./components/lake');
 //Mixins
 var CurrentUserState = require('./mixins/current_user_state');
 
