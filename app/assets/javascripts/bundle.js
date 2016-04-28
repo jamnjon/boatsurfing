@@ -56,7 +56,7 @@
 	var LoginForm = __webpack_require__(225);
 	var Splash = __webpack_require__(256);
 	var NavBar = __webpack_require__(262);
-	// var Lake = require('./components/lake');
+	var Lake = __webpack_require__(263);
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
 	
@@ -85,7 +85,8 @@
 	    Route,
 	    { path: '/', component: App },
 	    React.createElement(IndexRoute, { component: Splash }),
-	    React.createElement(Route, { path: 'register', component: LoginForm })
+	    React.createElement(Route, { path: 'register', component: LoginForm }),
+	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake })
 	  )
 	);
 	
@@ -32829,7 +32830,6 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'splashImg' },
-	      React.createElement('img', { className: 'splashPic', width: '100%', src: 'https://d1w5usc88actyi.cloudfront.net/wp-content/uploads/2011/02/Patrick-Hall-Wakeboard-Tube-21.jpg' }),
 	      React.createElement(
 	        'h3',
 	        { className: 'overSplashImg' },
@@ -32857,36 +32857,22 @@
 	  displayName: 'exports',
 	
 	  getInitialState: function () {
-	    return { lakeName: "", lakes: [] };
+	    return { lakeName: "", lakes: [], query: "h" };
 	  },
 	
 	  componentDidMount: function () {
-	    var lakesListener = LakeStore.addListener(this.getLakes);
+	    this.lakesListener = LakeStore.addListener(this.getLakes);
 	    LakeClientActions.fetchLakes();
 	  },
 	
-	  componentWillUpdate: function () {},
-	
-	  componentDidUpdate: function () {
-	    // this.lakes = this.getLakes();
-	    // console.log(this.lakes.forEach(function()))
-	    // this.lakeList = [];
-	    // if(this.lakes){
-	    //   this.lakes.forEach(function(lake){
-	    //     if(this.lakeList.length < 5){
-	    //       this.lakeList.push(<li
-	    //         data-lakeId={lake.id} key={lake.id}
-	    //         onClick={this.fillLakeName} lake={lake}
-	    //         >{lake.name}</li>);
-	    //     }
-	    //   }.bind(this));
-	    // }
+	  componentWillUnmount: function () {
+	    this.lakesListener.remove();
 	  },
 	
 	  fillLakeName: function (e) {
-	    var lake = LakeStore.findById(e.target.attributes[0].value);
-	    // hashHistory.push('/lakes/' + lake.id);
-	    this.setState({ lakeName: lake.name });
+	    var lake = LakeStore.findById(e.target.attributes[1].value);
+	    hashHistory.push({ pathname: '/lakes/' + lake.id, query: this.state.query });
+	    // this.setState({lakeName: lake.name});
 	  },
 	
 	  getLakes: function () {
@@ -32897,6 +32883,14 @@
 	    this.setState({ lakeName: e.target.value });
 	  },
 	
+	  changeSelected: function (e) {
+	    if (e.target.value === "find_guest") {
+	      this.setState({ query: "g" });
+	    } else {
+	      this.setState({ query: 'h' });
+	    }
+	  },
+	
 	  render: function () {
 	    var lakes = this.getLakes();
 	    var lakesHTML;
@@ -32904,14 +32898,13 @@
 	      lakesHTML = lakes.map(function (lake) {
 	        return React.createElement(
 	          'li',
-	          { 'data-lakeId': lake.id, key: lake.id, onClick: this.fillLakeName, lake: lake },
+	          { className: 'lakeListItem', 'data-lakeId': lake.id, key: lake.id, lake: lake },
 	          lake.name
 	        );
 	      });
 	    } else {
 	      lakesHTML = "";
 	    }
-	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32920,7 +32913,7 @@
 	        null,
 	        React.createElement(
 	          'select',
-	          null,
+	          { onChange: this.changeSelected },
 	          React.createElement(
 	            'option',
 	            { value: 'find_host' },
@@ -32941,7 +32934,7 @@
 	      ),
 	      React.createElement(
 	        'ul',
-	        null,
+	        { onClick: this.fillLakeName },
 	        lakesHTML
 	      )
 	    );
@@ -33129,6 +33122,64 @@
 	          { className: 'inUpOut', onClick: this.inUp },
 	          'Join or Log in'
 	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LakeStore = __webpack_require__(261);
+	var LakeClientActions = __webpack_require__(258);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	
+	  getInitialState: function () {
+	    var target = this.props.location.search[3];
+	    if (target === 'g') {
+	      target = 'guest';
+	    } else if (target === 'h') {
+	      target = 'host';
+	    }
+	    return { lake: "", target: target };
+	  },
+	
+	  componentDidMount: function () {
+	    LakeStore.addListener(this.lakeState);
+	    LakeClientActions.fetchLakes();
+	  },
+	
+	  lakeState: function () {
+	    var lake = LakeStore.findById(this.props.params.lakeId);
+	    this.setState({ lake: lake });
+	  },
+	
+	  render: function () {
+	    if (this.state.target === 'guest') {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Guests at ',
+	          this.state.lake.name,
+	          ':'
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Hosts at ',
+	        this.state.lake.name
 	      )
 	    );
 	  }
