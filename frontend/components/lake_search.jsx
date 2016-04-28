@@ -20,7 +20,10 @@ module.exports = React.createClass({
     if(this.lakes){
       this.lakes.forEach(function(lake){
         if(this.lakeList.length < 5){
-          this.lakeList.push(<li data-lakeId={lake.id} key={lake.id} onClick={this.fillLakeName} lake={lake}>{lake.name}</li>);
+          this.lakeList.push(<li
+            data-lakeId={lake.id} key={lake.id}
+            onClick={this.fillLakeName} lake={lake}
+            >{lake.name}</li>);
         }
       }.bind(this));
     }
@@ -49,8 +52,8 @@ module.exports = React.createClass({
       <div>
         <form onSubmit={this.handleSubmit}>
           <select>
-            <option value="find_traveller">Find Traveller</option>
             <option value="find_host">Find Host</option>
+            <option value="find_guest">Find Guest</option>
           </select>
           <label> Lake:
             <input type="text" placeholder="Lake Name Here" onChange={this.updateLake} value={this.state.lakeName} />

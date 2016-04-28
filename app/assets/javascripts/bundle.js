@@ -55,6 +55,7 @@
 	//Components
 	var LoginForm = __webpack_require__(225);
 	var Splash = __webpack_require__(256);
+	var NavBar = __webpack_require__(262);
 	// var Lake = require('./components/lake');
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
@@ -67,7 +68,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('header', null),
+	      React.createElement(
+	        'header',
+	        null,
+	        React.createElement(NavBar, null)
+	      ),
 	      this.props.children
 	    );
 	  }
@@ -32818,53 +32823,22 @@
 	  logout: function (e) {
 	    e.preventDefault();
 	    UserActions.logout();
-	    hashHistory.push("/register");
 	  },
 	
 	  render: function () {
-	    if (this.state.currentUser) {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'h1',
-	          null,
-	          'Welcome to BoatSurfing, ',
-	          this.state.currentUser.username
-	        ),
-	        React.createElement(
-	          'h3',
-	          null,
-	          'The Best Place for Boat Sharing'
-	        ),
-	        React.createElement(LakeSearch, null),
-	        React.createElement(
-	          'button',
-	          { onClick: this.logout },
-	          'Sign Out'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement('img', { width: '100%', src: 'https://skiwinlockwatersdotcom.files.wordpress.com/2014/06/water-skiing1.jpg?w=1620' })
-	      );
-	    }
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Welcome to BoatSurfing'
-	      ),
+	      { className: 'splashImg' },
+	      React.createElement('img', { className: 'splashPic', width: '100%', src: 'https://d1w5usc88actyi.cloudfront.net/wp-content/uploads/2011/02/Patrick-Hall-Wakeboard-Tube-21.jpg' }),
 	      React.createElement(
 	        'h3',
-	        null,
+	        { className: 'overSplashImg' },
 	        'The Best Place for Boat Sharing'
 	      ),
 	      React.createElement(
-	        'button',
-	        { onClick: this.registerPage },
-	        'Sign up/Sign in'
+	        'h4',
+	        { className: 'searchBox' },
+	        React.createElement(LakeSearch, null)
 	      )
 	    );
 	  }
@@ -32900,7 +32874,10 @@
 	        if (this.lakeList.length < 5) {
 	          this.lakeList.push(React.createElement(
 	            'li',
-	            { 'data-lakeId': lake.id, key: lake.id, onClick: this.fillLakeName, lake: lake },
+	            {
+	              'data-lakeId': lake.id, key: lake.id,
+	              onClick: this.fillLakeName, lake: lake
+	            },
 	            lake.name
 	          ));
 	        }
@@ -32938,13 +32915,13 @@
 	          null,
 	          React.createElement(
 	            'option',
-	            { value: 'find_traveller' },
-	            'Find Traveller'
+	            { value: 'find_host' },
+	            'Find Host'
 	          ),
 	          React.createElement(
 	            'option',
-	            { value: 'find_host' },
-	            'Find Host'
+	            { value: 'find_guest' },
+	            'Find Guest'
 	          )
 	        ),
 	        React.createElement(
@@ -33071,6 +33048,84 @@
 	  }
 	};
 	module.exports = LakeStore;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(166).hashHistory;
+	var UserActions = __webpack_require__(230);
+	var CurrentUserState = __webpack_require__(255);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	
+	  mixins: [CurrentUserState],
+	
+	  homeButton: function () {
+	    hashHistory.push("/");
+	  },
+	
+	  inUp: function () {
+	    hashHistory.push("/register");
+	  },
+	
+	  out: function () {
+	    UserActions.logout();
+	  },
+	
+	  render: function () {
+	    if (this.state.currentUser) {
+	      return React.createElement(
+	        'ul',
+	        { className: 'navBar' },
+	        React.createElement(
+	          'li',
+	          null,
+	          ' ',
+	          React.createElement(
+	            'button',
+	            { onClick: this.homeButton, className: 'homeButton' },
+	            'BoatSurfing'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          { className: 'liInUpOut' },
+	          React.createElement(
+	            'button',
+	            { className: 'inUpOut', onClick: this.out },
+	            'Log Out'
+	          )
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'ul',
+	      { className: 'navBar' },
+	      React.createElement(
+	        'li',
+	        null,
+	        ' ',
+	        React.createElement(
+	          'button',
+	          { onClick: this.homeButton, className: 'homeButton' },
+	          'BoatSurfing'
+	        )
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          'button',
+	          { className: 'inUpOut', onClick: this.inUp },
+	          'Join or Log in'
+	        )
+	      )
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);

@@ -15,27 +15,17 @@ module.exports=React.createClass({
   logout: function(e){
     e.preventDefault();
     UserActions.logout();
-    hashHistory.push("/register");
   },
 
   render: function(){
-    if(this.state.currentUser){
       return(
-        <div>
-          <h1>Welcome to BoatSurfing, {this.state.currentUser.username}</h1>
-          <h3>The Best Place for Boat Sharing</h3>
-          <LakeSearch />
-          <button onClick={this.logout}>Sign Out</button><br/><br/>
-          <img width="100%" src="https://skiwinlockwatersdotcom.files.wordpress.com/2014/06/water-skiing1.jpg?w=1620" />
+        <div className="splashImg">
+        <img className="splashPic" width="100%" src=
+        "https://d1w5usc88actyi.cloudfront.net/wp-content/uploads/2011/02/Patrick-Hall-Wakeboard-Tube-21.jpg" />
+          <h3 className="overSplashImg">The Best Place for Boat Sharing</h3>
+          <h4 className="searchBox"><LakeSearch /></h4>
+
         </div>
       );
-    }
-    return(
-      <div>
-        <h1>Welcome to BoatSurfing</h1>
-          <h3>The Best Place for Boat Sharing</h3>
-          <button onClick={this.registerPage}>Sign up/Sign in</button>
-      </div>
-    );
   }
 });
