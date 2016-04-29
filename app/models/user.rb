@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   attr_reader :password
+  has_many :postings
 
 	validates :username, :password_digest, :session_token, presence: true
 	validates :username, uniqueness: true

@@ -84,7 +84,8 @@
   z-index: 1;
   position: absolute;
   top: 75px;
-  left: 40%;
+  left: 28%;
+  font-size: 21px;
 }
 
 .searchBox{
@@ -92,6 +93,7 @@
   position: absolute;
   top: 100px;
   left: 39.5%;
+  font-size: 18px;
 }
 
 .homeButton {
@@ -150,12 +152,17 @@
   background-color: rgba(0,0,0,0.4);
 }
 
-.loginModalContent {
-  background-color: #fefefe;
-margin: 15% auto;
-padding: 20px;
-border: 1px solid #888;
-width: 80%;
+.lakeSearchList {
+  position: absolute;
+  left: 133px;
+}
+
+.lakeSearchBox {
+  position: relative;
+}
+
+.searchBox{
+  position: relative;
 }
 
 .lakeSearch {

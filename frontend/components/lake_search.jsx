@@ -19,6 +19,7 @@ module.exports = React.createClass({
 
   fillLakeName: function(e){
     var lake = LakeStore.findById(e.target.attributes[1].value);
+    this.setState({lakeName: ""});
     hashHistory.push({pathname: '/lakes/' + lake.id, query: this.state.query});
     // this.setState({lakeName: lake.name});
   },
@@ -41,14 +42,17 @@ module.exports = React.createClass({
 
   render: function(){
     var lakes = this.getLakes();
-    var lakesHTML;
+    var lakeList = [];
     if(lakes.length > 0){
-      lakesHTML = lakes.map(function(lake){
-        return <li className="lakeListItem" data-lakeId={lake.id} key={lake.id} lake={lake}>{lake.name}</li>;
+      lakes.forEach(function(lake){
+        if(lakeList.length < 5){
+          lakeList.push(<li className="lakeListItem" data-lakeId={lake.id} key={lake.id} lake={lake}>{lake.name}</li>);
+        }
       });
     }  else{
-      lakesHTML="";
+      lakeList="";
     }
+
     return (
       <div>
         <form>
@@ -57,10 +61,13 @@ module.exports = React.createClass({
             <option value="find_guest">Find Guest</option>
           </select>
           <label> Lake:
-            <input type="text" placeholder="Lake Name Here" onChange={this.updateLake} value={this.state.lakeName} />
+            <input className="lakeSearchBox" type="text"
+            placeholder="Lake Name Here"
+            onChange={this.updateLake} value={this.state.lakeName} />
           </label>
         </form>
-        <ul onClick={this.fillLakeName}>{lakesHTML}</ul>
+        <ul className="lakeSearchList" onClick={this.fillLakeName}
+        >{lakeList}</ul>
       </div>
     );
   }

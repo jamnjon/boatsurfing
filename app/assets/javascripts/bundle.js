@@ -32833,7 +32833,7 @@
 	      React.createElement(
 	        'h3',
 	        { className: 'overSplashImg' },
-	        'The Best Place for Boat Sharing'
+	        'Find WaterSports Buddies, Whether or Not You Own a Boat'
 	      ),
 	      React.createElement(
 	        'h4',
@@ -32871,6 +32871,7 @@
 	
 	  fillLakeName: function (e) {
 	    var lake = LakeStore.findById(e.target.attributes[1].value);
+	    this.setState({ lakeName: "" });
 	    hashHistory.push({ pathname: '/lakes/' + lake.id, query: this.state.query });
 	    // this.setState({lakeName: lake.name});
 	  },
@@ -32893,18 +32894,21 @@
 	
 	  render: function () {
 	    var lakes = this.getLakes();
-	    var lakesHTML;
+	    var lakeList = [];
 	    if (lakes.length > 0) {
-	      lakesHTML = lakes.map(function (lake) {
-	        return React.createElement(
-	          'li',
-	          { className: 'lakeListItem', 'data-lakeId': lake.id, key: lake.id, lake: lake },
-	          lake.name
-	        );
+	      lakes.forEach(function (lake) {
+	        if (lakeList.length < 5) {
+	          lakeList.push(React.createElement(
+	            'li',
+	            { className: 'lakeListItem', 'data-lakeId': lake.id, key: lake.id, lake: lake },
+	            lake.name
+	          ));
+	        }
 	      });
 	    } else {
-	      lakesHTML = "";
+	      lakeList = "";
 	    }
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32929,13 +32933,16 @@
 	          'label',
 	          null,
 	          ' Lake:',
-	          React.createElement('input', { type: 'text', placeholder: 'Lake Name Here', onChange: this.updateLake, value: this.state.lakeName })
+	          React.createElement('input', { className: 'lakeSearchBox', type: 'text',
+	            placeholder: 'Lake Name Here',
+	            onChange: this.updateLake, value: this.state.lakeName })
 	        )
 	      ),
 	      React.createElement(
 	        'ul',
-	        { onClick: this.fillLakeName },
-	        lakesHTML
+	        { className: 'lakeSearchList', onClick: this.fillLakeName
+	        },
+	        lakeList
 	      )
 	    );
 	  }
@@ -33135,6 +33142,7 @@
 	var LakeStore = __webpack_require__(261);
 	var LakeClientActions = __webpack_require__(258);
 	var LakeSearch = __webpack_require__(257);
+	var Postings = __webpack_require__(264);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33142,9 +33150,9 @@
 	  getInitialState: function () {
 	    var target = this.props.location.search[3];
 	    if (target === 'g') {
-	      target = 'guest';
+	      target = 'Guests';
 	    } else if (target === 'h') {
-	      target = 'host';
+	      target = 'Hosts';
 	    }
 	    return { lake: "", target: target };
 	  },
@@ -33154,47 +33162,150 @@
 	    LakeClientActions.fetchLakes();
 	  },
 	
+	  componentWillReceiveProps: function (nextProps) {
+	    var lake = LakeStore.findById(nextProps.params.lakeId);
+	    this.setState({ lake: lake });
+	  },
+	
 	  lakeState: function () {
 	    var lake = LakeStore.findById(this.props.params.lakeId);
 	    this.setState({ lake: lake });
 	  },
 	
 	  render: function () {
-	    if (this.state.target === 'guest') {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'lakeSearch' },
-	          React.createElement(LakeSearch, null)
-	        ),
-	        React.createElement(
-	          'h3',
-	          null,
-	          'Guests at ',
-	          this.state.lake.name,
-	          ':'
-	        )
-	      );
-	    }
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
 	        'div',
 	        { className: 'lakeSearch' },
-	        React.createElement(LakeSearch, null)
+	        React.createElement(LakeSearch, { className: 'searchBox' })
 	      ),
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Hosts at ',
-	        this.state.lake.name
-	      )
+	      React.createElement(Postings, { target: this.state.target, lake: this.state.lake })
 	    );
 	  }
 	});
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PostingClientActions = __webpack_require__(265);
+	var PostingStore = __webpack_require__(268);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	
+	  getInitialState: function () {
+	    return { postings: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.postingsListener = PostingStore.addListener(this.getPostings);
+	  },
+	
+	  componentWillReceiveProps: function (nextProps) {
+	    PostingClientActions.fetchPostings(nextProps.lake);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.postingsListener.remove();
+	  },
+	
+	  getPostings: function () {
+	    PostingStore.all();
+	  },
+	
+	  render: function () {
+	    if (this.props.target) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        this.props.target,
+	        ' at ',
+	        this.props.lake.name,
+	        ': '
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Go Sharks!'
+	    );
+	  }
+	});
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PostingsUtil = __webpack_require__(266);
+	
+	module.exports = {
+	  fetchPostings: function (lake) {
+	    PostingsUtil.fetchPostings(lake);
+	  }
+	};
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PostingServerActions = __webpack_require__(267);
+	
+	module.exports = {
+	  fetchPostings: function (lake) {
+	    $.ajax({
+	      type: "GET",
+	      url: "api/lakes/" + lake.id + "/postings",
+	      success: function (postings) {
+	        PostingServerActions.fetchPostings(postings);
+	      }
+	    });
+	  }
+	};
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(233);
+	
+	module.exports = {
+	  fetchPostings: function (postings) {
+	    AppDispatcher.dispatch({
+	      actionType: "RECEIVE_POSTINGS",
+	      lakes: postings
+	    });
+	  }
+	};
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(238).Store;
+	var AppDispatcher = __webpack_require__(233);
+	var PostingStore = new Store(AppDispatcher);
+	var _postings = {};
+	
+	PostingStore.all = function () {
+	  return Object.keys(_postings).map(function (postingId) {
+	    return _postings[postingId];
+	  });
+	};
+	
+	PostingStore.__onDispatch = function (payload) {
+	  switch (payload) {
+	    case "RECEIVE_POSTINGS":
+	      //TODO: ADD FUNCTION FOR UPDATING POSTING LIST
+	      PostingStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = PostingStore;
 
 /***/ }
 /******/ ]);

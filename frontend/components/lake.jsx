@@ -2,15 +2,16 @@ var React = require ('react');
 var LakeStore = require ('../stores/lake_store');
 var LakeClientActions = require('../actions/lake_client_actions');
 var LakeSearch = require('./lake_search');
+var Postings = require('./posting');
 
 
 module.exports = React.createClass({
   getInitialState: function(){
     var target=this.props.location.search[3];
     if(target==='g'){
-      target = 'guest';
+      target = 'Guests';
     } else if(target === 'h'){
-      target = 'host';
+      target = 'Hosts';
     }
     return {lake: "", target: target};
   },
@@ -20,28 +21,23 @@ module.exports = React.createClass({
     LakeClientActions.fetchLakes();
   },
 
+  componentWillReceiveProps: function(nextProps){
+    var lake = LakeStore.findById(nextProps.params.lakeId);
+    this.setState({lake: lake});
+  },
+
   lakeState: function(){
     var lake = LakeStore.findById(this.props.params.lakeId);
     this.setState({lake: lake});
   },
 
   render: function(){
-    if(this.state.target === 'guest'){
-      return(
-        <div>
-        <div className="lakeSearch" >
-              <LakeSearch/>
-              </div>
-        <h3>Guests at {this.state.lake.name}:</h3>
-        </div>
-      );
-    }
     return (
       <div>
       <div className="lakeSearch" >
-      <LakeSearch/>
+      <LakeSearch className="searchBox"/>
       </div>
-        <h1>Hosts at {this.state.lake.name}</h1>
+        <Postings target={this.state.target} lake={this.state.lake}/>
       </div>
     );
   }

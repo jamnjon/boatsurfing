@@ -21,7 +21,7 @@ module.exports=React.createClass({
       return(
         <div className="splashImg">
 
-          <h3 className="overSplashImg">The Best Place for Boat Sharing</h3>
+          <h3 className="overSplashImg">Find WaterSports Buddies, Whether or Not You Own a Boat</h3>
           <h4 className="searchBox"><LakeSearch /></h4>
 
         </div>
