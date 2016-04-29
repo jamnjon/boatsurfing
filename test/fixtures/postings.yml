@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  type: 
+  start: 2016-04-28 17:07:54
+  end: MyString
+  datetime: MyString
+  boat_type: MyString
+  activity: MyString
+  lake_id: 1
+
+two:
+  user_id: 1
+  type: 
+  start: 2016-04-28 17:07:54
+  end: MyString
+  datetime: MyString
+  boat_type: MyString
+  activity: MyString
+  lake_id: 1

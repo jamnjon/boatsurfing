@@ -33134,6 +33134,7 @@
 	var React = __webpack_require__(1);
 	var LakeStore = __webpack_require__(261);
 	var LakeClientActions = __webpack_require__(258);
+	var LakeSearch = __webpack_require__(257);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33164,6 +33165,11 @@
 	        'div',
 	        null,
 	        React.createElement(
+	          'div',
+	          { className: 'lakeSearch' },
+	          React.createElement(LakeSearch, null)
+	        ),
+	        React.createElement(
 	          'h3',
 	          null,
 	          'Guests at ',
@@ -33175,6 +33181,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'lakeSearch' },
+	        React.createElement(LakeSearch, null)
+	      ),
 	      React.createElement(
 	        'h1',
 	        null,

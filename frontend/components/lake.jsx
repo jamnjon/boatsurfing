@@ -1,6 +1,7 @@
 var React = require ('react');
 var LakeStore = require ('../stores/lake_store');
 var LakeClientActions = require('../actions/lake_client_actions');
+var LakeSearch = require('./lake_search');
 
 
 module.exports = React.createClass({
@@ -28,12 +29,18 @@ module.exports = React.createClass({
     if(this.state.target === 'guest'){
       return(
         <div>
+        <div className="lakeSearch" >
+              <LakeSearch/>
+              </div>
         <h3>Guests at {this.state.lake.name}:</h3>
         </div>
       );
     }
     return (
       <div>
+      <div className="lakeSearch" >
+      <LakeSearch/>
+      </div>
         <h1>Hosts at {this.state.lake.name}</h1>
       </div>
     );

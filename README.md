@@ -50,23 +50,23 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 
 **Objective:** Functioning rails project with Authentication
 
-- [ ] create new project
-- [ ] create `User` model
-- [ ] authentication
-- [ ] user signup/signin pages
-- [ ] blank landing page after signin
+- [x] create new project
+- [x] create `User` model
+- [x] authentication
+- [x] user signup/signin pages
+- [x] blank landing page after signin
 
 ### Phase 2: Lakes Model, API, and basic APIUtil (1.0 days)
 
 **Objective:** Lakes can only be indexed and shown through the API.
 
-- [ ] create `Lake` model
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for notes (`LakesController`)
-- [ ] jBuilder views for lakes
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [x] create `Lake` model
+- [x] seed the database with a small amount of test data
+- [x] CRUD API for notes (`LakesController`)
+- [x] jBuilder views for lakes
+- [x] setup Webpack & Flux scaffold
+- [x] setup `APIUtil` to interact with the API
+- [x] test out API interaction in the console.
 
 ### Phase 3: Hosts Model, API, and basic APIUtil (1.5 days)
 
