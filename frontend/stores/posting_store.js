@@ -10,9 +10,12 @@ PostingStore.all = function(){
 };
 
 PostingStore.__onDispatch = function(payload){
-  switch(payload){
+  switch(payload.actionType){
     case "RECEIVE_POSTINGS" :
-      //TODO: ADD FUNCTION FOR UPDATING POSTING LIST
+      _postings = {};
+      payload.postings.forEach(function(posting){
+        _postings[posting.id] = posting;
+    });
       PostingStore.__emitChange();
       break;
   }

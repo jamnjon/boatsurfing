@@ -17,8 +17,12 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function(){
-    LakeStore.addListener(this.lakeState);
+    this.lakeStateListner = LakeStore.addListener(this.lakeState);
     LakeClientActions.fetchLakes();
+  },
+
+  componentWillUnmount: function(){
+    this.lakeStateListner.remove();
   },
 
   componentWillReceiveProps: function(nextProps){
@@ -34,9 +38,9 @@ module.exports = React.createClass({
   render: function(){
     return (
       <div>
-      <div className="lakeSearch" >
-      <LakeSearch className="searchBox"/>
-      </div>
+
+      <div className="searchBoxLakePage" ><LakeSearch className="searchBox"/> </div>
+
         <Postings target={this.state.target} lake={this.state.lake}/>
       </div>
     );

@@ -22,7 +22,7 @@ module.exports=React.createClass({
         <div className="splashImg">
 
           <h3 className="overSplashImg">Find WaterSports Buddies, Whether or Not You Own a Boat</h3>
-          <h4 className="searchBox"><LakeSearch /></h4>
+          <div className="searchBox"><LakeSearch /></div>
 
         </div>
       );

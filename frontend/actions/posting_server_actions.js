@@ -4,7 +4,7 @@ module.exports = {
   fetchPostings: function(postings){
     AppDispatcher.dispatch({
       actionType: "RECEIVE_POSTINGS",
-      lakes: postings
+      postings: postings
     });
   }
 };

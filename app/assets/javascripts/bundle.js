@@ -32836,7 +32836,7 @@
 	        'Find WaterSports Buddies, Whether or Not You Own a Boat'
 	      ),
 	      React.createElement(
-	        'h4',
+	        'div',
 	        { className: 'searchBox' },
 	        React.createElement(LakeSearch, null)
 	      )
@@ -33158,8 +33158,12 @@
 	  },
 	
 	  componentDidMount: function () {
-	    LakeStore.addListener(this.lakeState);
+	    this.lakeStateListner = LakeStore.addListener(this.lakeState);
 	    LakeClientActions.fetchLakes();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.lakeStateListner.remove();
 	  },
 	
 	  componentWillReceiveProps: function (nextProps) {
@@ -33178,8 +33182,9 @@
 	      null,
 	      React.createElement(
 	        'div',
-	        { className: 'lakeSearch' },
-	        React.createElement(LakeSearch, { className: 'searchBox' })
+	        { className: 'searchBoxLakePage' },
+	        React.createElement(LakeSearch, { className: 'searchBox' }),
+	        ' '
 	      ),
 	      React.createElement(Postings, { target: this.state.target, lake: this.state.lake })
 	    );
@@ -33214,18 +33219,65 @@
 	  },
 	
 	  getPostings: function () {
-	    PostingStore.all();
+	    this.setState({ postings: PostingStore.all() });
 	  },
 	
 	  render: function () {
 	    if (this.props.target) {
+	      var lakePartners = [];
+	      this.state.postings.forEach(function (posting) {
+	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target) {
+	          console.log(posting.user);
+	          var date = posting.start_time.slice(0, 10);
+	          var startTime = posting.start_time.slice(11, 16);
+	          var endTime = posting.end_time.slice(11, 16);
+	          lakePartners.push(React.createElement(
+	            'li',
+	            { className: 'posting', key: posting.id,
+	              'data-postId': posting.id },
+	            React.createElement(
+	              'ul',
+	              null,
+	              React.createElement(
+	                'li',
+	                null,
+	                posting.user.username
+	              ),
+	              React.createElement(
+	                'li',
+	                null,
+	                'Activity: ',
+	                posting.activity,
+	                ' behind a ',
+	                posting.boat_type,
+	                ' boat'
+	              ),
+	              React.createElement(
+	                'li',
+	                null,
+	                'On: ',
+	                date,
+	                ' from ',
+	                startTime,
+	                ' until ',
+	                endTime
+	              )
+	            )
+	          ));
+	        }
+	      }.bind(this));
 	      return React.createElement(
 	        'div',
 	        null,
 	        this.props.target,
 	        ' at ',
 	        this.props.lake.name,
-	        ': '
+	        ':',
+	        React.createElement(
+	          'ul',
+	          null,
+	          lakePartners
+	        )
 	      );
 	    }
 	    return React.createElement(
@@ -33276,7 +33328,7 @@
 	  fetchPostings: function (postings) {
 	    AppDispatcher.dispatch({
 	      actionType: "RECEIVE_POSTINGS",
-	      lakes: postings
+	      postings: postings
 	    });
 	  }
 	};
@@ -33297,9 +33349,12 @@
 	};
 	
 	PostingStore.__onDispatch = function (payload) {
-	  switch (payload) {
+	  switch (payload.actionType) {
 	    case "RECEIVE_POSTINGS":
-	      //TODO: ADD FUNCTION FOR UPDATING POSTING LIST
+	      _postings = {};
+	      payload.postings.forEach(function (posting) {
+	        _postings[posting.id] = posting;
+	      });
 	      PostingStore.__emitChange();
 	      break;
 	  }

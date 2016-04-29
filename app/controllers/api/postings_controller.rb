@@ -1,11 +1,11 @@
-class PostingsController < ApplicationController
+class Api::PostingsController < ApplicationController
   def index
     @postings = Posting.all
-    render "api/postings/" + posting_params[:lake_id].to_s + "/index"
+    render "api/postings/index"
   end
 
   def show
-    @posting = Posting.find([:id])
+
   end
 
   private

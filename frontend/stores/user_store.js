@@ -5,6 +5,8 @@ var UserStore = new Store(AppDispatcher);
 
 var _currentUser, _errors;
 
+
+
 UserStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case "LOGIN":
