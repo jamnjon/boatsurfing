@@ -40,6 +40,12 @@ module.exports = React.createClass({
     }
   },
 
+  random: function(){
+    var num=Math.floor(Math.random()*9);
+    this.setState({lakeName: ""});
+    hashHistory.push({pathname: '/lakes/' + num, query: this.state.query});
+  },
+
   render: function(){
     var lakes = this.getLakes();
     var lakeList = [];
@@ -65,6 +71,7 @@ module.exports = React.createClass({
             placeholder="Lake Name Here"
             onChange={this.updateLake} value={this.state.lakeName} />
           </label>
+          <button className="random" onClick={this.random}>Random Lake</button>
         </form>
         <ul className="lakeSearchList" onClick={this.fillLakeName}
         >{lakeList}</ul>

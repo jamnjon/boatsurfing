@@ -21,12 +21,89 @@ Lake.create(name: "Lake Shasta")
 Posting.create(
   user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
   end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "wakeboard",
+  lake_id: 1, activity: "wakeboarding", posting_type: "Hosts")
+
+Posting.create(
+  user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
+  end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "wakeboard",
+  lake_id: 1, activity: "wakeboarding", posting_type: "Guests")
+
+Posting.create(
+  user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
+  end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "wakeboard",
+  lake_id: 3, activity: "wakeboarding", posting_type: "Hosts")
+
+Posting.create(
+  user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
+  end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "wakeboard",
+  lake_id: 3, activity: "wakeboarding", posting_type: "Guests")
+
+
+Posting.create(
+  user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
+  end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "wakeboard",
   lake_id: 2, activity: "wakeboarding", posting_type: "Hosts")
+
+Posting.create(
+  user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
+  end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "wakeboard",
+  lake_id: 2, activity: "wakeboarding", posting_type: "Guests")
+
+Posting.create(
+  user_id: 1, start_time: DateTime.new(2016,5,15,8,0,0),
+  end_time: DateTime.new(2016,5,15,12,0,0), boat_type: "waterski",
+  lake_id: 2, activity: "waterskiing", posting_type: "Guests")
+
+Posting.create(
+  user_id: 3, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 8, activity: "waterskiing", posting_type: "Guests")
 
 Posting.create(
   user_id: 3, start_time: DateTime.new(2016,5,20,12,0,0),
   end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
   lake_id: 8, activity: "waterskiing", posting_type: "Hosts")
+
+Posting.create(
+  user_id: 3, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 4, activity: "waterskiing", posting_type: "Guests")
+
+Posting.create(
+  user_id: 3, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 4, activity: "waterskiing", posting_type: "Hosts")
+
+
+  Posting.create(
+  user_id: 3, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 5, activity: "waterskiing", posting_type: "Hosts")
+
+Posting.create(
+  user_id: 2, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 5, activity: "waterskiing", posting_type: "Guests")
+
+  Posting.create(
+  user_id: 3, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 6, activity: "waterskiing", posting_type: "Hosts")
+
+Posting.create(
+  user_id: 2, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 6, activity: "waterskiing", posting_type: "Guests")
+
+Posting.create(
+  user_id: 2, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 7, activity: "waterskiing", posting_type: "Guests")
+
+Posting.create(
+  user_id: 2, start_time: DateTime.new(2016,5,20,12,0,0),
+  end_time: DateTime.new(2016,5,20,18,0,0), boat_type: "waterski",
+  lake_id: 7, activity: "waterskiing", posting_type: "Hosts")
 
 Posting.create(
   user_id: 2, start_time: DateTime.new(2016,5,7,8,0,0),

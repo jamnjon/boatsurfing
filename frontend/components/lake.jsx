@@ -27,7 +27,13 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function(nextProps){
     var lake = LakeStore.findById(nextProps.params.lakeId);
-    this.setState({lake: lake});
+    var target = nextProps.location.search[3];
+    if(target === 'g'){
+      target = 'Guests';
+    } else if(target === 'h'){
+      target = 'Hosts';
+    }
+    this.setState({lake: lake, target: target});
   },
 
   lakeState: function(){
@@ -39,7 +45,7 @@ module.exports = React.createClass({
     return (
       <div>
 
-      <div className="searchBoxLakePage" ><LakeSearch className="searchBox"/> </div>
+      <div className="searchBoxLakePage" ><div className="searchWrapper"><LakeSearch className="searchBox"/></div> </div>
 
         <Postings target={this.state.target} lake={this.state.lake}/>
       </div>

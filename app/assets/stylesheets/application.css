@@ -109,6 +109,32 @@
   cursor: pointer;
 }
 
+body {
+  background-color: beige;
+}
+
+select {
+  cursor: hand;
+  cursor: pointer;
+}
+
+.lakeListItem{
+  display: block;
+  border: 1px solid black;
+  z-index: 1;
+  background-color: white;
+  font-size: 18px;
+  color: black;
+  width: 168px;
+  text-align: center;
+}
+
+.lakeListItem:hover {
+  cursor: hand;
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
 .navBar {
   background-color: white;
   display: flex;
@@ -158,6 +184,31 @@
 }
 
 .lakeSearchBox {
+  position: relative;
+  font-size: 16px;
+}
+
+.postResults {
+  border: 1px solid blue;
+  font-size: 20px;
+  background-color: lightgrey;
+}
+
+.postingResults{
+  background-color: white;
+  border: 1px solid black;
+}
+
+.postingUser{
+  font-weight: bold;
+}
+
+.searchBoxLakePage {
+display: flex;
+justify-content: center;
+}
+
+.searchWrapper {
   position: relative;
 }
 

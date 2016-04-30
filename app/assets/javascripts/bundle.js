@@ -32892,6 +32892,12 @@
 	    }
 	  },
 	
+	  random: function () {
+	    var num = Math.floor(Math.random() * 9);
+	    this.setState({ lakeName: "" });
+	    hashHistory.push({ pathname: '/lakes/' + num, query: this.state.query });
+	  },
+	
 	  render: function () {
 	    var lakes = this.getLakes();
 	    var lakeList = [];
@@ -32936,6 +32942,11 @@
 	          React.createElement('input', { className: 'lakeSearchBox', type: 'text',
 	            placeholder: 'Lake Name Here',
 	            onChange: this.updateLake, value: this.state.lakeName })
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'random', onClick: this.random },
+	          'Random Lake'
 	        )
 	      ),
 	      React.createElement(
@@ -33168,7 +33179,13 @@
 	
 	  componentWillReceiveProps: function (nextProps) {
 	    var lake = LakeStore.findById(nextProps.params.lakeId);
-	    this.setState({ lake: lake });
+	    var target = nextProps.location.search[3];
+	    if (target === 'g') {
+	      target = 'Guests';
+	    } else if (target === 'h') {
+	      target = 'Hosts';
+	    }
+	    this.setState({ lake: lake, target: target });
 	  },
 	
 	  lakeState: function () {
@@ -33183,7 +33200,11 @@
 	      React.createElement(
 	        'div',
 	        { className: 'searchBoxLakePage' },
-	        React.createElement(LakeSearch, { className: 'searchBox' }),
+	        React.createElement(
+	          'div',
+	          { className: 'searchWrapper' },
+	          React.createElement(LakeSearch, { className: 'searchBox' })
+	        ),
 	        ' '
 	      ),
 	      React.createElement(Postings, { target: this.state.target, lake: this.state.lake })
@@ -33212,6 +33233,8 @@
 	
 	  componentWillReceiveProps: function (nextProps) {
 	    PostingClientActions.fetchPostings(nextProps.lake);
+	    this.setState({ postings: PostingStore.all() });
+	    console.log(this.props);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -33227,7 +33250,6 @@
 	      var lakePartners = [];
 	      this.state.postings.forEach(function (posting) {
 	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target) {
-	          console.log(posting.user);
 	          var date = posting.start_time.slice(0, 10);
 	          var startTime = posting.start_time.slice(11, 16);
 	          var endTime = posting.end_time.slice(11, 16);
@@ -33237,15 +33259,16 @@
 	              'data-postId': posting.id },
 	            React.createElement(
 	              'ul',
-	              null,
+	              { className: 'postingResults' },
 	              React.createElement(
 	                'li',
-	                null,
+	                { className: 'postingUser' },
 	                posting.user.username
 	              ),
 	              React.createElement(
 	                'li',
-	                null,
+	                { className: 'postingActivity'
+	                },
 	                'Activity: ',
 	                posting.activity,
 	                ' behind a ',
@@ -33254,7 +33277,8 @@
 	              ),
 	              React.createElement(
 	                'li',
-	                null,
+	                { className: 'postingTiming'
+	                },
 	                'On: ',
 	                date,
 	                ' from ',
@@ -33268,14 +33292,20 @@
 	      }.bind(this));
 	      return React.createElement(
 	        'div',
-	        null,
+	        { className: 'postResults' },
 	        this.props.target,
 	        ' at ',
 	        this.props.lake.name,
 	        ':',
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        lakePartners.length,
+	        ' ',
+	        this.props.target.toLowerCase(),
+	        ' found',
 	        React.createElement(
 	          'ul',
-	          null,
+	          { className: 'postList' },
 	          lakePartners
 	        )
 	      );
