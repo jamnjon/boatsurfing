@@ -32873,7 +32873,6 @@
 	    var lake = LakeStore.findById(e.target.attributes[1].value);
 	    this.setState({ lakeName: "" });
 	    hashHistory.push({ pathname: '/lakes/' + lake.id, query: this.state.query });
-	    // this.setState({lakeName: lake.name});
 	  },
 	
 	  getLakes: function () {
@@ -32893,7 +32892,7 @@
 	  },
 	
 	  random: function () {
-	    var num = Math.floor(Math.random() * 9);
+	    var num = Math.floor(Math.random() * 8) + 1;
 	    this.setState({ lakeName: "" });
 	    hashHistory.push({ pathname: '/lakes/' + num, query: this.state.query });
 	  },

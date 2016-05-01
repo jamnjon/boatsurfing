@@ -66,6 +66,7 @@
   background-image: url("https://d1w5usc88actyi.cloudfront.net/wp-content/uploads/2011/02/Patrick-Hall-Wakeboard-Tube-21.jpg");
   background-size: 100%;
   background-repeat: no-repeat;
+  justify-content: center;
 }
 
 .splashImg:after {
@@ -80,19 +81,18 @@
 }
 
 .overSplashImg{
-  display: flex;
   z-index: 1;
+  display: flex;
   position: absolute;
-  top: 75px;
-  left: 28%;
+  top: 8%;
   font-size: 21px;
 }
 
 .searchBox{
+  top: 11%;
   z-index: 1;
   position: absolute;
-  top: 100px;
-  left: 39.5%;
+
   font-size: 18px;
 }
 
