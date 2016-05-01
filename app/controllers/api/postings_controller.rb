@@ -1,6 +1,6 @@
 class Api::PostingsController < ApplicationController
   def index
-    @postings = Posting.all
+    @postings = Posting.includes(:user).all
     render "api/postings/index"
   end
 

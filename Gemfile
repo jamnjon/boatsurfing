@@ -28,6 +28,7 @@ gem 'pry-rails'
 gem 'better_errors'
 gem 'binding_of_caller'
 gem 'rails_12factor'
+gem 'bullet'
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -75,7 +75,7 @@ Lake.create(name: "June Lake")
 Lake.create(name: "Mammoth Pool Reservoir")
 Lake.create(name: "Mono Lake")
 
-activities = ["wakeboarding", "waterskiing", "wakesurfing", "kneeboarding", "tubing"]
+activities = ["wakeboarding", "wakesurfing", "kneeboarding", "tubing", "waterskiing"]
 boat_types = ["wakeboard", "waterski"]
 (1..44).each do |lake|
   (rand(5)+2).times do
@@ -84,8 +84,12 @@ boat_types = ["wakeboard", "waterski"]
     day=rand(28)+1
     start_hour=rand(8)+5
     end_hour= start_hour + rand(9)+2
-    sport=activities[rand(activities.length)]
     boat = boat_types[rand(boat_types.length)]
+    if (boat=="wakeboard")
+      sport=activities[rand(activities.length - 1)]
+    else
+      sport="waterskiing"
+    end
     Posting.create(user_id: user,
     start_time: DateTime.new(2016, month, day, start_hour, 0, 0), end_time:
     DateTime.new(2016, month, day, end_hour, 0, 0), boat_type: boat,
@@ -97,8 +101,12 @@ boat_types = ["wakeboard", "waterski"]
     day=rand(28)+1
     start_hour=rand(8)+5
     end_hour= start_hour + rand(9)+2
-    sport=activities[rand(activities.length)]
     boat = boat_types[rand(boat_types.length)]
+    if (boat=="wakeboard")
+      sport=activities[rand(activities.length - 1)]
+    else
+      sport="waterskiing"
+    end
     Posting.create(user_id: user,
     start_time: DateTime.new(2016, month, day, start_hour, 0, 0), end_time:
     DateTime.new(2016, month, day, end_hour, 0, 0), boat_type: boat,
