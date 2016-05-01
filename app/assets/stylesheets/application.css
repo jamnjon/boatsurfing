@@ -75,6 +75,11 @@
   content: ""
 }
 
+.lakeImg {
+  height: 300px;
+  width: 100%;
+}
+
 .splashPic {
   z-index: -100;
   relative: 0px;

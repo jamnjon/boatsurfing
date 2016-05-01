@@ -1,1 +1,1 @@
-json.extract! lake, :name, :id
+json.extract! lake, :name, :id, :image_url

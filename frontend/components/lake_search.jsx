@@ -40,7 +40,7 @@ module.exports = React.createClass({
   },
 
   random: function(){
-    var num=Math.floor(Math.random()*8)+1;
+    var num=Math.floor(Math.random()*44)+1;
     this.setState({lakeName: ""});
     hashHistory.push({pathname: '/lakes/' + num, query: this.state.query});
   },

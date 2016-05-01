@@ -46,7 +46,7 @@ module.exports = React.createClass({
       <div>
 
       <div className="searchBoxLakePage" ><div className="searchWrapper"><LakeSearch className="searchBox"/></div> </div>
-
+        <img className="lakeImg" src={this.state.lake.image_url} />
         <Postings target={this.state.target} lake={this.state.lake}/>
       </div>
     );

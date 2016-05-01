@@ -32892,7 +32892,7 @@
 	  },
 	
 	  random: function () {
-	    var num = Math.floor(Math.random() * 8) + 1;
+	    var num = Math.floor(Math.random() * 44) + 1;
 	    this.setState({ lakeName: "" });
 	    hashHistory.push({ pathname: '/lakes/' + num, query: this.state.query });
 	  },
@@ -33206,6 +33206,7 @@
 	        ),
 	        ' '
 	      ),
+	      React.createElement('img', { className: 'lakeImg', src: this.state.lake.image_url }),
 	      React.createElement(Postings, { target: this.state.target, lake: this.state.lake })
 	    );
 	  }
@@ -33218,6 +33219,7 @@
 	var React = __webpack_require__(1);
 	var PostingClientActions = __webpack_require__(265);
 	var PostingStore = __webpack_require__(268);
+	var PostConstants = __webpack_require__(269);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33233,7 +33235,6 @@
 	  componentWillReceiveProps: function (nextProps) {
 	    PostingClientActions.fetchPostings(nextProps.lake);
 	    this.setState({ postings: PostingStore.all() });
-	    console.log(this.props);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -33244,14 +33245,44 @@
 	    this.setState({ postings: PostingStore.all() });
 	  },
 	
+	  date: function (posting) {
+	    var month = PostConstants.months[posting.end_time.slice(5, 7)];
+	    var day = posting.start_time.slice(8, 10);
+	    return month + " " + day + ", " + posting.start_time.slice(0, 4);
+	  },
+	
+	  startTime: function (posting) {
+	    var startHour = parseInt(posting.start_time.slice(11, 13));
+	    var ampm = " am";
+	    if (startHour === 12) {
+	      ampm = " pm";
+	    }
+	    return startHour + posting.start_time.slice(13, 16) + ampm;
+	  },
+	
+	  endTime: function (posting) {
+	    var endHour = parseInt(posting.end_time.slice(11, 13));
+	    var ampm = "am";
+	    if (endHour > 12) {
+	      endHour -= 12;
+	      ampm = "pm";
+	    }
+	    if (endHour === 12) {
+	      ampm = "pm";
+	    }
+	    var min = posting.end_time.slice(13, 16);
+	    return endHour + min + " " + ampm;
+	  },
+	
 	  render: function () {
 	    if (this.props.target) {
 	      var lakePartners = [];
 	      this.state.postings.forEach(function (posting) {
 	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target) {
-	          var date = posting.start_time.slice(0, 10);
-	          var startTime = posting.start_time.slice(11, 16);
-	          var endTime = posting.end_time.slice(11, 16);
+	          var date = this.date(posting);
+	          var startTime = this.startTime(posting);
+	
+	          var endTime = this.endTime(posting);
 	          lakePartners.push(React.createElement(
 	            'li',
 	            { className: 'posting', key: posting.id,
@@ -33390,6 +33421,27 @@
 	};
 	
 	module.exports = PostingStore;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  months: {
+	    "01": "January",
+	    "02": "February",
+	    "03": "March",
+	    "04": "April",
+	    "05": "May",
+	    "06": "June",
+	    "07": "July",
+	    "08": "August",
+	    "09": "September",
+	    "10": "October",
+	    "11": "November",
+	    "12": "December"
+	  }
+	};
 
 /***/ }
 /******/ ]);
