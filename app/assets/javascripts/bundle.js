@@ -33291,6 +33291,11 @@
 	              'ul',
 	              { className: 'postingResults' },
 	              React.createElement(
+	                'button',
+	                { className: 'signUpForPosting' },
+	                'Request to Join'
+	              ),
+	              React.createElement(
 	                'li',
 	                { className: 'postingUser' },
 	                posting.user.username
@@ -33299,7 +33304,11 @@
 	                'li',
 	                { className: 'postingActivity'
 	                },
-	                'Activity: ',
+	                React.createElement(
+	                  'b',
+	                  null,
+	                  'Activity: '
+	                ),
 	                posting.activity,
 	                ' behind a ',
 	                posting.boat_type,
@@ -33309,7 +33318,11 @@
 	                'li',
 	                { className: 'postingTiming'
 	                },
-	                'On: ',
+	                React.createElement(
+	                  'b',
+	                  null,
+	                  'On: '
+	                ),
 	                date,
 	                ' from ',
 	                startTime,

@@ -67,11 +67,12 @@ module.exports = React.createClass({
             lakePartners.push(<li className="posting" key={posting.id}
             data-postId = {posting.id}>
             <ul className="postingResults">
+            <button className="signUpForPosting">Request to Join</button>
             <li className="postingUser">{posting.user.username}</li>
             <li className="postingActivity"
-            >Activity: {posting.activity} behind a {posting.boat_type} boat</li>
+            ><b>Activity: </b>{posting.activity} behind a {posting.boat_type} boat</li>
             <li className="postingTiming"
-            >On: {date} from {startTime} until {endTime}</li>
+            ><b>On: </b>{date} from {startTime} until {endTime}</li>
             </ul></li>);
           }
       }.bind(this));

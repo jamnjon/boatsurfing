@@ -6,30 +6,30 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create(username: "I_Should_Hire_Jon", password: "password")
+User.create(username: "I Should Hire Jon", password: "password")
 User.create(username: "Jon", password: "123123")
 User.create(username: "GoSharks", password: "PredsSuck")
-User.create(username: "Brent_Burns", password: "Chewbacca")
-User.create(username: "Martin_Jones", password: "WeWantTheCup")
-User.create(username: "Joe_Thornton", password: "jumbojoe")
-User.create(username: "Logan_Couture", password: "cooch39")
-User.create(username: "Joonas_Donskoi", password: "Donkey")
-User.create(username: "Tomas_Hertl", password: "TMNH48")
-User.create(username: "Melker_Karlsson", password: "Melkman")
-User.create(username: "Patrick_Marleau", password: "gutless")
-User.create(username: "Matt_Nieto", password: "torpedo")
-User.create(username: "Joe_Pavelski", password: "pokey8")
-User.create(username: "Nick_Spaling", password: "sapling")
-User.create(username: "Chris_Tierney", password: "tierney")
-User.create(username: "Joel_Ward", password: "Wardo42")
-User.create(username: "Dainius_Zubrus", password: "Zubeezubeezoob")
-User.create(username: "Justin_Braun", password: "Brauny")
-User.create(username: "Dylan_Demelo", password: "goSharks")
-User.create(username: "Paul_Martin", password: "Marty7")
-User.create(username: "Roman_Polak", password: "Polak46")
-User.create(username: "Matt_Tennyson", password: "ReavesCantHurtMe")
-User.create(username: "Marc-Edouard_Vlasic", password: "Pickles")
-User.create(username: "James_Reimer", password: "OptimusReim")
+User.create(username: "Brent Burns", password: "Chewbacca")
+User.create(username: "Martin Jones", password: "WeWantTheCup")
+User.create(username: "Joe Thornton", password: "jumbojoe")
+User.create(username: "Logan Couture", password: "cooch39")
+User.create(username: "Joonas Donskoi", password: "Donkey")
+User.create(username: "Tomas Hertl", password: "TMNH48")
+User.create(username: "Melker Karlsson", password: "Melkman")
+User.create(username: "Patrick Marleau", password: "gutless")
+User.create(username: "Matt Nieto", password: "torpedo")
+User.create(username: "Joe Pavelski", password: "pokey8")
+User.create(username: "Nick Spaling", password: "sapling")
+User.create(username: "Chris Tierney", password: "tierney")
+User.create(username: "Joel Ward", password: "Wardo42")
+User.create(username: "Dainius Zubrus", password: "Zubeezubeezoob")
+User.create(username: "Justin Braun", password: "Brauny")
+User.create(username: "Dylan Demelo", password: "goSharks")
+User.create(username: "Paul Martin", password: "Marty7")
+User.create(username: "Roman Polak", password: "Polak46")
+User.create(username: "Matt Tennyson", password: "ReavesCantHurtMe")
+User.create(username: "Marc-Edouard Vlasic", password: "Pickles")
+User.create(username: "James Reimer", password: "OptimusReim")
 Lake.create(name: "Lake Almanor", image_url: "https://courageworldwide.org/couragerun/files/2015/06/04-lake-almanor.jpg")
 Lake.create(name: "Lake Berryessa", image_url: "http://www.usbr.gov/mp/ccao/berryessa/albums/scenery/lake-berryessa.jpg")
 Lake.create(name: "Lake Camanche", image_url: "https://i.ytimg.com/vi/zNYWn8-rp6Q/maxresdefault.jpg")
@@ -52,7 +52,7 @@ Lake.create(name: "Lake Tahoe", image_url: "http://www.sierraclub.org/sites/www.
 Lake.create(name: "Trinity Lake", image_url: "http://static.panoramio.com/photos/original/5221721.jpg")
 Lake.create(name: "Bass Lake", image_url: "http://www.xtns.org/wp-content/uploads/2014/06/beach-resort-hotel-resort-unique-california-resort-hotels-beach-california-resorts-tripadvisor-california-resorts-that-allow-dogs-california-resorts-terranea-california-resort-town-near-santa-bar.jpg")
 Lake.create(name: "Lake Edison", image_url: "http://ww4.hdnux.com/photos/30/55/74/6479643/3/rawImage.jpg")
-Lake.create(name: "Florence Lake", image_url: "http://3.bp.blogspot.com/-NmCi_9xzMoM/U9qnCwklz7I/AAAAAAAAKGw/4JLIfOpq8_I/s1600/Florence+dock.JPG")
+Lake.create(name: "Florence Lake", image_url: "http://static.panoramio.com/photos/large/14328490.jpg")
 Lake.create(name: "Huntington Lake", image_url: "https://upload.wikimedia.org/wikipedia/commons/0/00/Shaver_Lake_1.jpg")
 Lake.create(name: "Isabella Lake", image_url: "https://upload.wikimedia.org/wikipedia/en/5/59/Lake_Isabella_California_eastern_portion.JPG")
 Lake.create(name: "Millerton Lake", image_url: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Millerton_Lake_State_Recreation_Area_4.jpg")
@@ -75,7 +75,7 @@ Lake.create(name: "June Lake", image_url: "http://www.californiafallcolor.com/wp
 Lake.create(name: "Mammoth Pool Reservoir", image_url: "http://todaysoutdoorlife.com/wp-content/uploads/2014/11/picture0009.jpg")
 Lake.create(name: "Mono Lake", image_url: "http://www.summitpost.org/images/original/632964.jpg")
 
-activities = ["wakeboarding", "wakesurfing", "kneeboarding", "tubing", "waterskiing"]
+activities = ["Wakeboarding", "Wakesurfing", "Kneeboarding", "Tubing", "Waterskiing"]
 boat_types = ["wakeboard", "waterski"]
 (1..44).each do |lake|
   (rand(5)+2).times do
@@ -88,7 +88,7 @@ boat_types = ["wakeboard", "waterski"]
     if (boat=="wakeboard")
       sport=activities[rand(activities.length - 1)]
     else
-      sport="waterskiing"
+      sport="Waterskiing"
     end
     Posting.create(user_id: user,
     start_time: DateTime.new(2016, month, day, start_hour, 0, 0), end_time:
