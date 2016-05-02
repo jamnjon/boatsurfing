@@ -25,7 +25,7 @@ var UserActions = {
 		});
 	},
 	guestLogin: function(){
-		UserActions.login({username: "I_Should_Hire_Jon", password: "password"});
+		UserActions.login({username: "I Should Hire Jon", password: "password"});
 	},
 
 	receiveCurrentUser: function(user){
@@ -35,6 +35,7 @@ var UserActions = {
 		});
 	},
 	handleError: function(error) {
+		console.log(error);
 		AppDispatcher.dispatch({
 			actionType: UserConstants.ERROR,
 			errors: error.responseJSON.errors

@@ -30,7 +30,7 @@ var LoginForm = React.createClass({
 	},
   guest: function(){
     UserActions.guestLogin();
-    this.setState({username: "I Should Hire Jon", password: "password"});
+		this.setState({username: "I Should Hire Jon", password: "password"});
   },
 
 	logout: function(e){
