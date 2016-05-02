@@ -3,11 +3,19 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var UserActions = require("../actions/user_actions");
 var CurrentUserState = require("../mixins/current_user_state");
 var hashHistory = require('react-router').hashHistory;
-
+var Modal = require('react-modal');
 var LoginForm = React.createClass({
 	mixins: [LinkedStateMixin, CurrentUserState],
 	getInitialState: function(){
-		return {form: "login", username: "", password: ""};
+		return {modalOpen: false, form: "login", username: "", password: ""};
+	},
+
+	closeModal: function() {
+		this.setState({modalOpen: false});
+	},
+
+	openModal: function() {
+		this.setState({modalOpen: true});
 	},
 
   componentDidUpdate: function(){
@@ -22,7 +30,6 @@ var LoginForm = React.createClass({
 	},
 	handleSubmit: function(e){
 		e.preventDefault();
-		console.log("here");
 		UserActions[this.state.form]({
 			username: this.state.username,
 			password: this.state.password
@@ -74,7 +81,6 @@ var LoginForm = React.createClass({
 	},
 	form: function(){
 		if (this.state.currentUser) {
-			console.log("is_user");
 			return;
 		}
 		return(

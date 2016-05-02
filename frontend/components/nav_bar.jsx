@@ -7,19 +7,15 @@ var Modal = require('react-modal');
 module.exports = React.createClass({
   mixins: [CurrentUserState],
   getInitialState: function(){
-    return({modalIsOpen: false});
+    return({modalOpen: false});
   },
 
 	openModal: function(){
-		this.setState({modalIsOpen: true});
-	},
-
-	afterOpenModal: function(){
-		this.refs.subtitle.style.color = '#f00';
+		this.setState({modalOpen: true});
 	},
 
 	closeModal: function(){
-		this.setState({modalIsOpen: false});
+		this.setState({modalOpen: false});
 	},
 
   homeButton: function(){
@@ -35,6 +31,7 @@ module.exports = React.createClass({
   },
 
   render: function(){
+    console.log(this.state.modalOpen);
     if(this.state.currentUser){
       return(
         <ul className="navBar">
@@ -46,7 +43,10 @@ module.exports = React.createClass({
     return (
       <ul className="navBar">
         <li> <button onClick={this.homeButton} className="homeButton">BoatSurfing</button></li>
-        <li><button className="inUpOut" onClick={this.inUp}>Join or Log in</button></li>
+        <li><button className="inUpOut" onClick={this.openModal}>Join or Log in</button>
+        <Modal className="modal" isOpen={this.modalOpen} onRequestClose={this.closeModal}>
+          <form><button>Modal working!</button></form>
+        </Modal></li>
 
       </ul>
     );

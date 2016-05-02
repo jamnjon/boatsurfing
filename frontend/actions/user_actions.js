@@ -35,7 +35,6 @@ var UserActions = {
 		});
 	},
 	handleError: function(error) {
-		console.log(error);
 		AppDispatcher.dispatch({
 			actionType: UserConstants.ERROR,
 			errors: error.responseJSON.errors

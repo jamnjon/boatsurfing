@@ -46,6 +46,7 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(32);
+	var Modal = __webpack_require__(270);
 	//Router
 	var ReactRouter = __webpack_require__(166);
 	var Router = ReactRouter.Router;
@@ -91,6 +92,7 @@
 	);
 	
 	document.addEventListener('DOMContentLoaded', function () {
+	  Modal.setAppElement(document.body);
 	  var root = document.getElementById('root');
 	  ReactDOM.render(Router, root);
 	});
@@ -25470,13 +25472,21 @@
 	var UserActions = __webpack_require__(230);
 	var CurrentUserState = __webpack_require__(255);
 	var hashHistory = __webpack_require__(166).hashHistory;
-	
+	var Modal = __webpack_require__(270);
 	var LoginForm = React.createClass({
 		displayName: "LoginForm",
 	
 		mixins: [LinkedStateMixin, CurrentUserState],
 		getInitialState: function () {
-			return { form: "login", username: "", password: "" };
+			return { modalOpen: false, form: "login", username: "", password: "" };
+		},
+	
+		closeModal: function () {
+			this.setState({ modalOpen: false });
+		},
+	
+		openModal: function () {
+			this.setState({ modalOpen: true });
 		},
 	
 		componentDidUpdate: function () {
@@ -25491,7 +25501,6 @@
 		},
 		handleSubmit: function (e) {
 			e.preventDefault();
-			console.log("here");
 			UserActions[this.state.form]({
 				username: this.state.username,
 				password: this.state.password
@@ -25561,7 +25570,6 @@
 		},
 		form: function () {
 			if (this.state.currentUser) {
-				console.log("is_user");
 				return;
 			}
 			return React.createElement(
@@ -25889,7 +25897,6 @@
 			});
 		},
 		handleError: function (error) {
-			console.log(error);
 			AppDispatcher.dispatch({
 				actionType: UserConstants.ERROR,
 				errors: error.responseJSON.errors
@@ -33084,19 +33091,15 @@
 	
 	  mixins: [CurrentUserState],
 	  getInitialState: function () {
-	    return { modalIsOpen: false };
+	    return { modalOpen: false };
 	  },
 	
 	  openModal: function () {
-	    this.setState({ modalIsOpen: true });
-	  },
-	
-	  afterOpenModal: function () {
-	    this.refs.subtitle.style.color = '#f00';
+	    this.setState({ modalOpen: true });
 	  },
 	
 	  closeModal: function () {
-	    this.setState({ modalIsOpen: false });
+	    this.setState({ modalOpen: false });
 	  },
 	
 	  homeButton: function () {
@@ -33112,6 +33115,7 @@
 	  },
 	
 	  render: function () {
+	    console.log(this.state.modalOpen);
 	    if (this.state.currentUser) {
 	      return React.createElement(
 	        'ul',
@@ -33155,8 +33159,21 @@
 	        null,
 	        React.createElement(
 	          'button',
-	          { className: 'inUpOut', onClick: this.inUp },
+	          { className: 'inUpOut', onClick: this.openModal },
 	          'Join or Log in'
+	        ),
+	        React.createElement(
+	          Modal,
+	          { className: 'modal', isOpen: this.modalOpen, onRequestClose: this.closeModal },
+	          React.createElement(
+	            'form',
+	            null,
+	            React.createElement(
+	              'button',
+	              null,
+	              'Modal working!'
+	            )
+	          )
 	        )
 	      )
 	    );
