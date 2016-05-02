@@ -72,7 +72,7 @@
 	      React.createElement(
 	        'header',
 	        null,
-	        React.createElement(NavBar, null)
+	        React.createElement(NavBar, { path: this.props.location.pathname })
 	      ),
 	      this.props.children
 	    );
@@ -25516,32 +25516,18 @@
 			UserActions.logout();
 			this.setState({ username: "", password: "" });
 		},
-		greeting: function () {
-			if (!this.state.currentUser) {
-				return React.createElement(
-					"h2",
-					null,
-					"Welcome to BoatSurfing"
-				);
-			}
-			return React.createElement(
-				"div",
-				null,
-				React.createElement(
-					"h1",
-					null,
-					"BoatSurfing"
-				),
-				React.createElement(
-					"h2",
-					null,
-					"Hi, ",
-					this.state.currentUser.username,
-					"!"
-				),
-				React.createElement("input", { type: "submit", value: "logout", onClick: this.logout })
-			);
-		},
+		// greeting: function(){
+		// 	if (!this.state.currentUser) {
+		// 		return (<h2>Welcome to BoatSurfing</h2>);
+		// 	}
+		// 	return (
+		// 		<div>
+		//       <h1>BoatSurfing</h1>
+		// 			<h2>Hi, {this.state.currentUser.username}!</h2>
+		// 			<input type="submit" value="logout" onClick={this.logout}/>
+		// 		</div>
+		// 	);
+		// },
 	
 		changeUsername: function (e) {
 			this.setState({ username: e.target.value });
@@ -25574,7 +25560,7 @@
 			}
 			return React.createElement(
 				"form",
-				{ onSubmit: this.handleSubmit },
+				{ onSubmit: this.handleSubmit, className: "modalForm" },
 				React.createElement(
 					"section",
 					null,
@@ -25582,35 +25568,45 @@
 						"label",
 						null,
 						" Username:",
+						React.createElement("br", null),
 						React.createElement("input", { type: "text", value: this.state.username, onChange: this.changeUsername })
 					),
+					React.createElement("br", null),
+					React.createElement("br", null),
 					React.createElement(
 						"label",
 						null,
 						" Password:",
+						React.createElement("br", null),
 						React.createElement("input", { type: "password", value: this.state.password, onChange: this.changePassword })
-					)
+					),
+					React.createElement("br", null),
+					React.createElement("br", null)
 				),
 				React.createElement(
 					"section",
-					null,
+					{ className: "radioButtons" },
 					React.createElement(
 						"label",
-						null,
+						{ className: "radio" },
 						" Login",
 						React.createElement("input", { type: "Radio", name: "action", value: "login", onChange: this.setForm })
 					),
 					React.createElement(
 						"label",
-						null,
+						{ className: "radio" },
 						" Sign Up",
 						React.createElement("input", { type: "Radio", name: "action", value: "signup", onChange: this.setForm })
 					)
 				),
-				React.createElement("input", { type: "Submit" }),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement("input", { className: "inUpOut", type: "Submit" }),
+				React.createElement("br", null),
+				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ type: "reset", onClick: this.guest },
+					{ className: "inUpOut", type: "reset", onClick: this.guest },
 					"Log In As Guest"
 				)
 			);
@@ -25619,7 +25615,6 @@
 			return React.createElement(
 				"div",
 				{ id: "login-form" },
-				this.greeting(),
 				this.errors(),
 				this.form()
 			);
@@ -32929,7 +32924,7 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        null,
+	        { className: 'searchForm' },
 	        React.createElement(
 	          'select',
 	          { onChange: this.changeSelected },
@@ -32947,11 +32942,12 @@
 	        React.createElement(
 	          'label',
 	          null,
-	          ' Lake:',
+	          ' Lake: ',
 	          React.createElement('input', { className: 'lakeSearchBox', type: 'text',
 	            placeholder: 'Lake Name Here',
 	            onChange: this.updateLake, value: this.state.lakeName })
 	        ),
+	        ' ',
 	        React.createElement(
 	          'button',
 	          { className: 'random', onClick: this.random },
@@ -33085,13 +33081,22 @@
 	var UserActions = __webpack_require__(230);
 	var CurrentUserState = __webpack_require__(255);
 	var Modal = __webpack_require__(270);
+	var LoginForm = __webpack_require__(225);
+	var LakeSearch = __webpack_require__(257);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
 	
 	  mixins: [CurrentUserState],
 	  getInitialState: function () {
-	    return { modalOpen: false };
+	    return { modalOpen: false, includeLakeSearch: false };
+	  },
+	  componentWillReceiveProps: function (nextProps) {
+	    if (nextProps.path === '/') {
+	      this.setState({ includeLakeSearch: false });
+	    } else {
+	      this.setState({ includeLakeSearch: true });
+	    }
 	  },
 	
 	  openModal: function () {
@@ -33111,11 +33116,21 @@
 	  },
 	
 	  out: function () {
+	    this.setState({ modalOpen: false });
 	    UserActions.logout();
 	  },
 	
 	  render: function () {
-	    console.log(this.state.modalOpen);
+	    if (this.state.includeLakeSearch) {
+	      var ls = React.createElement(
+	        'li',
+	        { className: 'navBarSearch' },
+	        React.createElement(LakeSearch, null)
+	      );
+	      console.log("woooh");
+	    } else {
+	      ls = "";
+	    }
 	    if (this.state.currentUser) {
 	      return React.createElement(
 	        'ul',
@@ -33130,6 +33145,7 @@
 	            'BoatSurfing'
 	          )
 	        ),
+	        ls,
 	        React.createElement(
 	          'li',
 	          { className: 'liInUpOut' },
@@ -33154,6 +33170,7 @@
 	          'BoatSurfing'
 	        )
 	      ),
+	      ls,
 	      React.createElement(
 	        'li',
 	        null,
@@ -33164,16 +33181,13 @@
 	        ),
 	        React.createElement(
 	          Modal,
-	          { className: 'modal', isOpen: this.modalOpen, onRequestClose: this.closeModal },
+	          { className: 'modal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
 	          React.createElement(
-	            'form',
-	            null,
-	            React.createElement(
-	              'button',
-	              null,
-	              'Modal working!'
-	            )
-	          )
+	            'div',
+	            { className: 'closeModal', onClick: this.closeModal },
+	            'X'
+	          ),
+	          React.createElement(LoginForm, null)
 	        )
 	      )
 	    );
@@ -33232,16 +33246,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'searchBoxLakePage' },
-	        React.createElement(
-	          'div',
-	          { className: 'searchWrapper' },
-	          React.createElement(LakeSearch, { className: 'searchBox' })
-	        ),
-	        ' '
-	      ),
 	      React.createElement('img', { className: 'lakeImg', src: this.state.lake.image_url }),
 	      React.createElement(Postings, { target: this.state.target, lake: this.state.lake })
 	    );

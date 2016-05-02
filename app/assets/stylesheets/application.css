@@ -30,7 +30,7 @@
  	padding: 0;
  	border: 0;
  	font-size: 100%;
- 	font: inherit;
+ 	font: Roboto Condensed;
  	vertical-align: baseline;
  }
  /* HTML5 display-role reset for older browsers */
@@ -75,11 +75,27 @@
   content: ""
 }
 
+.searchForm {
+
+}
+
+.closeModal{
+  position: absolute;
+  left: 0px;
+  top: 1px;
+}
+
+.closeModal:hover{
+  cursor: hand;
+  cursor: pointer;
+}
+
 .modal {
+  color: white;
   position: relative;
-  top: 60px;
-  z-index: 1;
-  background: #DFDFDF;
+  top: 80px;
+  z-index: 1000;
+  background: #009;
   max-width: 30%;
   margin: 0 auto 100px;
   padding: 45px;
@@ -101,7 +117,7 @@
 }
 
 .overSplashImg{
-  z-index: 1;
+  z-index: 0;
   display: flex;
   position: absolute;
   top: 8%;
@@ -110,7 +126,8 @@
 
 .searchBox{
   top: 11%;
-  z-index: 1;
+  left: 8%;
+  z-index: 0;
   position: absolute;
 
   font-size: 18px;
@@ -130,7 +147,7 @@
 }
 
 body {
-  background-color: beige;
+  background-color: white;
 }
 
 select {
@@ -138,11 +155,15 @@ select {
   cursor: pointer;
 }
 
+.radio{
+  padding-left: 3%;
+}
+
 .lakeListItem{
   display: block;
   border: 1px solid black;
-  z-index: 1;
   background-color: white;
+  z-index: 1;
   font-size: 18px;
   color: black;
   width: 168px;
@@ -152,7 +173,7 @@ select {
 .lakeListItem:hover {
   cursor: hand;
   cursor: pointer;
-  background-color: lightgrey;
+  background-color: #009;
 }
 
 .navBar {
@@ -163,7 +184,7 @@ select {
   margin: 0;
   padding: 0;
   border: 10px solid white;
-  border-bottom: 25px solid white;
+  border-bottom: 15px solid white;
 
 }
 
@@ -185,6 +206,13 @@ select {
   cursor: pointer;
 }
 
+.navBarSearch {
+  position: relative;
+  padding-top: 12px;
+}
+
+
+
 .login-form {
   display: none;
   z-index: 1;
@@ -200,7 +228,7 @@ select {
 
 .lakeSearchList {
   position: absolute;
-  left: 133px;
+  left: 136px;
 }
 
 .lakeSearchBox {
@@ -210,15 +238,17 @@ select {
 
 .postResults {
   font-size: 20px;
-  background-color: lightgrey;
-  padding: 10px;
+  background:rgba(0, 0, 255, 0.75);;
+  padding: 20px;
+  color: white;
 }
 
 .postingResults{
   position: relative;
-  background-color: white;
+  color: #009;
+  background:rgba(255, 255, 255, .9);
   border: 1px solid black;
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 .posting{

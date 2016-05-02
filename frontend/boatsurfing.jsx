@@ -20,7 +20,7 @@ var App = React.createClass({
   render: function(){
     return (
       <div>
-        <header><NavBar /></header>
+        <header><NavBar path={this.props.location.pathname}/></header>
         {this.props.children}
       </div>
     );

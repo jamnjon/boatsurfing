@@ -45,18 +45,18 @@ var LoginForm = React.createClass({
 		UserActions.logout();
     this.setState({username: "", password: ""});
 	},
-	greeting: function(){
-		if (!this.state.currentUser) {
-			return (<h2>Welcome to BoatSurfing</h2>);
-		}
-		return (
-			<div>
-        <h1>BoatSurfing</h1>
-				<h2>Hi, {this.state.currentUser.username}!</h2>
-				<input type="submit" value="logout" onClick={this.logout}/>
-			</div>
-		);
-	},
+	// greeting: function(){
+	// 	if (!this.state.currentUser) {
+	// 		return (<h2>Welcome to BoatSurfing</h2>);
+	// 	}
+	// 	return (
+	// 		<div>
+  //       <h1>BoatSurfing</h1>
+	// 			<h2>Hi, {this.state.currentUser.username}!</h2>
+	// 			<input type="submit" value="logout" onClick={this.logout}/>
+	// 		</div>
+	// 	);
+	// },
 
   changeUsername: function(e){
     this.setState({username: e.target.value});
@@ -84,30 +84,30 @@ var LoginForm = React.createClass({
 			return;
 		}
 		return(
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className="modalForm">
 					<section>
-						<label> Username:
+						<label> Username:<br/>
 							<input type="text" value={this.state.username} onChange = {this.changeUsername}/>
-						</label>
+						</label><br/><br/>
 
-						<label> Password:
+						<label> Password:<br/>
 							<input type="password" value={this.state.password} onChange = {this.changePassword}/>
-						</label>
+						</label><br/><br/>
 					</section>
 
-					<section>
-						<label> Login
+					<section className="radioButtons">
+						<label className="radio"> Login
 							<input type="Radio" name="action" value="login" onChange={this.setForm}/>
 						</label>
 
-						<label> Sign Up
+						<label className="radio"> Sign Up
 							<input type="Radio" name="action" value="signup" onChange={this.setForm}/>
 						</label>
 
 					</section>
-
-					<input type="Submit"/>
-          <button type="reset" onClick={this.guest}>Log In As Guest
+					<br/><br/>
+					<input className="inUpOut" type="Submit"/><br/><br/>
+					<button className="inUpOut" type="reset" onClick={this.guest}>Log In As Guest
           </button>
 				</form>
 		);
@@ -115,7 +115,6 @@ var LoginForm = React.createClass({
 	render: function(){
 		return (
 			<div id="login-form">
-				{this.greeting()}
 				{this.errors()}
 				{this.form()}
 			</div>
