@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
@@ -21,12 +21,9 @@
     "url": "https://github.com/jamnjon/couchsurfing/issues"
   },
   "engines": {
-  "node": "5.7.1",
-  "npm": "3.6.0"
-},
-"scripts": {
-  "postinstall": "./node_modules/.bin/webpack"
-},
+    "node": "5.7.1",
+    "npm": "3.6.0"
+  },
   "homepage": "https://github.com/jamnjon/couchsurfing#readme",
   "dependencies": {
     "babel-core": "^6.7.7",
@@ -36,6 +33,7 @@
     "react": "^15.0.1",
     "react-addons-linked-state-mixin": "^15.0.1",
     "react-dom": "^15.0.1",
+    "react-modal": "^1.2.1",
     "react-router": "^2.3.0",
     "webpack": "^1.13.0"
   }

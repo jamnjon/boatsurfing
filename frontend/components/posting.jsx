@@ -78,7 +78,7 @@ module.exports = React.createClass({
       }.bind(this));
       return (<div className="postResults">
         {this.props.target} at {this.props.lake.name}:<br/><br/>
-        {lakePartners.length} {this.props.target.toLowerCase()} found
+        {lakePartners.length} {this.props.target.toLowerCase()} found:
         <ul className="postList">{lakePartners}</ul>
         </div>);
 

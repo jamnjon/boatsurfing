@@ -27,7 +27,7 @@ var UserActions = {
 	guestLogin: function(){
 		UserActions.login({username: "I_Should_Hire_Jon", password: "password"});
 	},
-  
+
 	receiveCurrentUser: function(user){
 		AppDispatcher.dispatch({
 			actionType: UserConstants.LOGIN,

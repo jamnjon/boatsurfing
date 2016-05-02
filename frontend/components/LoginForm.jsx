@@ -22,6 +22,7 @@ var LoginForm = React.createClass({
 	},
 	handleSubmit: function(e){
 		e.preventDefault();
+		console.log("here");
 		UserActions[this.state.form]({
 			username: this.state.username,
 			password: this.state.password
@@ -29,7 +30,7 @@ var LoginForm = React.createClass({
 	},
   guest: function(){
     UserActions.guestLogin();
-    this.setState({username: "I_Should_Hire_Jon", password: "password"});
+    this.setState({username: "I Should Hire Jon", password: "password"});
   },
 
 	logout: function(e){
@@ -73,6 +74,7 @@ var LoginForm = React.createClass({
 	},
 	form: function(){
 		if (this.state.currentUser) {
+			console.log("is_user");
 			return;
 		}
 		return(
