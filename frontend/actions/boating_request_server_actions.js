@@ -6,5 +6,11 @@ module.exports = {
       actionType: "RECEIVE_REQUESTS",
       boatingRequests: boatingRequests
     });
+  },
+  post: function(doodad){
+    AppDispatcher.dispatch({
+      actionType: "SUBMIT_REQUEST",
+      doodad: doodad
+    });
   }
 };

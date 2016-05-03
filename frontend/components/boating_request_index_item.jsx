@@ -1,7 +1,10 @@
 var React = require('react');
 var PostingConstants = require ('../constants/posting_constants');
+var CurrentUserState = require ('../mixins/current_user_state');
 
 module.exports = React.createClass({
+  mixins: [CurrentUserState],
+
   date: function(){
     var date = this.props.BR.posting.start_time.slice(0,10);
     var year = date.slice(0,4);

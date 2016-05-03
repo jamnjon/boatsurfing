@@ -2,8 +2,12 @@ var React = require('react');
 var PostingClientActions = require('../actions/posting_client_actions');
 var PostingStore = require('../stores/posting_store');
 var PostConstants = require('../constants/posting_constants');
+var BRClientActions = require('../actions/boating_request_client_actions');
+var CurrentUserState = require('../mixins/current_user_state');
 
 module.exports = React.createClass({
+  mixins: [CurrentUserState],
+
   getInitialState: function(){
     return {postings: []};
   },
@@ -54,6 +58,16 @@ module.exports = React.createClass({
     return (endHour + min + " " + ampm);
   },
 
+  request: function(posting, e){
+    BRClientActions.post(
+      {
+        status: "Pending",
+        posting_id: posting.id,
+        receiving_user_id: posting.user.id,
+        sending_user_id: this.state.currentUser.id
+      });
+  },
+
   render: function(){
     if(this.props.target){
       var lakePartners = [];
@@ -67,7 +81,8 @@ module.exports = React.createClass({
             lakePartners.push(<li className="posting" key={posting.id}
             data-postId = {posting.id}>
             <ul className="postingResults">
-            <button className="signUpForPosting">Request to Join</button>
+            <button className="signUpForPosting"
+            onClick={this.request.bind(this, posting)}>Request to Join</button>
             <li className="postingUser">{posting.user.username}</li>
             <li className="postingActivity"
             ><b>Activity: </b>{posting.activity} behind a {posting.boat_type} boat</li>

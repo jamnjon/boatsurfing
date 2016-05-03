@@ -33241,9 +33241,13 @@
 	var PostingClientActions = __webpack_require__(265);
 	var PostingStore = __webpack_require__(268);
 	var PostConstants = __webpack_require__(269);
+	var BRClientActions = __webpack_require__(292);
+	var CurrentUserState = __webpack_require__(255);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
+	
+	  mixins: [CurrentUserState],
 	
 	  getInitialState: function () {
 	    return { postings: [] };
@@ -33295,6 +33299,15 @@
 	    return endHour + min + " " + ampm;
 	  },
 	
+	  request: function (posting, e) {
+	    BRClientActions.post({
+	      status: "Pending",
+	      posting_id: posting.id,
+	      receiving_user_id: posting.user.id,
+	      sending_user_id: this.state.currentUser.id
+	    });
+	  },
+	
 	  render: function () {
 	    if (this.props.target) {
 	      var lakePartners = [];
@@ -33313,7 +33326,8 @@
 	              { className: 'postingResults' },
 	              React.createElement(
 	                'button',
-	                { className: 'signUpForPosting' },
+	                { className: 'signUpForPosting',
+	                  onClick: this.request.bind(this, posting) },
 	                'Request to Join'
 	              ),
 	              React.createElement(
@@ -35432,8 +35446,8 @@
 	var React = __webpack_require__(1);
 	var BRStore = __webpack_require__(291);
 	var BRClientActions = __webpack_require__(292);
-	var CurrentUserState = __webpack_require__(255);
 	var BRIndexItem = __webpack_require__(295);
+	var CurrentUserState = __webpack_require__(255);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -35474,29 +35488,37 @@
 	      this.state.requests.forEach(function (boatReq) {
 	        if (boatReq.receiver.username === this.state.currentUser) {
 	          reqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	            match: 'receiver', status: boatReq.status }));
+	            match: 'receiver', user: this.state.currentUser,
+	            status: boatReq.status }));
 	          if (boatReq.status === "Pending") {
 	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	              match: 'receiver', status: boatReq.status }));
+	              match: 'receiver', user: this.state.currentUser,
+	              status: boatReq.status }));
 	          } else if (boatReq.status === "Accepted") {
 	            acceptedReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	              match: 'receiver', status: boatReq.status }));
+	              match: 'receiver', user: this.state.currentUser,
+	              status: boatReq.status }));
 	          } else if (boatReq.status === "Declined") {
 	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	              match: 'receiver', status: boatReq.status }));
+	              match: 'receiver', user: this.state.currentUser,
+	              status: boatReq.status }));
 	          }
 	        } else if (boatReq.requester.username === this.state.currentUser.username) {
 	          reqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	            match: 'requester', status: boatReq.status }));
+	            match: 'requester', user: this.state.currentUser,
+	            status: boatReq.status }));
 	          if (boatReq.status === "Pending") {
 	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	              match: 'requester', status: boatReq.status }));
+	              match: 'requester', user: this.state.currentUser,
+	              status: boatReq.status }));
 	          } else if (boatReq.status === "Accepted") {
 	            acceptedReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	              match: 'requester', status: boatReq.status }));
+	              match: 'requester', user: this.state.currentUser,
+	              status: boatReq.status }));
 	          } else if (boatReq.status === "Declined") {
 	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
-	              match: 'requester', status: boatReq.status }));
+	              match: 'requester', user: this.state.currentUser,
+	              status: boatReq.status }));
 	          }
 	        }
 	      }.bind(this));
@@ -35562,6 +35584,7 @@
 	        )
 	      );
 	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'reqs' },
@@ -35611,6 +35634,10 @@
 	module.exports = {
 	  fetchBoatingRequests: function () {
 	    BoatingRequestUtil.fetchLakes();
+	  },
+	
+	  post: function (posting) {
+	    BoatingRequestUtil.post(posting);
 	  }
 	};
 
@@ -35629,6 +35656,21 @@
 	        BoatingRequestServerActions.fetchBoatingRequests(boatingRequests);
 	      }
 	    });
+	  },
+	
+	  post: function (posting) {
+	    console.log(posting);
+	    $.ajax({
+	      type: "POST",
+	      url: "api/boating_requests",
+	      data: { boating_request: posting },
+	      success: function (doodad) {
+	        console.log(doodad);
+	      },
+	      error: function (error) {
+	        console.log(error);
+	      }
+	    });
 	  }
 	};
 
@@ -35644,6 +35686,12 @@
 	      actionType: "RECEIVE_REQUESTS",
 	      boatingRequests: boatingRequests
 	    });
+	  },
+	  post: function (doodad) {
+	    AppDispatcher.dispatch({
+	      actionType: "SUBMIT_REQUEST",
+	      doodad: doodad
+	    });
 	  }
 	};
 
@@ -35653,9 +35701,12 @@
 
 	var React = __webpack_require__(1);
 	var PostingConstants = __webpack_require__(269);
+	var CurrentUserState = __webpack_require__(255);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
+	
+	  mixins: [CurrentUserState],
 	
 	  date: function () {
 	    var date = this.props.BR.posting.start_time.slice(0, 10);
