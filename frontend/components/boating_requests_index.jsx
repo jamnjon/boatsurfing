@@ -41,7 +41,7 @@ module.exports = React.createClass({
 
     if(this.state.currentUser){
       this.state.requests.forEach(function(boatReq){
-      if(boatReq.receiver.username === this.state.currentUser){
+      if(boatReq.receiver.username === this.state.currentUser.username){
         reqList.push(<BRIndexItem BR={boatReq} key={boatReq.id}
           match="receiver" user={this.state.currentUser}
           status={boatReq.status}/>);
@@ -54,7 +54,7 @@ module.exports = React.createClass({
             match="receiver" user={this.state.currentUser}
             status={boatReq.status}/>);
         } else if(boatReq.status === "Declined"){
-          pendingReqList.push(<BRIndexItem BR={boatReq} key={boatReq.id}
+          declinedReqList.push(<BRIndexItem BR={boatReq} key={boatReq.id}
             match="receiver" user={this.state.currentUser}
             status={boatReq.status}/>);
         }
@@ -71,7 +71,7 @@ module.exports = React.createClass({
               match="requester" user={this.state.currentUser}
               status={boatReq.status}/>);
           } else if(boatReq.status === "Declined"){
-            pendingReqList.push(<BRIndexItem BR={boatReq} key={boatReq.id}
+            declinedReqList.push(<BRIndexItem BR={boatReq} key={boatReq.id}
               match="requester" user={this.state.currentUser}
               status={boatReq.status}/>);
           }
@@ -82,26 +82,24 @@ module.exports = React.createClass({
       {
         ownedRequests: reqList,
         pendingRequests: pendingReqList,
-        acceptedRequests: acceptedReqList,
+        approvedRequests: acceptedReqList,
         declinedRequests: declinedReqList
       });
   },
-
-
 
   render: function(){
     if(this.state.approvedRequests.length === 0){
       var appReq = "";
     } else {
       appReq = <div className="approvedReqs"
-      >Approved: <br/><ul>{this.state.approvedRequests}</ul>
+      ><b>Accepted:</b> <br/><ul>{this.state.approvedRequests}</ul>
       <br/><br/></div>;
     }
     if(this.state.pendingRequests.length === 0){
       var pendReq = "";
     } else {
       pendReq = <div className="pendingReqs"
-      >Pending: <br/>
+      ><b>Pending:</b> <br/>
       <ul>{this.state.pendingRequests}</ul>
       <br/><br/></div>;
     }
@@ -109,7 +107,7 @@ module.exports = React.createClass({
       var decReq = "";
     } else {
       decReq = <div className="declinedReqs"
-      >Declined: <br/><ul>{this.state.declinedRequests}</ul></div>;
+      ><b>Declined:</b> <br/><ul>{this.state.declinedRequests}</ul></div>;
     }
 
     return(

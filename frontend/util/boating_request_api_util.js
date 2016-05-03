@@ -13,17 +13,25 @@ module.exports = {
   },
 
   post: function(posting){
-    console.log(posting);
     $.ajax({
       type: "POST",
       url: "api/boating_requests",
       data: {boating_request: posting},
-      success: function(doodad){
-        console.log(doodad);
-      },
-      error: function(error){
-        console.log(error);
-      }
     });
+  },
+
+  update: function(id, newStatus){
+    $.ajax({
+      type: "PATCH",
+      url: "api/boating_requests/"+ id,
+      data: {boating_request: {status: newStatus}},
+      success: function(){
+        this.fetchLakes();
+      }.bind(this)
+    });
+  },
+
+  cancel: function(id){
+
   }
 };

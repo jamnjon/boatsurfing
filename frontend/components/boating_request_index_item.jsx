@@ -1,6 +1,7 @@
 var React = require('react');
 var PostingConstants = require ('../constants/posting_constants');
 var CurrentUserState = require ('../mixins/current_user_state');
+var BRClientActions = require('../actions/boating_request_client_actions');
 
 module.exports = React.createClass({
   mixins: [CurrentUserState],
@@ -35,14 +36,42 @@ module.exports = React.createClass({
     return (endHour + min + " " + ampm);
   },
 
+  cancelReq: function(){
+    BRClientActions.cancel(this.props.BR.id);
+  },
+
+  updateReq: function(e){
+    console.log("Event Target");
+    if(e.target.innerHTML=== "Accept Request"){
+      BRClientActions.update(this.props.BR.id, "Accepted");
+    } else{
+      BRClientActions.update(this.props.BR.id, "Declined");
+    }
+  },
+
   render: function(){
+    if(this.props.match === "requester"){
+      var username = this.props.BR.receiver.username;
+      if(this.props.BR.status === "Pending"){
+        var buttons = <button className="inUpOut"
+        onClick={this.cancelReq}>Cancel Request</button>;
+      }
+    } else if(this.props.match === "receiver"){
+      username=this.props.BR.requester.username;
+      if(this.props.BR.status=== "Pending"){
+        buttons = <div><button onClick={this.updateReq} className="inUpOut"
+        >Accept Request</button> <button className="inUpOut"
+        onClick={this.updateReq}>Decline Request</button></div>;
+      }
+    }
     return(
       <li>
         <ul className="BRlist">
           <li>{this.date()}</li>
           <li>{this.startTime(this.props.BR.posting)} until {this.endTime(this.props.BR.posting)}</li>
-          <li>Activity: {this.props.BR.posting.activity} with {this.props.BR.receiver.username}</li>
+          <li>Activity: {this.props.BR.posting.activity} with {username}</li>
           <li>Status: {this.props.status}</li>
+          <li>{buttons}</li>
         </ul>
       </li>
     );

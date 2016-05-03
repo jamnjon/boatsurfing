@@ -1,4 +1,5 @@
 class BoatingRequest < ActiveRecord::Base
+  validates :posting_id, :uniqueness => { :scope => [:sending_user_id] }
   belongs_to :requester,
     primary_key: :id,
     foreign_key: :sending_user_id,
@@ -11,7 +12,7 @@ class BoatingRequest < ActiveRecord::Base
 
   belongs_to :posting
 
-  def lake
-    posting.lake
-  end
+  has_one :lake,
+    through: :posting
+
 end

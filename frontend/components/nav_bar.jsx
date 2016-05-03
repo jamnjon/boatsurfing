@@ -62,7 +62,7 @@ module.exports = React.createClass({
         <li className="liInUpOut"><button className="inUpOut" onClick={this.openModal}>Join or Log in</button>
         <Modal className="modal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
         <div className="closeModal" onClick={this.closeModal}>X</div>
-          <LoginForm/>
+          <LoginForm modalCloseMethod={this.closeLoginModal}/>
         </Modal></li>
 
       </ul>

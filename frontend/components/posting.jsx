@@ -4,12 +4,32 @@ var PostingStore = require('../stores/posting_store');
 var PostConstants = require('../constants/posting_constants');
 var BRClientActions = require('../actions/boating_request_client_actions');
 var CurrentUserState = require('../mixins/current_user_state');
+var Modal = require('react-modal');
+var BoatingRequestIndex = require('./boating_requests_index');
+var LoginForm = require('./LoginForm');
+
 
 module.exports = React.createClass({
   mixins: [CurrentUserState],
 
   getInitialState: function(){
-    return {postings: []};
+    return {postings: [], modalOpen: false, loginModalOpen: false};
+  },
+
+	openModal: function(){
+		this.setState({modalOpen: true});
+	},
+
+	closeModal: function(){
+		this.setState({modalOpen: false});
+	},
+
+  openLoginModal: function(){
+    this.setState({loginModalOpen: true});
+  },
+
+  closeLoginModal: function(){
+    this.setState({loginModalOpen: false});
   },
 
   componentDidMount: function(){
@@ -19,6 +39,12 @@ module.exports = React.createClass({
   componentWillReceiveProps: function(nextProps){
     PostingClientActions.fetchPostings(nextProps.lake);
     this.setState({postings: PostingStore.all()});
+  },
+
+  componentDidUpdate: function(){
+    if(this.state.currentUser && this.state.loginModalOpen){
+      this.setState({loginModalOpen: false});
+    }
   },
 
   componentWillUnmount: function(){
@@ -59,13 +85,18 @@ module.exports = React.createClass({
   },
 
   request: function(posting, e){
-    BRClientActions.post(
-      {
-        status: "Pending",
-        posting_id: posting.id,
-        receiving_user_id: posting.user.id,
-        sending_user_id: this.state.currentUser.id
-      });
+    if(!this.state.currentUser){
+      this.openLoginModal();
+    } else{
+      BRClientActions.post(
+        {
+          status: "Pending",
+          posting_id: posting.id,
+          receiving_user_id: posting.user.id,
+          sending_user_id: this.state.currentUser.id
+        });
+        this.openModal();
+      }
   },
 
   render: function(){
@@ -92,6 +123,14 @@ module.exports = React.createClass({
           }
       }.bind(this));
       return (<div className="postResults">
+      <Modal className="BRModal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
+      <div className="closeModal" onClick={this.closeModal}>X</div>
+        <BoatingRequestIndex />
+      </Modal>
+      <Modal className="modal" isOpen={this.state.loginModalOpen} onRequestClose={this.closeLoginModal}>
+        <div classname="closeModal" onClick={this.closeLoginModal}>X</div>
+        <LoginForm modalCloseMethod={this.closeModal} modalOpen={this.state.loginModalOpen}/>
+      </Modal>
         {this.props.target} at {this.props.lake.name}:<br/><br/>
         {lakePartners.length} {this.props.target.toLowerCase()} found:
         <ul className="postList">{lakePartners}</ul>

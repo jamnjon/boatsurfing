@@ -58,7 +58,6 @@
 	var Splash = __webpack_require__(256);
 	var NavBar = __webpack_require__(262);
 	var Lake = __webpack_require__(263);
-	var BoatingRequests = __webpack_require__(290);
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
 	
@@ -88,8 +87,7 @@
 	    { path: '/', component: App },
 	    React.createElement(IndexRoute, { component: Splash }),
 	    React.createElement(Route, { path: 'register', component: LoginForm }),
-	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake }),
-	    React.createElement(Route, { path: 'boatingRequests', component: BoatingRequests })
+	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake })
 	  )
 	);
 	
@@ -25480,22 +25478,7 @@
 	
 		mixins: [LinkedStateMixin, CurrentUserState],
 		getInitialState: function () {
-			return { modalOpen: false, form: "login", username: "", password: "" };
-		},
-	
-		closeModal: function () {
-			this.setState({ modalOpen: false });
-		},
-	
-		openModal: function () {
-			this.setState({ modalOpen: true });
-		},
-	
-		componentDidUpdate: function () {
-			if (this.state.currentUser) {
-				hashHistory.push("/");
-			}
-			return true;
+			return { form: "login", username: "", password: "" };
 		},
 	
 		setForm: function (e) {
@@ -25518,18 +25501,6 @@
 			UserActions.logout();
 			this.setState({ username: "", password: "" });
 		},
-		// greeting: function(){
-		// 	if (!this.state.currentUser) {
-		// 		return (<h2>Welcome to BoatSurfing</h2>);
-		// 	}
-		// 	return (
-		// 		<div>
-		//       <h1>BoatSurfing</h1>
-		// 			<h2>Hi, {this.state.currentUser.username}!</h2>
-		// 			<input type="submit" value="logout" onClick={this.logout}/>
-		// 		</div>
-		// 	);
-		// },
 	
 		changeUsername: function (e) {
 			this.setState({ username: e.target.value });
@@ -33168,7 +33139,7 @@
 	            { className: 'closeModal', onClick: this.closeModal },
 	            'X'
 	          ),
-	          React.createElement(LoginForm, null)
+	          React.createElement(LoginForm, { modalCloseMethod: this.closeLoginModal })
 	        )
 	      )
 	    );
@@ -33243,6 +33214,9 @@
 	var PostConstants = __webpack_require__(269);
 	var BRClientActions = __webpack_require__(292);
 	var CurrentUserState = __webpack_require__(255);
+	var Modal = __webpack_require__(270);
+	var BoatingRequestIndex = __webpack_require__(290);
+	var LoginForm = __webpack_require__(225);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33250,7 +33224,23 @@
 	  mixins: [CurrentUserState],
 	
 	  getInitialState: function () {
-	    return { postings: [] };
+	    return { postings: [], modalOpen: false, loginModalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openLoginModal: function () {
+	    this.setState({ loginModalOpen: true });
+	  },
+	
+	  closeLoginModal: function () {
+	    this.setState({ loginModalOpen: false });
 	  },
 	
 	  componentDidMount: function () {
@@ -33260,6 +33250,12 @@
 	  componentWillReceiveProps: function (nextProps) {
 	    PostingClientActions.fetchPostings(nextProps.lake);
 	    this.setState({ postings: PostingStore.all() });
+	  },
+	
+	  componentDidUpdate: function () {
+	    if (this.state.currentUser && this.state.loginModalOpen) {
+	      this.setState({ loginModalOpen: false });
+	    }
 	  },
 	
 	  componentWillUnmount: function () {
@@ -33300,12 +33296,17 @@
 	  },
 	
 	  request: function (posting, e) {
-	    BRClientActions.post({
-	      status: "Pending",
-	      posting_id: posting.id,
-	      receiving_user_id: posting.user.id,
-	      sending_user_id: this.state.currentUser.id
-	    });
+	    if (!this.state.currentUser) {
+	      this.openLoginModal();
+	    } else {
+	      BRClientActions.post({
+	        status: "Pending",
+	        posting_id: posting.id,
+	        receiving_user_id: posting.user.id,
+	        sending_user_id: this.state.currentUser.id
+	      });
+	      this.openModal();
+	    }
 	  },
 	
 	  render: function () {
@@ -33371,6 +33372,26 @@
 	      return React.createElement(
 	        'div',
 	        { className: 'postResults' },
+	        React.createElement(
+	          Modal,
+	          { className: 'BRModal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
+	          React.createElement(
+	            'div',
+	            { className: 'closeModal', onClick: this.closeModal },
+	            'X'
+	          ),
+	          React.createElement(BoatingRequestIndex, null)
+	        ),
+	        React.createElement(
+	          Modal,
+	          { className: 'modal', isOpen: this.state.loginModalOpen, onRequestClose: this.closeLoginModal },
+	          React.createElement(
+	            'div',
+	            { classname: 'closeModal', onClick: this.closeLoginModal },
+	            'X'
+	          ),
+	          React.createElement(LoginForm, { modalCloseMethod: this.closeModal, modalOpen: this.state.loginModalOpen })
+	        ),
 	        this.props.target,
 	        ' at ',
 	        this.props.lake.name,
@@ -35486,7 +35507,7 @@
 	
 	    if (this.state.currentUser) {
 	      this.state.requests.forEach(function (boatReq) {
-	        if (boatReq.receiver.username === this.state.currentUser) {
+	        if (boatReq.receiver.username === this.state.currentUser.username) {
 	          reqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
 	            match: 'receiver', user: this.state.currentUser,
 	            status: boatReq.status }));
@@ -35499,7 +35520,7 @@
 	              match: 'receiver', user: this.state.currentUser,
 	              status: boatReq.status }));
 	          } else if (boatReq.status === "Declined") {
-	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	            declinedReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
 	              match: 'receiver', user: this.state.currentUser,
 	              status: boatReq.status }));
 	          }
@@ -35516,7 +35537,7 @@
 	              match: 'requester', user: this.state.currentUser,
 	              status: boatReq.status }));
 	          } else if (boatReq.status === "Declined") {
-	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	            declinedReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
 	              match: 'requester', user: this.state.currentUser,
 	              status: boatReq.status }));
 	          }
@@ -35526,7 +35547,7 @@
 	    this.setState({
 	      ownedRequests: reqList,
 	      pendingRequests: pendingReqList,
-	      acceptedRequests: acceptedReqList,
+	      approvedRequests: acceptedReqList,
 	      declinedRequests: declinedReqList
 	    });
 	  },
@@ -35539,7 +35560,12 @@
 	        'div',
 	        { className: 'approvedReqs'
 	        },
-	        'Approved: ',
+	        React.createElement(
+	          'b',
+	          null,
+	          'Accepted:'
+	        ),
+	        ' ',
 	        React.createElement('br', null),
 	        React.createElement(
 	          'ul',
@@ -35557,7 +35583,12 @@
 	        'div',
 	        { className: 'pendingReqs'
 	        },
-	        'Pending: ',
+	        React.createElement(
+	          'b',
+	          null,
+	          'Pending:'
+	        ),
+	        ' ',
 	        React.createElement('br', null),
 	        React.createElement(
 	          'ul',
@@ -35575,7 +35606,12 @@
 	        'div',
 	        { className: 'declinedReqs'
 	        },
-	        'Declined: ',
+	        React.createElement(
+	          'b',
+	          null,
+	          'Declined:'
+	        ),
+	        ' ',
 	        React.createElement('br', null),
 	        React.createElement(
 	          'ul',
@@ -35638,6 +35674,14 @@
 	
 	  post: function (posting) {
 	    BoatingRequestUtil.post(posting);
+	  },
+	
+	  cancel: function (id) {
+	    BoatingRequestUtil.cancel(id);
+	  },
+	
+	  update: function (id, newStatus) {
+	    BoatingRequestUtil.update(id, newStatus);
 	  }
 	};
 
@@ -35659,19 +35703,25 @@
 	  },
 	
 	  post: function (posting) {
-	    console.log(posting);
 	    $.ajax({
 	      type: "POST",
 	      url: "api/boating_requests",
-	      data: { boating_request: posting },
-	      success: function (doodad) {
-	        console.log(doodad);
-	      },
-	      error: function (error) {
-	        console.log(error);
-	      }
+	      data: { boating_request: posting }
 	    });
-	  }
+	  },
+	
+	  update: function (id, newStatus) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/boating_requests/" + id,
+	      data: { boating_request: { status: newStatus } },
+	      success: function () {
+	        this.fetchLakes();
+	      }.bind(this)
+	    });
+	  },
+	
+	  cancel: function (id) {}
 	};
 
 /***/ },
@@ -35702,6 +35752,7 @@
 	var React = __webpack_require__(1);
 	var PostingConstants = __webpack_require__(269);
 	var CurrentUserState = __webpack_require__(255);
+	var BRClientActions = __webpack_require__(292);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -35738,7 +35789,52 @@
 	    return endHour + min + " " + ampm;
 	  },
 	
+	  cancelReq: function () {
+	    BRClientActions.cancel(this.props.BR.id);
+	  },
+	
+	  updateReq: function (e) {
+	    console.log("Event Target");
+	    if (e.target.innerHTML === "Accept Request") {
+	      BRClientActions.update(this.props.BR.id, "Accepted");
+	    } else {
+	      BRClientActions.update(this.props.BR.id, "Declined");
+	    }
+	  },
+	
 	  render: function () {
+	    if (this.props.match === "requester") {
+	      var username = this.props.BR.receiver.username;
+	      if (this.props.BR.status === "Pending") {
+	        var buttons = React.createElement(
+	          'button',
+	          { className: 'inUpOut',
+	            onClick: this.cancelReq },
+	          'Cancel Request'
+	        );
+	      }
+	    } else if (this.props.match === "receiver") {
+	      username = this.props.BR.requester.username;
+	      if (this.props.BR.status === "Pending") {
+	        buttons = React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'button',
+	            { onClick: this.updateReq, className: 'inUpOut'
+	            },
+	            'Accept Request'
+	          ),
+	          ' ',
+	          React.createElement(
+	            'button',
+	            { className: 'inUpOut',
+	              onClick: this.updateReq },
+	            'Decline Request'
+	          )
+	        );
+	      }
+	    }
 	    return React.createElement(
 	      'li',
 	      null,
@@ -35763,13 +35859,18 @@
 	          'Activity: ',
 	          this.props.BR.posting.activity,
 	          ' with ',
-	          this.props.BR.receiver.username
+	          username
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
 	          'Status: ',
 	          this.props.status
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          buttons
 	        )
 	      )
 	    );

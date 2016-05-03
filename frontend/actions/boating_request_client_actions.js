@@ -7,5 +7,13 @@ module.exports = {
 
   post: function(posting){
     BoatingRequestUtil.post(posting);
+  },
+
+  cancel: function(id){
+    BoatingRequestUtil.cancel(id);
+  },
+
+  update: function(id, newStatus){
+    BoatingRequestUtil.update(id, newStatus);
   }
 };

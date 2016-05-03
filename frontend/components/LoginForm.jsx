@@ -7,23 +7,8 @@ var Modal = require('react-modal');
 var LoginForm = React.createClass({
 	mixins: [LinkedStateMixin, CurrentUserState],
 	getInitialState: function(){
-		return {modalOpen: false, form: "login", username: "", password: ""};
+		return {form: "login", username: "", password: ""};
 	},
-
-	closeModal: function() {
-		this.setState({modalOpen: false});
-	},
-
-	openModal: function() {
-		this.setState({modalOpen: true});
-	},
-
-  componentDidUpdate: function(){
-    if (this.state.currentUser) {
-      hashHistory.push("/");
-    }
-    return true;
-  },
 
 	setForm: function(e){
 		this.setState({form: e.currentTarget.value});
@@ -45,18 +30,6 @@ var LoginForm = React.createClass({
 		UserActions.logout();
     this.setState({username: "", password: ""});
 	},
-	// greeting: function(){
-	// 	if (!this.state.currentUser) {
-	// 		return (<h2>Welcome to BoatSurfing</h2>);
-	// 	}
-	// 	return (
-	// 		<div>
-  //       <h1>BoatSurfing</h1>
-	// 			<h2>Hi, {this.state.currentUser.username}!</h2>
-	// 			<input type="submit" value="logout" onClick={this.logout}/>
-	// 		</div>
-	// 	);
-	// },
 
   changeUsername: function(e){
     this.setState({username: e.target.value});

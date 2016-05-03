@@ -1,5 +1,5 @@
 class Api::LakesController < ApplicationController
   def index
-    @lakes = Lake.all
+    @lakes = Lake.includes(:postings).all
   end
 end
