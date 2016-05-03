@@ -32,6 +32,12 @@ module.exports = {
   },
 
   cancel: function(id){
-
+    $.ajax({
+      type: "DELETE",
+      url: "api/boating_requests/" + id,
+      success:function(){
+        this.fetchLakes();
+      }.bind(this)
+    });
   }
 };

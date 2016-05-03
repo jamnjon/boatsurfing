@@ -41,7 +41,6 @@ module.exports = React.createClass({
   },
 
   updateReq: function(e){
-    console.log("Event Target");
     if(e.target.innerHTML=== "Accept Request"){
       BRClientActions.update(this.props.BR.id, "Accepted");
     } else{
@@ -69,8 +68,9 @@ module.exports = React.createClass({
         <ul className="BRlist">
           <li>{this.date()}</li>
           <li>{this.startTime(this.props.BR.posting)} until {this.endTime(this.props.BR.posting)}</li>
-          <li>Activity: {this.props.BR.posting.activity} with {username}</li>
-          <li>Status: {this.props.status}</li>
+          <li><b>Activity:</b> {this.props.BR.posting.activity} with {username}</li>
+          <li><b>Location:</b> {this.props.BR.lake.name}</li>
+          <li><b>Status:</b> {this.props.status}</li>
           <li>{buttons}</li>
         </ul>
       </li>

@@ -295,6 +295,15 @@ position: relative;
   font-size: 16px;
 }
 
+.arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 16px solid transparent;
+	border-right: 16px solid transparent;
+
+	border-top: 16px solid #f00;
+}
+
 .postResults {
   font-size: 20px;
   background:white;
@@ -305,8 +314,7 @@ position: relative;
 .postingResults{
   position: relative;
   color: #009;
-  background-color: #eee;
-  border: 1px solid black;
+  border-bottom: 1px solid black;
   margin-top: 25px;
 }
 

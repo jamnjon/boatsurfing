@@ -5,11 +5,12 @@ var CurrentUserState = require("../mixins/current_user_state");
 var Modal = require('react-modal');
 var LoginForm = require('./LoginForm');
 var LakeSearch = require('./lake_search');
+var BR = require('./boating_requests_index');
 
 module.exports = React.createClass({
   mixins: [CurrentUserState],
   getInitialState: function(){
-    return({modalOpen: false, includeLakeSearch: false});
+    return({modalOpen: false, loginModalOpen: false, includeLakeSearch: false});
   },
   componentWillReceiveProps: function(nextProps){
     if(nextProps.path === '/'){
@@ -19,13 +20,21 @@ module.exports = React.createClass({
     }
   },
 
-	openModal: function(){
-		this.setState({modalOpen: true});
+	openLoginModal: function(){
+		this.setState({loginModalOpen: true});
 	},
 
-	closeModal: function(){
-		this.setState({modalOpen: false});
+	closeLoginModal: function(){
+		this.setState({loginModalOpen: false});
 	},
+
+  openModal: function(){
+    this.setState({modalOpen: true});
+  },
+
+  closeModal: function(){
+    this.setState({modalOpen: false});
+  },
 
   homeButton: function(){
     hashHistory.push("/");
@@ -36,7 +45,7 @@ module.exports = React.createClass({
   },
 
   out: function(){
-    this.setState({modalOpen: false});
+    this.setState({loginModalOpen: false});
     UserActions.logout();
   },
 
@@ -51,7 +60,15 @@ module.exports = React.createClass({
         <ul className="navBar">
           <li> <button onClick={this.homeButton} className="homeButton">BoatSurfing</button></li>
           {ls}
-          <li className="liInUpOut"><button className="inUpOut" onClick={this.out}>Log Out</button></li>
+          <li className="userOptions"> <div className="inUpOut"
+          >{this.state.currentUser.username}<span className="arrow-down"></span></div><ul>
+            <li className="liInUpOut"><button className="inUpOut" onClick={this.out}>Log Out</button></li>
+            <li><button className="inUpOut" onClick={this.openModal}
+            >All Requests</button>
+            <Modal className="BRModal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
+              <div className="closeModal" onClick={this.closeModal}>X</div>
+              <BR />
+            </Modal></li></ul></li>
         </ul>
       );
     }
@@ -59,10 +76,10 @@ module.exports = React.createClass({
       <ul className="navBar">
         <li> <button onClick={this.homeButton} className="homeButton">BoatSurfing</button></li>
         {ls}
-        <li className="liInUpOut"><button className="inUpOut" onClick={this.openModal}>Join or Log in</button>
-        <Modal className="modal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
-        <div className="closeModal" onClick={this.closeModal}>X</div>
-          <LoginForm modalCloseMethod={this.closeLoginModal}/>
+        <li className="liInUpOut"><button className="inUpOut" onClick={this.openLoginModal}>Join or Log in</button>
+        <Modal className="modal" isOpen={this.state.loginModalOpen} onRequestClose={this.closeLoginModal}>
+        <div className="closeModal" onClick={this.closeLoginModal}>X</div>
+          <LoginForm />
         </Modal></li>
 
       </ul>

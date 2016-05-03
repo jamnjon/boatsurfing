@@ -33036,13 +33036,14 @@
 	var Modal = __webpack_require__(270);
 	var LoginForm = __webpack_require__(225);
 	var LakeSearch = __webpack_require__(257);
+	var BR = __webpack_require__(290);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
 	
 	  mixins: [CurrentUserState],
 	  getInitialState: function () {
-	    return { modalOpen: false, includeLakeSearch: false };
+	    return { modalOpen: false, loginModalOpen: false, includeLakeSearch: false };
 	  },
 	  componentWillReceiveProps: function (nextProps) {
 	    if (nextProps.path === '/') {
@@ -33050,6 +33051,14 @@
 	    } else {
 	      this.setState({ includeLakeSearch: true });
 	    }
+	  },
+	
+	  openLoginModal: function () {
+	    this.setState({ loginModalOpen: true });
+	  },
+	
+	  closeLoginModal: function () {
+	    this.setState({ loginModalOpen: false });
 	  },
 	
 	  openModal: function () {
@@ -33069,7 +33078,7 @@
 	  },
 	
 	  out: function () {
-	    this.setState({ modalOpen: false });
+	    this.setState({ loginModalOpen: false });
 	    UserActions.logout();
 	  },
 	
@@ -33100,11 +33109,47 @@
 	        ls,
 	        React.createElement(
 	          'li',
-	          { className: 'liInUpOut' },
+	          { className: 'userOptions' },
+	          ' ',
 	          React.createElement(
-	            'button',
-	            { className: 'inUpOut', onClick: this.out },
-	            'Log Out'
+	            'div',
+	            { className: 'inUpOut'
+	            },
+	            this.state.currentUser.username,
+	            React.createElement('span', { className: 'arrow-down' })
+	          ),
+	          React.createElement(
+	            'ul',
+	            null,
+	            React.createElement(
+	              'li',
+	              { className: 'liInUpOut' },
+	              React.createElement(
+	                'button',
+	                { className: 'inUpOut', onClick: this.out },
+	                'Log Out'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'button',
+	                { className: 'inUpOut', onClick: this.openModal
+	                },
+	                'All Requests'
+	              ),
+	              React.createElement(
+	                Modal,
+	                { className: 'BRModal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
+	                React.createElement(
+	                  'div',
+	                  { className: 'closeModal', onClick: this.closeModal },
+	                  'X'
+	                ),
+	                React.createElement(BR, null)
+	              )
+	            )
 	          )
 	        )
 	      );
@@ -33128,18 +33173,18 @@
 	        { className: 'liInUpOut' },
 	        React.createElement(
 	          'button',
-	          { className: 'inUpOut', onClick: this.openModal },
+	          { className: 'inUpOut', onClick: this.openLoginModal },
 	          'Join or Log in'
 	        ),
 	        React.createElement(
 	          Modal,
-	          { className: 'modal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
+	          { className: 'modal', isOpen: this.state.loginModalOpen, onRequestClose: this.closeLoginModal },
 	          React.createElement(
 	            'div',
-	            { className: 'closeModal', onClick: this.closeModal },
+	            { className: 'closeModal', onClick: this.closeLoginModal },
 	            'X'
 	          ),
-	          React.createElement(LoginForm, { modalCloseMethod: this.closeLoginModal })
+	          React.createElement(LoginForm, null)
 	        )
 	      )
 	    );
@@ -33387,7 +33432,7 @@
 	          { className: 'modal', isOpen: this.state.loginModalOpen, onRequestClose: this.closeLoginModal },
 	          React.createElement(
 	            'div',
-	            { classname: 'closeModal', onClick: this.closeLoginModal },
+	            { className: 'closeModal', onClick: this.closeLoginModal },
 	            'X'
 	          ),
 	          React.createElement(LoginForm, { modalCloseMethod: this.closeModal, modalOpen: this.state.loginModalOpen })
@@ -35721,7 +35766,15 @@
 	    });
 	  },
 	
-	  cancel: function (id) {}
+	  cancel: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/boating_requests/" + id,
+	      success: function () {
+	        this.fetchLakes();
+	      }.bind(this)
+	    });
+	  }
 	};
 
 /***/ },
@@ -35794,7 +35847,6 @@
 	  },
 	
 	  updateReq: function (e) {
-	    console.log("Event Target");
 	    if (e.target.innerHTML === "Accept Request") {
 	      BRClientActions.update(this.props.BR.id, "Accepted");
 	    } else {
@@ -35856,7 +35908,12 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          'Activity: ',
+	          React.createElement(
+	            'b',
+	            null,
+	            'Activity:'
+	          ),
+	          ' ',
 	          this.props.BR.posting.activity,
 	          ' with ',
 	          username
@@ -35864,7 +35921,23 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          'Status: ',
+	          React.createElement(
+	            'b',
+	            null,
+	            'Location:'
+	          ),
+	          ' ',
+	          this.props.BR.lake.name
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'b',
+	            null,
+	            'Status:'
+	          ),
+	          ' ',
 	          this.props.status
 	        ),
 	        React.createElement(

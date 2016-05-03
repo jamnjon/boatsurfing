@@ -128,7 +128,7 @@ module.exports = React.createClass({
         <BoatingRequestIndex />
       </Modal>
       <Modal className="modal" isOpen={this.state.loginModalOpen} onRequestClose={this.closeLoginModal}>
-        <div classname="closeModal" onClick={this.closeLoginModal}>X</div>
+        <div className="closeModal" onClick={this.closeLoginModal}>X</div>
         <LoginForm modalCloseMethod={this.closeModal} modalOpen={this.state.loginModalOpen}/>
       </Modal>
         {this.props.target} at {this.props.lake.name}:<br/><br/>
