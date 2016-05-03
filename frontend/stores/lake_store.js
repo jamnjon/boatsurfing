@@ -21,16 +21,7 @@ LakeStore.find = function(partialName){
   var potentialLakes = [];
   var lakes = LakeStore.all();
   lakes.forEach(function(lake){
-    var duplicate = false;
-    for (var i = 0; i < potentialLakes.length; i++) {
-      if(lake.name === potentialLakes[i]){
-        duplicate = true;
-      }
-    }
-    if(duplicate){
-      return;
-    }
-    for (i = 0; i < (lake.name.length-partialName.length + 1); i++) {
+    for (var i = 0; i < (lake.name.length-partialName.length + 1); i++) {
       var mismatch = false;
       for(var j = 0; j < partialName.length; j++){
         if(partialName[j].toUpperCase() !== lake.name[i+j].toUpperCase()){

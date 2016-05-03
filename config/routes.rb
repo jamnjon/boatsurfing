@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :lakes, only: [:index] do
       resources :postings, only: [:index]
     end
+    resources :boating_requests, only: [:create, :show, :destroy, :index]
   end
 
   root "static_pages#root"

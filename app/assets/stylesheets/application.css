@@ -30,7 +30,7 @@
  	padding: 0;
  	border: 0;
  	font-size: 100%;
- 	font: Roboto Condensed;
+ 	font-family: 'Roboto Condensed', sans-serif;
  	vertical-align: baseline;
  }
  /* HTML5 display-role reset for older browsers */
@@ -75,8 +75,12 @@
   content: ""
 }
 
-.searchForm {
+.reqs {
+  background-color: white;
+}
 
+.reqs > div {
+  padding: 10px;
 }
 
 .closeModal{
@@ -126,7 +130,7 @@
 
 .searchBox{
   top: 11%;
-  left: 8%;
+  left: 2%;
   z-index: 0;
   position: absolute;
 
@@ -173,7 +177,34 @@ select {
 .lakeListItem:hover {
   cursor: hand;
   cursor: pointer;
+  background-color: lightgrey;
+}
+
+.navBarSearch .random {
+  background-color: #00f;
+  color: white;
+}
+
+.navBarSearch .random:hover {
   background-color: #009;
+}
+
+.searchSelect {
+
+}
+
+.random {
+  background-color: lightgrey;
+  display: inline;
+  color: black;
+  font-size: 16px;
+  width: 150px;
+}
+
+.random:hover {
+  background-color: white;
+  cursor: pointer;
+  cursor: hand;
 }
 
 .navBar {
@@ -200,6 +231,10 @@ select {
   width: 150px;
 }
 
+.navBar .inUpOut {
+
+}
+
 .inUpOut:hover {
   background-color: #009;
   cursor: hand;
@@ -207,11 +242,19 @@ select {
 }
 
 .navBarSearch {
-  position: relative;
-  padding-top: 12px;
+position: relative;
+  padding-top: 10px;
 }
 
+.navBarSearch .lakeSearchList {
+  left: 134px;
+}
 
+.BRlist {
+  display: block;
+  border: 1px solid black;
+  padding: 10px;
+}
 
 .login-form {
   display: none;
@@ -228,25 +271,26 @@ select {
 
 .lakeSearchList {
   position: absolute;
-  left: 136px;
+  left: 138px;
 }
 
 .lakeSearchBox {
+  text-align: center;
   position: relative;
   font-size: 16px;
 }
 
 .postResults {
   font-size: 20px;
-  background:rgba(0, 0, 255, 0.75);;
+  background:white;
   padding: 20px;
-  color: white;
+  color: black;
 }
 
 .postingResults{
   position: relative;
   color: #009;
-  background:rgba(255, 255, 255, .9);
+  background-color: #eee;
   border: 1px solid black;
   margin-top: 25px;
 }

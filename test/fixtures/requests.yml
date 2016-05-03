@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  sending_user_id: 1
+  receiving_user_id: 1
+  posting_id: 1
+
+two:
+  status: MyString
+  sending_user_id: 1
+  receiving_user_id: 1
+  posting_id: 1

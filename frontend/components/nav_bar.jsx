@@ -43,7 +43,6 @@ module.exports = React.createClass({
   render: function(){
     if(this.state.includeLakeSearch){
       var ls = <li className="navBarSearch"><LakeSearch /></li>;
-      console.log("woooh");
     } else {
       ls = "";
     }
@@ -60,7 +59,7 @@ module.exports = React.createClass({
       <ul className="navBar">
         <li> <button onClick={this.homeButton} className="homeButton">BoatSurfing</button></li>
         {ls}
-        <li><button className="inUpOut" onClick={this.openModal}>Join or Log in</button>
+        <li className="liInUpOut"><button className="inUpOut" onClick={this.openModal}>Join or Log in</button>
         <Modal className="modal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
         <div className="closeModal" onClick={this.closeModal}>X</div>
           <LoginForm/>

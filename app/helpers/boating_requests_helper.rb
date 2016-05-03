@@ -1,0 +1,2 @@
+module BoatingRequestsHelper
+end

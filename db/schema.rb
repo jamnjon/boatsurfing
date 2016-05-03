@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501184155) do
+ActiveRecord::Schema.define(version: 20160502212639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "boating_requests", force: :cascade do |t|
+    t.string   "status",            default: "pending"
+    t.integer  "sending_user_id",                       null: false
+    t.integer  "receiving_user_id",                     null: false
+    t.integer  "posting_id",                            null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "boating_requests", ["posting_id"], name: "index_boating_requests_on_posting_id", using: :btree
+  add_index "boating_requests", ["receiving_user_id"], name: "index_boating_requests_on_receiving_user_id", using: :btree
+  add_index "boating_requests", ["sending_user_id"], name: "index_boating_requests_on_sending_user_id", using: :btree
 
   create_table "lakes", force: :cascade do |t|
     t.string   "name",       null: false

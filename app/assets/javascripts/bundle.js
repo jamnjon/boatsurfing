@@ -58,6 +58,7 @@
 	var Splash = __webpack_require__(256);
 	var NavBar = __webpack_require__(262);
 	var Lake = __webpack_require__(263);
+	var BoatingRequests = __webpack_require__(290);
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
 	
@@ -87,7 +88,8 @@
 	    { path: '/', component: App },
 	    React.createElement(IndexRoute, { component: Splash }),
 	    React.createElement(Route, { path: 'register', component: LoginForm }),
-	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake })
+	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake }),
+	    React.createElement(Route, { path: 'boatingRequests', component: BoatingRequests })
 	  )
 	);
 	
@@ -32814,22 +32816,11 @@
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(166).hashHistory;
 	var UserActions = __webpack_require__(230);
-	var CurrentUserState = __webpack_require__(255);
 	var LakeSearch = __webpack_require__(257);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
 	
-	  mixins: [CurrentUserState],
-	
-	  registerPage: function () {
-	    hashHistory.push("/register");
-	  },
-	
-	  logout: function (e) {
-	    e.preventDefault();
-	    UserActions.logout();
-	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -32927,7 +32918,7 @@
 	        { className: 'searchForm' },
 	        React.createElement(
 	          'select',
-	          { onChange: this.changeSelected },
+	          { className: 'searchSelect', onChange: this.changeSelected },
 	          React.createElement(
 	            'option',
 	            { value: 'find_host' },
@@ -33036,16 +33027,7 @@
 	  var potentialLakes = [];
 	  var lakes = LakeStore.all();
 	  lakes.forEach(function (lake) {
-	    var duplicate = false;
-	    for (var i = 0; i < potentialLakes.length; i++) {
-	      if (lake.name === potentialLakes[i]) {
-	        duplicate = true;
-	      }
-	    }
-	    if (duplicate) {
-	      return;
-	    }
-	    for (i = 0; i < lake.name.length - partialName.length + 1; i++) {
+	    for (var i = 0; i < lake.name.length - partialName.length + 1; i++) {
 	      var mismatch = false;
 	      for (var j = 0; j < partialName.length; j++) {
 	        if (partialName[j].toUpperCase() !== lake.name[i + j].toUpperCase()) {
@@ -33127,7 +33109,6 @@
 	        { className: 'navBarSearch' },
 	        React.createElement(LakeSearch, null)
 	      );
-	      console.log("woooh");
 	    } else {
 	      ls = "";
 	    }
@@ -33173,7 +33154,7 @@
 	      ls,
 	      React.createElement(
 	        'li',
-	        null,
+	        { className: 'liInUpOut' },
 	        React.createElement(
 	          'button',
 	          { className: 'inUpOut', onClick: this.openModal },
@@ -35443,6 +35424,306 @@
 	  else this.add(className)
 	}
 
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BRStore = __webpack_require__(291);
+	var BRClientActions = __webpack_require__(292);
+	var CurrentUserState = __webpack_require__(255);
+	var BRIndexItem = __webpack_require__(295);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	
+	  mixins: [CurrentUserState],
+	
+	  getInitialState: function () {
+	    return {
+	      requests: [],
+	      ownedRequests: [],
+	      pendingRequests: [],
+	      approvedRequests: [],
+	      declinedRequests: []
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.brListener = BRStore.addListener(this.BRs);
+	    BRClientActions.fetchBoatingRequests();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.brListener.remove();
+	  },
+	
+	  BRs: function () {
+	    this.setState({ requests: BRStore.all() });
+	    this.ownedRequests();
+	  },
+	
+	  ownedRequests: function () {
+	    var reqList = [];
+	    var pendingReqList = [];
+	    var acceptedReqList = [];
+	    var declinedReqList = [];
+	
+	    if (this.state.currentUser) {
+	      this.state.requests.forEach(function (boatReq) {
+	        if (boatReq.receiver.username === this.state.currentUser) {
+	          reqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	            match: 'receiver', status: boatReq.status }));
+	          if (boatReq.status === "Pending") {
+	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	              match: 'receiver', status: boatReq.status }));
+	          } else if (boatReq.status === "Accepted") {
+	            acceptedReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	              match: 'receiver', status: boatReq.status }));
+	          } else if (boatReq.status === "Declined") {
+	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	              match: 'receiver', status: boatReq.status }));
+	          }
+	        } else if (boatReq.requester.username === this.state.currentUser.username) {
+	          reqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	            match: 'requester', status: boatReq.status }));
+	          if (boatReq.status === "Pending") {
+	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	              match: 'requester', status: boatReq.status }));
+	          } else if (boatReq.status === "Accepted") {
+	            acceptedReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	              match: 'requester', status: boatReq.status }));
+	          } else if (boatReq.status === "Declined") {
+	            pendingReqList.push(React.createElement(BRIndexItem, { BR: boatReq, key: boatReq.id,
+	              match: 'requester', status: boatReq.status }));
+	          }
+	        }
+	      }.bind(this));
+	    }
+	    this.setState({
+	      ownedRequests: reqList,
+	      pendingRequests: pendingReqList,
+	      acceptedRequests: acceptedReqList,
+	      declinedRequests: declinedReqList
+	    });
+	  },
+	
+	  render: function () {
+	    if (this.state.approvedRequests.length === 0) {
+	      var appReq = "";
+	    } else {
+	      appReq = React.createElement(
+	        'div',
+	        { className: 'approvedReqs'
+	        },
+	        'Approved: ',
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.approvedRequests
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null)
+	      );
+	    }
+	    if (this.state.pendingRequests.length === 0) {
+	      var pendReq = "";
+	    } else {
+	      pendReq = React.createElement(
+	        'div',
+	        { className: 'pendingReqs'
+	        },
+	        'Pending: ',
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.pendingRequests
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null)
+	      );
+	    }
+	    if (this.state.declinedRequests.length === 0) {
+	      var decReq = "";
+	    } else {
+	      decReq = React.createElement(
+	        'div',
+	        { className: 'declinedReqs'
+	        },
+	        'Declined: ',
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.declinedRequests
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      { className: 'reqs' },
+	      appReq,
+	      pendReq,
+	      decReq
+	    );
+	  }
+	});
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(233);
+	var Store = __webpack_require__(238).Store;
+	
+	var BoatingRequestStore = new Store(AppDispatcher);
+	var _boatingRequests = {};
+	
+	BoatingRequestStore.all = function () {
+	  return Object.keys(_boatingRequests).map(function (boatingRequestId) {
+	    return _boatingRequests[boatingRequestId];
+	  });
+	};
+	
+	BoatingRequestStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case "RECEIVE_REQUESTS":
+	      _boatingRequests = {};
+	      payload.boatingRequests.forEach(function (boatingRequest) {
+	        _boatingRequests[boatingRequest.id] = boatingRequest;
+	      });
+	      BoatingRequestStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = BoatingRequestStore;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BoatingRequestUtil = __webpack_require__(293);
+	
+	module.exports = {
+	  fetchBoatingRequests: function () {
+	    BoatingRequestUtil.fetchLakes();
+	  }
+	};
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BoatingRequestServerActions = __webpack_require__(294);
+	
+	module.exports = {
+	  fetchLakes: function () {
+	    $.ajax({
+	      type: "GET",
+	      url: "api/boating_requests",
+	      success: function (boatingRequests) {
+	        BoatingRequestServerActions.fetchBoatingRequests(boatingRequests);
+	      }
+	    });
+	  }
+	};
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(233);
+	
+	module.exports = {
+	  fetchBoatingRequests: function (boatingRequests) {
+	    AppDispatcher.dispatch({
+	      actionType: "RECEIVE_REQUESTS",
+	      boatingRequests: boatingRequests
+	    });
+	  }
+	};
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PostingConstants = __webpack_require__(269);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	
+	  date: function () {
+	    var date = this.props.BR.posting.start_time.slice(0, 10);
+	    var year = date.slice(0, 4);
+	    var month = PostingConstants.months[date.slice(5, 7)];
+	    return month + " " + date.slice(8, 10) + ", " + year;
+	  },
+	
+	  startTime: function (posting) {
+	    var startHour = parseInt(posting.start_time.slice(11, 13));
+	    var ampm = " am";
+	    if (startHour === 12) {
+	      ampm = " pm";
+	    }
+	    return startHour + posting.start_time.slice(13, 16) + ampm;
+	  },
+	
+	  endTime: function (posting) {
+	    var endHour = parseInt(posting.end_time.slice(11, 13));
+	    var ampm = "am";
+	    if (endHour > 12) {
+	      endHour -= 12;
+	      ampm = "pm";
+	    }
+	    if (endHour === 12) {
+	      ampm = "pm";
+	    }
+	    var min = posting.end_time.slice(13, 16);
+	    return endHour + min + " " + ampm;
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      null,
+	      React.createElement(
+	        'ul',
+	        { className: 'BRlist' },
+	        React.createElement(
+	          'li',
+	          null,
+	          this.date()
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          this.startTime(this.props.BR.posting),
+	          ' until ',
+	          this.endTime(this.props.BR.posting)
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Activity: ',
+	          this.props.BR.posting.activity,
+	          ' with ',
+	          this.props.BR.receiver.username
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Status: ',
+	          this.props.status
+	        )
+	      )
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);

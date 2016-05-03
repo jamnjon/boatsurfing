@@ -12,6 +12,7 @@ var LoginForm = require('./components/LoginForm');
 var Splash = require('./components/splash');
 var NavBar = require ('./components/nav_bar');
 var Lake = require('./components/lake');
+var BoatingRequests = require('./components/boating_requests_index');
 //Mixins
 var CurrentUserState = require('./mixins/current_user_state');
 
@@ -33,6 +34,7 @@ var Router = (
       <IndexRoute component={Splash} />
       <Route path="register" component={LoginForm} />
       <Route path="lakes/:lakeId" component={Lake} />
+      <Route path="boatingRequests" component={BoatingRequests} />
     </Route>
   </Router>
 );
