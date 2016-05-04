@@ -32909,7 +32909,6 @@
 	            placeholder: 'Lake Name Here',
 	            onChange: this.updateLake, value: this.state.lakeName })
 	        ),
-	        ' ',
 	        React.createElement(
 	          'button',
 	          { className: 'random', onClick: this.random },
@@ -33113,32 +33112,24 @@
 	          ' ',
 	          React.createElement(
 	            'div',
-	            { className: 'inUpOut'
+	            { className: 'options'
 	            },
 	            this.state.currentUser.username,
 	            React.createElement('span', { className: 'arrow-down' })
 	          ),
 	          React.createElement(
 	            'ul',
-	            null,
+	            { className: 'navBarUserOptions' },
 	            React.createElement(
-	              'li',
-	              { className: 'liInUpOut' },
-	              React.createElement(
-	                'button',
-	                { className: 'inUpOut', onClick: this.out },
-	                'Log Out'
-	              )
+	              'a',
+	              { className: 'inUpOut', onClick: this.out },
+	              'Log Out'
 	            ),
 	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'button',
-	                { className: 'inUpOut', onClick: this.openModal
-	                },
-	                'All Requests'
-	              ),
+	              'a',
+	              { className: 'inUpOut', onClick: this.openModal
+	              },
+	              'All Requests',
 	              React.createElement(
 	                Modal,
 	                { className: 'BRModal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
@@ -35607,7 +35598,7 @@
 	        },
 	        React.createElement(
 	          'b',
-	          null,
+	          { className: 'BRState' },
 	          'Accepted:'
 	        ),
 	        ' ',
@@ -35630,7 +35621,7 @@
 	        },
 	        React.createElement(
 	          'b',
-	          null,
+	          { className: 'BRState' },
 	          'Pending:'
 	        ),
 	        ' ',
@@ -35653,7 +35644,7 @@
 	        },
 	        React.createElement(
 	          'b',
-	          null,
+	          { className: 'BRState' },
 	          'Declined:'
 	        ),
 	        ' ',
@@ -35896,11 +35887,23 @@
 	        React.createElement(
 	          'li',
 	          null,
+	          React.createElement(
+	            'b',
+	            null,
+	            'Date:'
+	          ),
+	          ' ',
 	          this.date()
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
+	          React.createElement(
+	            'b',
+	            null,
+	            'Time:'
+	          ),
+	          ' ',
 	          this.startTime(this.props.BR.posting),
 	          ' until ',
 	          this.endTime(this.props.BR.posting)

@@ -92,14 +92,14 @@ module.exports = React.createClass({
       var appReq = "";
     } else {
       appReq = <div className="approvedReqs"
-      ><b>Accepted:</b> <br/><ul>{this.state.approvedRequests}</ul>
+      ><b className="BRState">Accepted:</b> <br/><ul>{this.state.approvedRequests}</ul>
       <br/><br/></div>;
     }
     if(this.state.pendingRequests.length === 0){
       var pendReq = "";
     } else {
       pendReq = <div className="pendingReqs"
-      ><b>Pending:</b> <br/>
+      ><b className="BRState">Pending:</b> <br/>
       <ul>{this.state.pendingRequests}</ul>
       <br/><br/></div>;
     }
@@ -107,7 +107,7 @@ module.exports = React.createClass({
       var decReq = "";
     } else {
       decReq = <div className="declinedReqs"
-      ><b>Declined:</b> <br/><ul>{this.state.declinedRequests}</ul></div>;
+      ><b className="BRState">Declined:</b> <br/><ul>{this.state.declinedRequests}</ul></div>;
     }
 
     return(

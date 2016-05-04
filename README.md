@@ -23,10 +23,10 @@ BoatSurfing will allow users to do the following:
 <!-- This is a Markdown checklist. Use it to keep track of your
 progress. Put an x between the brackets for a checkmark: [x] -->
 
-- [ ] Create an account (MVP)
-- [ ] Log in / Log out, including as a Guest/Demo User (MVP)
-- [ ] Search a lake for potential hosts (MVP)
-- [ ] Search a lake for potential guests (MVP)
+- [x] Create an account (MVP)
+- [x] Log in / Log out, including as a Guest/Demo User (MVP)
+- [x] Search a lake for potential hosts (MVP)
+- [x] Search a lake for potential guests (MVP)
 - [ ] Rate a host/guest (expected feature, but not MVP)
 - [ ] Sort potential hosts/guests by specific water sport and/or by rating (expected feature, but not MVP)
 - [ ] Favorite previous hosts or guests so that they will come up first in future searches (expected feature, but not MVP)
@@ -68,32 +68,29 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 - [x] setup `APIUtil` to interact with the API
 - [x] test out API interaction in the console.
 
-### Phase 3: Hosts Model, API, and basic APIUtil (1.5 days)
+### Phase 3: BoatingRequests Model, API, and basic APIUtil (1.5 days)
 
-**Objective:** Hosts can be created, edited, read, and destroyed through the API.
+**Objective:** BoatingRequests can be created, edited, read, and destroyed through the API.
 
-- [ ] create `Host` model
+- [x] create `BoatingRequest` model
 - [ ] seed the database with a small amount of test data
-- [ ] CRUD API for notes (`HostsController`)
-- [ ] jBuilder views for hosts
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [x] CRUD API for BoatingRequest (`BoatingRequestsController`)
+- [x] jBuilder views for BoatingRequests
+- [x] setup Webpack & Flux scaffold
+- [x] setup `APIUtil` to interact with the API
+- [x] test out API interaction in the console.
 
 
 ### Phase 4: Flux Architecture and Router (1.5 days)
 
-**Objective:** Hosts can be created, read, edited and destroyed with the
+**Objective:** BoatingRequests can be created, read, edited and destroyed with the
 user interface.
 
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
+- [x] setup the flux loop with skeleton files
+- [x] setup React Router
 - implement each note component, building out the flux loop as needed.
-  - [ ] `HostssIndex`
-  - [ ] `HostsIndexItem`
-  - [ ] `HostForm`
-- [ ] save Hosts to the DB when the form loses focus or is left idle
-  after editing.
+  - [x] `BoatingRequestsIndex`
+  - [x] `BoatingRequestIndexItem`
 
 ### Phase 5: Start Styling (0.5 days)
 
@@ -103,31 +100,30 @@ user interface.
 - [ ] position elements on the page
 - [ ] add basic colors & styles
 
-### Phase 6: Travellers Model, API, and basic APIUtil (1.5 days)
+### Phase 6: Postings Model, API, and basic APIUtil (1.5 days)
 
-**Objective:** Travellers can be created, edited, read, and destroyed through the API.
+**Objective:** Postings can be created, edited, read, and destroyed through the API.
 
-- [ ] create `Traveller` model
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for notes (`TravellersController`)
-- [ ] jBuilder views for hosts
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [x] create `Posting` model
+- [x] seed the database with a small amount of test data
+- [x] CRUD API for notes (`PostingsController`)
+- [x] jBuilder views for hosts
+- [x] setup Webpack & Flux scaffold
+- [x] setup `APIUtil` to interact with the API
+- [x] test out API interaction in the console.
 
 
 ### Phase 7: Flux Architecture and Router (1.5 days)
 
-**Objective:** Travellers can be created, read, edited and destroyed with the
+**Objective:** Postings can be created, read, edited and destroyed with the
 user interface.
 
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
-- implement each note component, building out the flux loop as needed.
-  - [ ] `TravellerssIndex`
-  - [ ] `TravellersIndexItem`
-  - [ ] `TravellerForm`
-- [ ] save Travellers to the DB when the form loses focus or is left idle
+- [x] setup the flux loop with skeleton files
+- [x] setup React Router
+- implement each posting component within the lake view, building out the flux loop as needed.
+  - [x] `Postings`
+  - [ ] `PostingForm`
+- [ ] save Postings to the DB when the form loses focus or is left idle
   after editing.
 
 
@@ -138,9 +134,10 @@ user interface.
 - [ ] Get feedback on my UI from others
 - [ ] Refactor HTML classes & CSS rules
 - [ ] Add modals, transitions, and other styling flourishes.
+- [ ] Add footer (contact info)
 
 ### Bonus Features (TBD)
-- [ ] Rate hosts/travellers
-- [ ] Pagination / infinite scroll for Hosts/Travellers Index
-- [ ] Favorite previous Hosts/Travellers and have them show up at top of search
+- [ ] Rate hosts/travelers
+- [ ] Pagination / infinite scroll for Hosts/Postings Index
+- [ ] Favorite previous Hosts/Guests and have them show up at top of search
 - [ ] Multiple sessions

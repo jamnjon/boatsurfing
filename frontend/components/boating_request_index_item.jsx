@@ -66,8 +66,8 @@ module.exports = React.createClass({
     return(
       <li>
         <ul className="BRlist">
-          <li>{this.date()}</li>
-          <li>{this.startTime(this.props.BR.posting)} until {this.endTime(this.props.BR.posting)}</li>
+          <li><b>Date:</b> {this.date()}</li>
+          <li><b>Time:</b> {this.startTime(this.props.BR.posting)} until {this.endTime(this.props.BR.posting)}</li>
           <li><b>Activity:</b> {this.props.BR.posting.activity} with {username}</li>
           <li><b>Location:</b> {this.props.BR.lake.name}</li>
           <li><b>Status:</b> {this.props.status}</li>

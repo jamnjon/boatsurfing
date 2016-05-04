@@ -68,7 +68,8 @@ module.exports = React.createClass({
           <label> Lake: <input className="lakeSearchBox" type="text"
             placeholder="Lake Name Here"
             onChange={this.updateLake} value={this.state.lakeName}/>
-          </label> <button className="random" onClick={this.random}>Random Lake</button>
+          </label>
+          <button className="random" onClick={this.random}>Random Lake</button>
         </form>
         <ul className="lakeSearchList" onClick={this.fillLakeName}
         >{lakeList}</ul>

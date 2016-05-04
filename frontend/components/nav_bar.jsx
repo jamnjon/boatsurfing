@@ -60,15 +60,16 @@ module.exports = React.createClass({
         <ul className="navBar">
           <li> <button onClick={this.homeButton} className="homeButton">BoatSurfing</button></li>
           {ls}
-          <li className="userOptions"> <div className="inUpOut"
-          >{this.state.currentUser.username}<span className="arrow-down"></span></div><ul>
-            <li className="liInUpOut"><button className="inUpOut" onClick={this.out}>Log Out</button></li>
-            <li><button className="inUpOut" onClick={this.openModal}
-            >All Requests</button>
+          <li className="userOptions"> <div className="options"
+          >{this.state.currentUser.username}<span className="arrow-down"></span></div>
+          <ul className="navBarUserOptions">
+            <a className="inUpOut" onClick={this.out}>Log Out</a>
+            <a className="inUpOut" onClick={this.openModal}
+            >All Requests
             <Modal className="BRModal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
               <div className="closeModal" onClick={this.closeModal}>X</div>
               <BR />
-            </Modal></li></ul></li>
+            </Modal></a></ul></li>
         </ul>
       );
     }
