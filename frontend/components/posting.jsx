@@ -7,13 +7,19 @@ var CurrentUserState = require('../mixins/current_user_state');
 var Modal = require('react-modal');
 var BoatingRequestIndex = require('./boating_requests_index');
 var LoginForm = require('./LoginForm');
+var CreateNewPost = require('./posting_form');
 
 
 module.exports = React.createClass({
   mixins: [CurrentUserState],
 
   getInitialState: function(){
-    return {postings: [], modalOpen: false, loginModalOpen: false};
+    return {
+      postings: [],
+      modalOpen: false,
+      loginModalOpen: false,
+      newPostModalOpen: false
+    };
   },
 
 	openModal: function(){
@@ -30,6 +36,14 @@ module.exports = React.createClass({
 
   closeLoginModal: function(){
     this.setState({loginModalOpen: false});
+  },
+
+  openNewPostModal: function(){
+    this.setState({newPostModalOpen: true});
+  },
+
+  closeNewPostModal: function(){
+    this.setState({newPostModalOpen: false});
   },
 
   componentDidMount: function(){
@@ -52,7 +66,7 @@ module.exports = React.createClass({
   },
 
   getPostings: function(){
-    this.setState({postings: PostingStore.all()});
+    this.setState({postings: PostingStore.all(), newPostModalOpen: false});
   },
 
   date: function(posting){
@@ -64,6 +78,10 @@ module.exports = React.createClass({
   startTime: function(posting){
     var startHour = parseInt(posting.start_time.slice(11,13));
     var ampm = " am";
+    if(startHour > 12){
+      startHour -= 12;
+      ampm = " pm";
+    }
     if(startHour === 12){
       ampm = " pm";
     }
@@ -99,6 +117,10 @@ module.exports = React.createClass({
       }
   },
 
+  createNewPost: function(){
+    this.openNewPostModal();
+  },
+
   render: function(){
     if(this.props.target){
       var lakePartners = [];
@@ -131,8 +153,13 @@ module.exports = React.createClass({
         <div className="closeModal" onClick={this.closeLoginModal}>X</div>
         <LoginForm modalCloseMethod={this.closeModal} modalOpen={this.state.loginModalOpen}/>
       </Modal>
+      <Modal className="newPostModal" isOpen={this.state.newPostModalOpen} onRequestClose={this.closeNewPostModal}>
+        <div className="closeModal" onClick={this.closeNewPostModal}>X</div>
+        <CreateNewPost lake={this.props.lake}/>
+      </Modal>
         {this.props.target} at {this.props.lake.name}:<br/><br/>
-        {lakePartners.length} {this.props.target.toLowerCase()} found:
+        {lakePartners.length} {this.props.target.toLowerCase()} found:<br/><br/>
+        <button onClick={this.createNewPost} className="createNewPost">Create New Post</button>
         <ul className="postList">{lakePartners}</ul>
         </div>);
 

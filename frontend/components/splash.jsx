@@ -10,8 +10,8 @@ module.exports=React.createClass({
       return(
         <div className="splashImg">
 
-          <h3 className="overSplashImg">Because of the Implications</h3>
-          <div className="searchBox"><LakeSearch /></div>
+          <h3 className="overSplashImg">Find WaterSports Buddies, Whether or Not You Own a Boat</h3>
+          <LakeSearch />
         </div>
       );
   }

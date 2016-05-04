@@ -1,6 +1,6 @@
 var React = require('react');
 var CurrentUserState = require('../mixins/current_user_state');
-var LakeStore = require('../stores/lake_store');
+var PostingClientActions = require('../actions/posting_client_actions');
 
 
 module.exports = React.createClass({
@@ -13,17 +13,8 @@ module.exports = React.createClass({
       boat_type: "wakeboard",
       date: "",
       start_time: "",
-      end_time: "",
-      lake_name: ""
+      end_time: ""
     });
-  },
-
-  componentDidMount: function(){
-    this.lsListener = LakeStore.addListener();
-  },
-
-  componentWillUnmount: function(){
-    this.lsListener.remove();
   },
 
   toggle: function(e){
@@ -52,24 +43,27 @@ module.exports = React.createClass({
 
   handleSubmit: function(e){
     e.preventDefault();
-    console.log(
+    PostingClientActions.createPosting(
       {
         posting:
         {
           activity: this.state.activity,
           posting_type: this.state.posting_type,
           boat_type: this.state.boat_type,
-          start_time: this.state.date + this.state.start_time,
-          end_time: this.state.date + this.state.end_time,
-          user_id: this.state.currentUser.id
+          date: this.state.date,
+          startTimeString: this.state.start_time,
+          endTimeString: this.state.end_time,
+          user_id: this.state.currentUser.id,
+          lake_id: this.props.lake.id,
+          lake: this.props.lake
         }
       });
   },
 
   render: function(){
-    console.log(this.state);
     return(
       <form className="postingForm" onSubmit={this.handleSubmit}>
+      New Posting for {this.props.lake.name}:
         <section className="radioButtons" onChange={this.toggle}>
           <label className="radio">
             <input type="Radio" name="action" defaultValue="Hosts"/>

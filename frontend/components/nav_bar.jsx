@@ -40,9 +40,9 @@ module.exports = React.createClass({
     hashHistory.push("/");
   },
 
-  inUp: function(){
-    hashHistory.push("/register");
-  },
+  // inUp: function(){
+  //   hashHistory.push("/register");
+  // },
 
   out: function(){
     this.setState({loginModalOpen: false});

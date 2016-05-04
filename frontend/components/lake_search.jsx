@@ -60,19 +60,18 @@ module.exports = React.createClass({
 
     return (
       <div className="lakeSearchForm">
-        <form className="searchForm">
-          <select className="searchSelect" onChange={this.changeSelected}>
-            <option value="find_host">Find Host</option>
-            <option value="find_guest">Find Guest</option>
-          </select>
-          <label className="lakeLabel"> Lake: <input className="lakeSearchBox" type="text"
-            placeholder="Lake Name Here"
-            onChange={this.updateLake} value={this.state.lakeName}/>
-          </label>
-          <button className="random" onClick={this.random}>Random Lake</button>
-        </form>
-        <ul className="lakeSearchList" onClick={this.fillLakeName}
-        >{lakeList}</ul>
+        <select className="searchSelect" onChange={this.changeSelected}>
+          <option value="find_host">Find Host</option>
+          <option value="find_guest">Find Guest</option>
+        </select>
+        <label className="lakeLabel"> Lake: <input className="lakeSearchBox" type="text"
+          placeholder="Lake Name Here"
+          onChange={this.updateLake} value={this.state.lakeName}/>
+          <ul className="lakeSearchList" onClick={this.fillLakeName}
+          >{lakeList}</ul>
+        </label>
+        <button className="random" onClick={this.random}>Random Lake</button>
+
       </div>
     );
   }

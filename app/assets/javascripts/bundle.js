@@ -32800,13 +32800,9 @@
 	      React.createElement(
 	        'h3',
 	        { className: 'overSplashImg' },
-	        'Because of the Implications'
+	        'Find WaterSports Buddies, Whether or Not You Own a Boat'
 	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'searchBox' },
-	        React.createElement(LakeSearch, null)
-	      )
+	      React.createElement(LakeSearch, null)
 	    );
 	  }
 	});
@@ -32885,41 +32881,37 @@
 	      'div',
 	      { className: 'lakeSearchForm' },
 	      React.createElement(
-	        'form',
-	        { className: 'searchForm' },
+	        'select',
+	        { className: 'searchSelect', onChange: this.changeSelected },
 	        React.createElement(
-	          'select',
-	          { className: 'searchSelect', onChange: this.changeSelected },
-	          React.createElement(
-	            'option',
-	            { value: 'find_host' },
-	            'Find Host'
-	          ),
-	          React.createElement(
-	            'option',
-	            { value: 'find_guest' },
-	            'Find Guest'
-	          )
+	          'option',
+	          { value: 'find_host' },
+	          'Find Host'
 	        ),
 	        React.createElement(
-	          'label',
-	          { className: 'lakeLabel' },
-	          ' Lake: ',
-	          React.createElement('input', { className: 'lakeSearchBox', type: 'text',
-	            placeholder: 'Lake Name Here',
-	            onChange: this.updateLake, value: this.state.lakeName })
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'random', onClick: this.random },
-	          'Random Lake'
+	          'option',
+	          { value: 'find_guest' },
+	          'Find Guest'
 	        )
 	      ),
 	      React.createElement(
-	        'ul',
-	        { className: 'lakeSearchList', onClick: this.fillLakeName
-	        },
-	        lakeList
+	        'label',
+	        { className: 'lakeLabel' },
+	        ' Lake: ',
+	        React.createElement('input', { className: 'lakeSearchBox', type: 'text',
+	          placeholder: 'Lake Name Here',
+	          onChange: this.updateLake, value: this.state.lakeName }),
+	        React.createElement(
+	          'ul',
+	          { className: 'lakeSearchList', onClick: this.fillLakeName
+	          },
+	          lakeList
+	        )
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'random', onClick: this.random },
+	        'Random Lake'
 	      )
 	    );
 	  }
@@ -33072,9 +33064,9 @@
 	    hashHistory.push("/");
 	  },
 	
-	  inUp: function () {
-	    hashHistory.push("/register");
-	  },
+	  // inUp: function(){
+	  //   hashHistory.push("/register");
+	  // },
 	
 	  out: function () {
 	    this.setState({ loginModalOpen: false });
@@ -33253,6 +33245,7 @@
 	var Modal = __webpack_require__(270);
 	var BoatingRequestIndex = __webpack_require__(290);
 	var LoginForm = __webpack_require__(225);
+	var CreateNewPost = __webpack_require__(296);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33260,7 +33253,12 @@
 	  mixins: [CurrentUserState],
 	
 	  getInitialState: function () {
-	    return { postings: [], modalOpen: false, loginModalOpen: false };
+	    return {
+	      postings: [],
+	      modalOpen: false,
+	      loginModalOpen: false,
+	      newPostModalOpen: false
+	    };
 	  },
 	
 	  openModal: function () {
@@ -33277,6 +33275,14 @@
 	
 	  closeLoginModal: function () {
 	    this.setState({ loginModalOpen: false });
+	  },
+	
+	  openNewPostModal: function () {
+	    this.setState({ newPostModalOpen: true });
+	  },
+	
+	  closeNewPostModal: function () {
+	    this.setState({ newPostModalOpen: false });
 	  },
 	
 	  componentDidMount: function () {
@@ -33299,7 +33305,7 @@
 	  },
 	
 	  getPostings: function () {
-	    this.setState({ postings: PostingStore.all() });
+	    this.setState({ postings: PostingStore.all(), newPostModalOpen: false });
 	  },
 	
 	  date: function (posting) {
@@ -33311,6 +33317,10 @@
 	  startTime: function (posting) {
 	    var startHour = parseInt(posting.start_time.slice(11, 13));
 	    var ampm = " am";
+	    if (startHour > 12) {
+	      startHour -= 12;
+	      ampm = " pm";
+	    }
 	    if (startHour === 12) {
 	      ampm = " pm";
 	    }
@@ -33343,6 +33353,10 @@
 	      });
 	      this.openModal();
 	    }
+	  },
+	
+	  createNewPost: function () {
+	    this.openNewPostModal();
 	  },
 	
 	  render: function () {
@@ -33428,6 +33442,16 @@
 	          ),
 	          React.createElement(LoginForm, { modalCloseMethod: this.closeModal, modalOpen: this.state.loginModalOpen })
 	        ),
+	        React.createElement(
+	          Modal,
+	          { className: 'newPostModal', isOpen: this.state.newPostModalOpen, onRequestClose: this.closeNewPostModal },
+	          React.createElement(
+	            'div',
+	            { className: 'closeModal', onClick: this.closeNewPostModal },
+	            'X'
+	          ),
+	          React.createElement(CreateNewPost, { lake: this.props.lake })
+	        ),
 	        this.props.target,
 	        ' at ',
 	        this.props.lake.name,
@@ -33438,6 +33462,13 @@
 	        ' ',
 	        this.props.target.toLowerCase(),
 	        ' found:',
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          { onClick: this.createNewPost, className: 'createNewPost' },
+	          'Create New Post'
+	        ),
 	        React.createElement(
 	          'ul',
 	          { className: 'postList' },
@@ -33462,6 +33493,11 @@
 	module.exports = {
 	  fetchPostings: function (lake) {
 	    PostingsUtil.fetchPostings(lake);
+	  },
+	
+	  createPosting: function (newPost) {
+	    console.log("clientActions");
+	    PostingsUtil.createPosting(newPost);
 	  }
 	};
 
@@ -33478,6 +33514,20 @@
 	      url: "api/lakes/" + lake.id + "/postings",
 	      success: function (postings) {
 	        PostingServerActions.fetchPostings(postings);
+	      }
+	    });
+	  },
+	
+	  createPosting: function (newPosting) {
+	    $.ajax({
+	      type: "POST",
+	      url: "api/lakes/" + newPosting.posting.lake_id + "/postings",
+	      data: newPosting,
+	      success: function (postings) {
+	        this.fetchPostings(newPosting.posting.lake);
+	      }.bind(this),
+	      error: function (e) {
+	        console.log(e);
 	      }
 	    });
 	  }
@@ -35959,7 +36009,7 @@
 
 	var React = __webpack_require__(1);
 	var CurrentUserState = __webpack_require__(255);
-	var LakeStore = __webpack_require__(261);
+	var PostingClientActions = __webpack_require__(265);
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -35973,17 +36023,8 @@
 	      boat_type: "wakeboard",
 	      date: "",
 	      start_time: "",
-	      end_time: "",
-	      lake_name: ""
+	      end_time: ""
 	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.lsListener = LakeStore.addListener();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.lsListener.remove();
 	  },
 	
 	  toggle: function (e) {
@@ -36012,23 +36053,28 @@
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
-	    console.log({
+	    PostingClientActions.createPosting({
 	      posting: {
 	        activity: this.state.activity,
 	        posting_type: this.state.posting_type,
 	        boat_type: this.state.boat_type,
-	        start_time: this.state.date + this.state.start_time,
-	        end_time: this.state.date + this.state.end_time,
-	        user_id: this.state.currentUser.id
+	        date: this.state.date,
+	        startTimeString: this.state.start_time,
+	        endTimeString: this.state.end_time,
+	        user_id: this.state.currentUser.id,
+	        lake_id: this.props.lake.id,
+	        lake: this.props.lake
 	      }
 	    });
 	  },
 	
 	  render: function () {
-	    console.log(this.state);
 	    return React.createElement(
 	      'form',
 	      { className: 'postingForm', onSubmit: this.handleSubmit },
+	      'New Posting for ',
+	      this.props.lake.name,
+	      ':',
 	      React.createElement(
 	        'section',
 	        { className: 'radioButtons', onChange: this.toggle },
