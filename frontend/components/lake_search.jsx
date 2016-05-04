@@ -59,13 +59,13 @@ module.exports = React.createClass({
     }
 
     return (
-      <div>
+      <div className="lakeSearchForm">
         <form className="searchForm">
           <select className="searchSelect" onChange={this.changeSelected}>
             <option value="find_host">Find Host</option>
             <option value="find_guest">Find Guest</option>
           </select>
-          <label> Lake: <input className="lakeSearchBox" type="text"
+          <label className="lakeLabel"> Lake: <input className="lakeSearchBox" type="text"
             placeholder="Lake Name Here"
             onChange={this.updateLake} value={this.state.lakeName}/>
           </label>

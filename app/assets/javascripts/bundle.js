@@ -54,10 +54,10 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	var hashHistory = ReactRouter.hashHistory;
 	//Components
-	var LoginForm = __webpack_require__(225);
 	var Splash = __webpack_require__(256);
 	var NavBar = __webpack_require__(262);
 	var Lake = __webpack_require__(263);
+	var PostingForm = __webpack_require__(296);
 	//Mixins
 	var CurrentUserState = __webpack_require__(255);
 	
@@ -86,8 +86,8 @@
 	    Route,
 	    { path: '/', component: App },
 	    React.createElement(IndexRoute, { component: Splash }),
-	    React.createElement(Route, { path: 'register', component: LoginForm }),
-	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake })
+	    React.createElement(Route, { path: 'lakes/:lakeId', component: Lake }),
+	    React.createElement(Route, { path: 'test', component: PostingForm })
 	  )
 	);
 	
@@ -32800,7 +32800,7 @@
 	      React.createElement(
 	        'h3',
 	        { className: 'overSplashImg' },
-	        'Find WaterSports Buddies, Whether or Not You Own a Boat'
+	        'Because of the Implications'
 	      ),
 	      React.createElement(
 	        'div',
@@ -32883,7 +32883,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'lakeSearchForm' },
 	      React.createElement(
 	        'form',
 	        { className: 'searchForm' },
@@ -32903,7 +32903,7 @@
 	        ),
 	        React.createElement(
 	          'label',
-	          null,
+	          { className: 'lakeLabel' },
 	          ' Lake: ',
 	          React.createElement('input', { className: 'lakeSearchBox', type: 'text',
 	            placeholder: 'Lake Name Here',
@@ -35949,6 +35949,185 @@
 	          buttons
 	        )
 	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CurrentUserState = __webpack_require__(255);
+	var LakeStore = __webpack_require__(261);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	
+	  mixins: [CurrentUserState],
+	
+	  getInitialState: function () {
+	    return {
+	      posting_type: "",
+	      activity: "Wakeboarding",
+	      boat_type: "wakeboard",
+	      date: "",
+	      start_time: "",
+	      end_time: "",
+	      lake_name: ""
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.lsListener = LakeStore.addListener();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.lsListener.remove();
+	  },
+	
+	  toggle: function (e) {
+	    this.setState({ posting_type: e.target.value });
+	  },
+	
+	  changeBoatType: function (e) {
+	    this.setState({ boat_type: e.target.value });
+	  },
+	
+	  changeActivity: function (e) {
+	    this.setState({ activity: e.target.value });
+	  },
+	
+	  setDate: function (e) {
+	    this.setState({ date: e.target.value });
+	  },
+	
+	  startTime: function (e) {
+	    this.setState({ start_time: e.target.value });
+	  },
+	
+	  endTime: function (e) {
+	    this.setState({ end_time: e.target.value });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    console.log({
+	      posting: {
+	        activity: this.state.activity,
+	        posting_type: this.state.posting_type,
+	        boat_type: this.state.boat_type,
+	        start_time: this.state.date + this.state.start_time,
+	        end_time: this.state.date + this.state.end_time,
+	        user_id: this.state.currentUser.id
+	      }
+	    });
+	  },
+	
+	  render: function () {
+	    console.log(this.state);
+	    return React.createElement(
+	      'form',
+	      { className: 'postingForm', onSubmit: this.handleSubmit },
+	      React.createElement(
+	        'section',
+	        { className: 'radioButtons', onChange: this.toggle },
+	        React.createElement(
+	          'label',
+	          { className: 'radio' },
+	          React.createElement('input', { type: 'Radio', name: 'action', defaultValue: 'Hosts' }),
+	          'I Have a Boat'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { className: 'radio' },
+	          React.createElement('input', { type: 'Radio', name: 'action', defaultValue: 'Guests' }),
+	          'I Want to Join Someone on Their Boat'
+	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Boat Type:',
+	        React.createElement(
+	          'select',
+	          { className: 'postSelectBoatType', onChange: this.changeBoatType },
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'wakeboard' },
+	            'Wakeboard Boat'
+	          ),
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'waterski' },
+	            'Ski Boat'
+	          )
+	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Activity:',
+	        React.createElement(
+	          'select',
+	          { className: 'postSelectActivity', onChange: this.changeActivity },
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'Wakeboarding' },
+	            'Wakeboarding'
+	          ),
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'Wakesurfing' },
+	            'Wakesurfing'
+	          ),
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'Kneeboarding' },
+	            'Kneeboarding'
+	          ),
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'Tubing' },
+	            'Tubing'
+	          ),
+	          React.createElement(
+	            'option',
+	            { defaultValue: 'Waterskiing' },
+	            'Waterskiing'
+	          )
+	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Date:',
+	        React.createElement('input', { type: 'date', name: 'date', onChange: this.setDate })
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Start Time:',
+	        React.createElement('input', { type: 'time', name: 'startTime', onChange: this.startTime })
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'End Time:',
+	        React.createElement('input', { type: 'time', name: 'endTime', onChange: this.endTime })
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', { type: 'submit' })
 	    );
 	  }
 	});

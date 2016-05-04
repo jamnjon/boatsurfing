@@ -70,6 +70,11 @@
   justify-content: center;
 }
 
+.postingForm{
+  position: absolute;
+  top: 200px;
+}
+
 .splashImg:after {
   clear: none;
   display: block;
@@ -88,11 +93,11 @@
   color: #00f;
   overflow: scroll;
   position: relative;
-  top: 60px;
+  top: 80px;
   z-index: 1000;
   background: white;
   max-width: 40%;
-  height: 70%;
+  height: 60%;
   margin: 0 auto 100px;
   padding: 45px;
 }
@@ -112,7 +117,7 @@
 .modal {
   color: #009;
   position: relative;
-  top: 80px;
+  top: 100px;
   z-index: 1000;
   background: white;
   max-width: 30%;
@@ -137,7 +142,6 @@
 
 .overSplashImg{
   z-index: 0;
-  display: flex;
   position: absolute;
   top: 8%;
   font-size: 21px;
@@ -477,6 +481,11 @@ z-index: -1;
   -o-transition: .25s all ease;
   transition: .25s all ease;
 }*/
+
+.lakeSearchForm {
+  display: flex;
+  flex-direction: row;
+}
 
 .navBarSearch .lakeSearchList {
   left: 134px;

@@ -8,10 +8,10 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 //Components
-var LoginForm = require('./components/LoginForm');
 var Splash = require('./components/splash');
 var NavBar = require ('./components/nav_bar');
 var Lake = require('./components/lake');
+var PostingForm = require('./components/posting_form');
 //Mixins
 var CurrentUserState = require('./mixins/current_user_state');
 
@@ -31,8 +31,8 @@ var Router = (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Splash} />
-      <Route path="register" component={LoginForm} />
       <Route path="lakes/:lakeId" component={Lake} />
+      <Route path="test" component={PostingForm} />
     </Route>
   </Router>
 );
