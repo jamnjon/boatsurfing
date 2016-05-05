@@ -73,9 +73,31 @@
   /*justify-content: center;*/
 }
 
-.postingForm{
-  position: absolute;
-  top: 200px;
+.modal .postingForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.newPostHeader{
+  text-align: center;
+  font-size: 22px;
+}
+
+.postingForm .random{
+  background-color: #2b90d9;
+  align-self: center;
+  width: 80%;
+}
+
+.postingForm .random:hover{
+  background-color: #009;
+  width: 75%;
+}
+
+.postingForm .radio{
+  text-align: right;
 }
 
 .splashImg:after {
@@ -323,9 +345,24 @@ select {
 }
 
 .navBarSearch {
-position: relative;
-  padding-top: 18px;
+  position: relative;
+  padding-top: 10px;
   color: gray;
+}
+
+.navBar .lakeSearchForm{
+  width: auto;
+  display: inline;
+  position: static;
+}
+
+.lakeSearchForm .random{
+  margin-left: 10px;
+}
+
+.lakeSearchForm .lakeLabel{
+  margin-left: 10px;
+  margin-top: 2px;
 }
 
 /*background: transparent;
@@ -610,14 +647,14 @@ z-index: -1;
 .postList .random {
   background-color: #2b90d9;
   position: absolute;
-  top: 18px;
+  top: 15%;
   right: 10%;
 }
 
 .yourPost {
   color: green;
   position: absolute;
-  top: 35px;
+  top: 25%;
   right: 14%;
 }
 

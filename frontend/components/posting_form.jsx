@@ -63,11 +63,11 @@ module.exports = React.createClass({
   render: function(){
     return(
       <form className="postingForm" onSubmit={this.handleSubmit}>
-      New Posting for {this.props.lake.name}:
+      <h2 className="newPostHeader">New Posting for {this.props.lake.name}:</h2><br/>
         <section className="radioButtons" onChange={this.toggle}>
           <label className="radio">
             <input type="Radio" name="action" defaultValue="Hosts"/>
-            I Have a Boat
+            I Have a Boat and Want Some Guests
           </label><br/>
 
           <label className="radio">
@@ -105,7 +105,7 @@ module.exports = React.createClass({
           <input type="time" name="endTime" onChange={this.endTime}></input>
         </label><br/>
 
-        <input type="submit" />
+        <input type="submit" className="random"/>
       </form>
     );
   }

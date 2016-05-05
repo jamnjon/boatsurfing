@@ -33455,7 +33455,11 @@
 	  },
 	
 	  createNewPost: function () {
-	    this.openNewPostModal();
+	    if (this.state.currentUser) {
+	      this.openNewPostModal();
+	    } else {
+	      this.openLoginModal();
+	    }
 	  },
 	
 	  render: function () {
@@ -33557,7 +33561,7 @@
 	        ),
 	        React.createElement(
 	          Modal,
-	          { className: 'newPostModal', isOpen: this.state.newPostModalOpen,
+	          { className: 'modal', isOpen: this.state.newPostModalOpen,
 	            onRequestClose: this.closeNewPostModal },
 	          React.createElement(
 	            'div',
@@ -36212,9 +36216,14 @@
 	    return React.createElement(
 	      'form',
 	      { className: 'postingForm', onSubmit: this.handleSubmit },
-	      'New Posting for ',
-	      this.props.lake.name,
-	      ':',
+	      React.createElement(
+	        'h2',
+	        { className: 'newPostHeader' },
+	        'New Posting for ',
+	        this.props.lake.name,
+	        ':'
+	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'section',
 	        { className: 'radioButtons', onChange: this.toggle },
@@ -36222,7 +36231,7 @@
 	          'label',
 	          { className: 'radio' },
 	          React.createElement('input', { type: 'Radio', name: 'action', defaultValue: 'Hosts' }),
-	          'I Have a Boat'
+	          'I Have a Boat and Want Some Guests'
 	        ),
 	        React.createElement('br', null),
 	        React.createElement(
@@ -36313,7 +36322,7 @@
 	        React.createElement('input', { type: 'time', name: 'endTime', onChange: this.endTime })
 	      ),
 	      React.createElement('br', null),
-	      React.createElement('input', { type: 'submit' })
+	      React.createElement('input', { type: 'submit', className: 'random' })
 	    );
 	  }
 	});

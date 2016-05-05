@@ -118,7 +118,11 @@ module.exports = React.createClass({
   },
 
   createNewPost: function(){
-    this.openNewPostModal();
+    if(this.state.currentUser){
+      this.openNewPostModal();
+    } else {
+      this.openLoginModal();
+    }
   },
 
   render: function(){
@@ -163,7 +167,7 @@ module.exports = React.createClass({
         <LoginForm modalCloseMethod={this.closeModal}
         modalOpen={this.state.loginModalOpen}/>
       </Modal>
-      <Modal className="newPostModal" isOpen={this.state.newPostModalOpen}
+      <Modal className="modal" isOpen={this.state.newPostModalOpen}
       onRequestClose={this.closeNewPostModal}>
         <div className="closeModal" onClick={this.closeNewPostModal}>X</div>
         <CreateNewPost lake={this.props.lake}/>
