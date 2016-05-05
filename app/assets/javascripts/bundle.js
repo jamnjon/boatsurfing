@@ -25574,12 +25574,12 @@
 				),
 				React.createElement("br", null),
 				React.createElement("br", null),
-				React.createElement("input", { className: "inUpOut", type: "Submit" }),
+				React.createElement("input", { className: "random", defaultValue: "Submit", type: "Submit" }),
 				React.createElement("br", null),
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "inUpOut", type: "reset", onClick: this.guest },
+					{ className: "random", type: "reset", onClick: this.guest },
 					"Log In As Guest"
 				)
 			);
@@ -32881,37 +32881,41 @@
 	      'div',
 	      { className: 'lakeSearchForm' },
 	      React.createElement(
-	        'select',
-	        { className: 'searchSelect', onChange: this.changeSelected },
+	        'div',
+	        { className: 'searchSelectAndBox' },
 	        React.createElement(
-	          'option',
-	          { value: 'find_host' },
-	          'Find Host'
+	          'select',
+	          { className: 'searchSelect', onChange: this.changeSelected },
+	          React.createElement(
+	            'option',
+	            { value: 'find_host' },
+	            'Find Host'
+	          ),
+	          React.createElement(
+	            'option',
+	            { value: 'find_guest' },
+	            'Find Guest'
+	          )
 	        ),
 	        React.createElement(
-	          'option',
-	          { value: 'find_guest' },
-	          'Find Guest'
-	        )
-	      ),
-	      React.createElement(
-	        'label',
-	        { className: 'lakeLabel' },
-	        ' Lake: ',
-	        React.createElement('input', { className: 'lakeSearchBox', type: 'text',
-	          placeholder: 'Lake Name Here',
-	          onChange: this.updateLake, value: this.state.lakeName }),
+	          'label',
+	          { className: 'lakeLabel' },
+	          ' At Lake: ',
+	          React.createElement('input', { className: 'lakeSearchBox', type: 'text',
+	            placeholder: 'Lake Name Here',
+	            onChange: this.updateLake, value: this.state.lakeName }),
+	          React.createElement(
+	            'ul',
+	            { className: 'lakeSearchList', onClick: this.fillLakeName
+	            },
+	            lakeList
+	          )
+	        ),
 	        React.createElement(
-	          'ul',
-	          { className: 'lakeSearchList', onClick: this.fillLakeName
-	          },
-	          lakeList
+	          'button',
+	          { className: 'random', onClick: this.random },
+	          'Random Lake'
 	        )
-	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'random', onClick: this.random },
-	        'Random Lake'
 	      )
 	    );
 	  }
@@ -33052,15 +33056,12 @@
 	
 	  openLoginModal: function () {
 	    if (this.state.appModalOpen) {
-	      console.log('appOpen');
 	      this.closeAppModal();
 	    }
 	    if (this.state.pendModalOpen) {
-	      console.log('appOpen');
 	      this.closePendModal();
 	    }
 	    if (this.state.decModalOpen) {
-	      console.log('decOpen');
 	      this.closeDecModal();
 	    }
 	    this.setState({ loginModalOpen: true });
@@ -33173,11 +33174,6 @@
 	            { className: 'navBarUserOptions' },
 	            React.createElement(
 	              'a',
-	              { className: 'inUpOut', onClick: this.out },
-	              'Log Out'
-	            ),
-	            React.createElement(
-	              'a',
 	              { className: 'inUpOut', onClick: this.openAppModal },
 	              'Accepted Requests',
 	              React.createElement(
@@ -33226,8 +33222,8 @@
 	            ),
 	            React.createElement(
 	              'a',
-	              { className: 'inUpOut' },
-	              'My Postings'
+	              { className: 'inUpOut', onClick: this.out },
+	              'Log Out'
 	            )
 	          )
 	        )
@@ -33474,6 +33470,11 @@
 	
 	  render: function () {
 	    if (this.props.target) {
+	      if (this.props.target === "Hosts") {
+	        var newPostType = "Create New Event as Host";
+	      } else {
+	        newPostType = "Create New Event as Guest";
+	      }
 	      var lakePartners = [];
 	      this.state.postings.forEach(function (posting) {
 	        var matched = false;
@@ -33597,7 +33598,7 @@
 	            { className: 'closeModal', onClick: this.closeNewPostModal },
 	            'X'
 	          ),
-	          React.createElement(CreateNewPost, { lake: this.props.lake })
+	          React.createElement(CreateNewPost, { target: this.props.target, lake: this.props.lake })
 	        ),
 	        React.createElement(
 	          'div',
@@ -33622,7 +33623,7 @@
 	            'button',
 	            { onClick: this.createNewPost, className: 'random'
 	            },
-	            'Create New Post'
+	            newPostType
 	          )
 	        ),
 	        React.createElement(
@@ -33652,7 +33653,6 @@
 	  },
 	
 	  createPosting: function (newPost) {
-	    console.log("clientActions");
 	    PostingsUtil.createPosting(newPost);
 	  }
 	};
@@ -35799,7 +35799,7 @@
 	      if (this.state.approvedRequests.length === 0) {
 	        return React.createElement(
 	          'div',
-	          { className: 'reqs' },
+	          { className: 'noReqs' },
 	          'You Have no Accepted Requests'
 	        );
 	      } else {
@@ -35829,7 +35829,7 @@
 	      if (this.state.pendingRequests.length === 0) {
 	        return React.createElement(
 	          'div',
-	          { className: 'reqs' },
+	          { className: 'noReqs' },
 	          'You Have no Pending Requests'
 	        );
 	      } else {
@@ -35861,7 +35861,7 @@
 	      if (this.state.declinedRequests.length === 0) {
 	        return React.createElement(
 	          'div',
-	          { className: 'reqs' },
+	          { className: 'noReqs' },
 	          'You Have no Declined Requests'
 	        );
 	      } else {
@@ -36076,10 +36076,14 @@
 	      var username = this.props.BR.receiver.username;
 	      if (this.props.BR.status === "Pending") {
 	        var buttons = React.createElement(
-	          'button',
-	          { className: 'inUpOut',
-	            onClick: this.cancelReq },
-	          'Cancel Request'
+	          'div',
+	          { className: 'requests' },
+	          React.createElement(
+	            'button',
+	            { className: 'random',
+	              onClick: this.cancelReq },
+	            'Cancel Request'
+	          )
 	        );
 	      }
 	    } else if (this.props.match === "receiver") {
@@ -36087,17 +36091,17 @@
 	      if (this.props.BR.status === "Pending") {
 	        buttons = React.createElement(
 	          'div',
-	          null,
+	          { className: 'requests' },
 	          React.createElement(
 	            'button',
-	            { onClick: this.updateReq, className: 'inUpOut'
+	            { onClick: this.updateReq, className: 'random'
 	            },
 	            'Accept Request'
 	          ),
 	          ' ',
 	          React.createElement(
 	            'button',
-	            { className: 'inUpOut',
+	            { className: 'random',
 	              onClick: this.updateReq },
 	            'Decline Request'
 	          )
@@ -36157,17 +36161,6 @@
 	          ),
 	          ' ',
 	          this.props.BR.lake.name
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'b',
-	            null,
-	            'Status:'
-	          ),
-	          ' ',
-	          this.props.status
 	        ),
 	        React.createElement(
 	          'li',
@@ -36232,7 +36225,7 @@
 	    PostingClientActions.createPosting({
 	      posting: {
 	        activity: this.state.activity,
-	        posting_type: this.state.posting_type,
+	        posting_type: this.props.target,
 	        boat_type: this.state.boat_type,
 	        date: this.state.date,
 	        startTimeString: this.state.start_time,
@@ -36244,34 +36237,28 @@
 	    });
 	  },
 	
+	  filledIn: function () {
+	    if (this.state.start_time && this.state.date && this.state.end_time) {
+	      return React.createElement('input', { type: 'submit', defaultValue: 'Submit', className: 'random' });
+	    }
+	    return React.createElement('input', { type: 'submit', disabled: 'true', defaultValue: 'Submit', className: 'random' });
+	  },
+	
 	  render: function () {
+	    if (this.props.target === "Hosts") {
+	      var postType = "Create New Event as Host at ";
+	    } else if (this.props.target === "Guests") {
+	      postType = "Create New Event as Guest at ";
+	    }
 	    return React.createElement(
 	      'form',
 	      { className: 'postingForm', onSubmit: this.handleSubmit },
 	      React.createElement(
 	        'h2',
 	        { className: 'newPostHeader' },
-	        'New Posting for ',
+	        postType,
 	        this.props.lake.name,
 	        ':'
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'section',
-	        { className: 'radioButtons', onChange: this.toggle },
-	        React.createElement(
-	          'label',
-	          { className: 'radio' },
-	          React.createElement('input', { type: 'Radio', name: 'action', defaultValue: 'Hosts' }),
-	          'I Have a Boat and Want Some Guests'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { className: 'radio' },
-	          React.createElement('input', { type: 'Radio', name: 'action', defaultValue: 'Guests' }),
-	          'I Want to Join Someone on Their Boat'
-	        )
 	      ),
 	      React.createElement('br', null),
 	      React.createElement(
@@ -36354,7 +36341,7 @@
 	        React.createElement('input', { type: 'time', name: 'endTime', onChange: this.endTime })
 	      ),
 	      React.createElement('br', null),
-	      React.createElement('input', { type: 'submit', className: 'random' })
+	      this.filledIn()
 	    );
 	  }
 	});

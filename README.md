@@ -73,7 +73,7 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 **Objective:** BoatingRequests can be created, edited, read, and destroyed through the API.
 
 - [x] create `BoatingRequest` model
-- [ ] seed the database with a small amount of test data
+- [x] seed the database with a small amount of test data
 - [x] CRUD API for BoatingRequest (`BoatingRequestsController`)
 - [x] jBuilder views for BoatingRequests
 - [x] setup Webpack & Flux scaffold
@@ -96,9 +96,9 @@ user interface.
 
 **Objective:** Existing pages (including singup/signin) will look good.
 
-- [ ] create a basic style guide
-- [ ] position elements on the page
-- [ ] add basic colors & styles
+- [x] create a basic style guide
+- [x] position elements on the page
+- [x] add basic colors & styles
 
 ### Phase 6: Postings Model, API, and basic APIUtil (1.5 days)
 
@@ -122,8 +122,8 @@ user interface.
 - [x] setup React Router
 - implement each posting component within the lake view, building out the flux loop as needed.
   - [x] `Postings`
-  - [ ] `PostingForm`
-- [ ] save Postings to the DB when the form loses focus or is left idle
+  - [x] `PostingForm`
+- [x] save Postings to the DB when the form loses focus or is left idle
   after editing.
 
 
@@ -131,10 +131,10 @@ user interface.
 
 **objective:** Make the site feel more cohesive and awesome.
 
-- [ ] Get feedback on my UI from others
-- [ ] Refactor HTML classes & CSS rules
-- [ ] Add modals, transitions, and other styling flourishes.
-- [ ] Add footer (contact info)
+- [x] Get feedback on my UI from others
+- [x] Refactor HTML classes & CSS rules
+- [x] Add modals, transitions, and other styling flourishes.
+- [x] Add footer (contact info)
 
 ### Bonus Features (TBD)
 - [ ] Rate hosts/travelers

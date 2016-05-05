@@ -52,14 +52,14 @@ module.exports = React.createClass({
     if(this.props.match === "requester"){
       var username = this.props.BR.receiver.username;
       if(this.props.BR.status === "Pending"){
-        var buttons = <button className="inUpOut"
-        onClick={this.cancelReq}>Cancel Request</button>;
+        var buttons = <div className="requests"><button className="random"
+        onClick={this.cancelReq}>Cancel Request</button></div>;
       }
     } else if(this.props.match === "receiver"){
       username=this.props.BR.requester.username;
       if(this.props.BR.status=== "Pending"){
-        buttons = <div><button onClick={this.updateReq} className="inUpOut"
-        >Accept Request</button> <button className="inUpOut"
+        buttons = <div className="requests"><button onClick={this.updateReq} className="random"
+        >Accept Request</button> <button className="random"
         onClick={this.updateReq}>Decline Request</button></div>;
       }
     }
@@ -70,7 +70,6 @@ module.exports = React.createClass({
           <li><b>Time:</b> {this.startTime(this.props.BR.posting)} until {this.endTime(this.props.BR.posting)}</li>
           <li><b>Activity:</b> {this.props.BR.posting.activity} with {username}</li>
           <li><b>Location:</b> {this.props.BR.lake.name}</li>
-          <li><b>Status:</b> {this.props.status}</li>
           <li>{buttons}</li>
         </ul>
       </li>

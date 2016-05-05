@@ -91,7 +91,7 @@ module.exports = React.createClass({
     if(this.props.showType === "app"){
       if(this.state.approvedRequests.length === 0){
         return(
-          <div className="reqs">You Have no Accepted Requests</div>
+          <div className="noReqs">You Have no Accepted Requests</div>
         );
       } else {
       return(
@@ -102,7 +102,7 @@ module.exports = React.createClass({
     }
   } else if(this.props.showType === "pend"){
       if(this.state.pendingRequests.length === 0){
-        return <div className="reqs">You Have no Pending Requests</div>;
+        return <div className="noReqs">You Have no Pending Requests</div>;
       } else {
         return(
           <div classname="reqs">
@@ -114,7 +114,7 @@ module.exports = React.createClass({
       }
   } else if (this.props.showType === "dec"){
     if(this.state.declinedRequests.length === 0){
-      return <div className="reqs">You Have no Declined Requests</div>;
+      return <div className="noReqs">You Have no Declined Requests</div>;
     } else {
       return(
         <div className="reqs">

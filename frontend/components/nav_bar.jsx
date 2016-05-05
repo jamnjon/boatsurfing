@@ -29,15 +29,12 @@ module.exports = React.createClass({
 
 	openLoginModal: function(){
     if(this.state.appModalOpen){
-      console.log('appOpen');
       this.closeAppModal();
     }
     if(this.state.pendModalOpen){
-      console.log('appOpen');
       this.closePendModal();
     }
     if(this.state.decModalOpen){
-      console.log('decOpen');
       this.closeDecModal();
     }
 		this.setState({loginModalOpen: true});
@@ -123,7 +120,6 @@ module.exports = React.createClass({
           >{this.state.currentUser.username}<span className="arrow-down"
           ></span></div>
           <ul className="navBarUserOptions">
-            <a className="inUpOut" onClick={this.out}>Log Out</a>
             <a className="inUpOut" onClick={this.openAppModal}>Accepted Requests
             <Modal className="BRModal" isOpen={this.state.appModalOpen}
             onRequestClose={this.closeAppModal}>
@@ -142,7 +138,7 @@ module.exports = React.createClass({
               <div className="closeModal" onClick={this.closeDecModal}>X</div>
               <BR showType="dec"/>
             </Modal></a>
-            <a className="inUpOut">My Postings</a></ul></li>
+            <a className="inUpOut" onClick={this.out}>Log Out</a></ul></li>
         </ul>
       );
     }

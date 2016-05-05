@@ -48,7 +48,7 @@ module.exports = React.createClass({
         posting:
         {
           activity: this.state.activity,
-          posting_type: this.state.posting_type,
+          posting_type: this.props.target,
           boat_type: this.state.boat_type,
           date: this.state.date,
           startTimeString: this.state.start_time,
@@ -60,21 +60,22 @@ module.exports = React.createClass({
       });
   },
 
+  filledIn: function(){
+    if(this.state.start_time && this.state.date && this.state.end_time){
+      return <input type="submit" defaultValue="Submit" className="random"/>;
+    }
+    return <input type="submit" disabled="true" defaultValue="Submit" className="random"/>;
+  },
+
   render: function(){
+    if(this.props.target === "Hosts"){
+      var postType = "Create New Event as Host at ";
+    } else if(this.props.target === "Guests"){
+      postType = "Create New Event as Guest at ";
+    }
     return(
       <form className="postingForm" onSubmit={this.handleSubmit}>
-      <h2 className="newPostHeader">New Posting for {this.props.lake.name}:</h2><br/>
-        <section className="radioButtons" onChange={this.toggle}>
-          <label className="radio">
-            <input type="Radio" name="action" defaultValue="Hosts"/>
-            I Have a Boat and Want Some Guests
-          </label><br/>
-
-          <label className="radio">
-            <input type="Radio" name="action" defaultValue="Guests"/>
-            I Want to Join Someone on Their Boat
-          </label>
-        </section><br/>
+      <h2 className="newPostHeader">{postType}{this.props.lake.name}:</h2><br/>
 
         <label>Boat Type:
           <select className="postSelectBoatType" onChange={this.changeBoatType}>
@@ -105,7 +106,7 @@ module.exports = React.createClass({
           <input type="time" name="endTime" onChange={this.endTime}></input>
         </label><br/>
 
-        <input type="submit" className="random"/>
+        {this.filledIn()}
       </form>
     );
   }

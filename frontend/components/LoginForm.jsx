@@ -79,8 +79,8 @@ var LoginForm = React.createClass({
 
 					</section>
 					<br/><br/>
-					<input className="inUpOut" type="Submit"/><br/><br/>
-					<button className="inUpOut" type="reset" onClick={this.guest}>Log In As Guest
+					<input className="random" defaultValue="Submit" type="Submit"/><br/><br/>
+					<button className="random" type="reset" onClick={this.guest}>Log In As Guest
           </button>
 				</form>
 		);

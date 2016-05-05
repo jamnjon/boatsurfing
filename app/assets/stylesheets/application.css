@@ -93,8 +93,14 @@
 
 .postingForm .random:hover{
   background-color: #009;
-  width: 75%;
 }
+
+.postingForm .random:disabled{
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+
 
 .postingForm .radio{
   text-align: right;
@@ -284,6 +290,8 @@ select {
 
 .options {
   cursor: pointer;
+  min-width: 150px;
+  text-align: center;
   position: relative;
   background-color: white;
   font-size: 24px;
@@ -424,167 +432,77 @@ color: $ocean;
 .modalForm input{
   font-size: 24px;
 }
-/*
-input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-}
-.modalForm label {
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding-left: 30px;
-  padding-right: 10px;
-  line-height: 36px;
-  cursor: pointer;
-}
-.modalForm label::before {
-  content: " ";
-  position: absolute;
-  top: 6px;
-  left: 0;
-  display: block;
-  width: 24px;
-  height: 24px;
-  border: 2px solid #8e44ad;
-  border-radius: 4px;
-  z-index: -1;
-}
-input[type="radio"] + .modalForm label::before {
-  border-radius: 18px;
-}
-/* Checked */
-/*input[type="checkbox"]:checked + .modalForm label,
-input[type="radio"]:checked + .modalForm label {
-  padding-left: 10px;
-  color: #fff;
-}
-input[type="checkbox"]:checked + .modalForm label::before,
-input[type="radio"]:checked + .modalForm label::before {
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: #8e44ad;
-}*/
-/* Transition */
-/*.modalForm label,
-.modalForm label::before {
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
-}*/
 
-/*.modalForm input[type="radio"]{
-  position: absolute;
-  display: inline-block;
-  z-index: -1;
+.modalForm .random{
+  background-color: #2b90d9;
+  width: 50%;
+  font-size: 16px;
+
 }
 
-.modalForm .radio{
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding-left: 30px;
-  padding-right: 10px;
-  line-height: 36px;
-  cursor: pointer;
-  /*padding-left: 3%;*/
-/*}*/
-
-/*.modalForm .radio::before{
-content: " ";
-position: absolute;
-top: 6px;
-left: 0;
-display: block;
-width: 24px;
-height: 24px;
-border: 2px solid #8e44ad;
-border-radius: 4px;
-z-index: -1;
+.modalForm .random:hover{
+  background-color: #009;
 }
-
-.modalForm input[type="radio"] + .modalForm .radio::before{
-    border-radius: 18px;
-}
-
-.modalForm input[type="radio"]:checked + .modalForm .radio{
-  padding-left: 10px;
-  color: #fff;
-}
-
-.modalForm input[type="radio"]:checked + .modalForm .radio::before {
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: #8e44ad;
-}
-
-.modalForm .radio{
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
-}
-.modalForm .radio::before {
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
-}*/
 
 .lakeSearchForm {
   display: flex;
-  justify-content: space-between;
-  width: 60%;
+  justify-content: center;
   position: absolute;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   top: 15%;
   left: 0;
   right: 0;
   align-items: center;
   margin: 0 auto;
-  /*flex-direction: row;*/
-}
-
-.navBarSearch .lakeSearchList {
-  left: 42px;
-  top: 21px;
 }
 
 .profilePicWrapper{
   height: 128px;
   display: flex;
+  padding-right: 15px;
   justify-content: center;
   flex-direction: column;
   border-bottom: 1px solid black;
 }
 
+.requests .random{
+  background-color: #2b90d9;
+}
+
+.requests .random:hover{
+  background-color: #009;
+}
+
 .Accepted{
   color: green;
+  width: 144.95px;
+  text-align: center;
   font-size: 30px;
   font-weight: bold;
   position: absolute;
   top: 35%;
-  right: 12%;
+  right: 10%;
 }
 
 .Declined{
   color: red;
   font-size: 30px;
+  width: 144.95px;
+  text-align: center;
   font-weight: bold;
   position: absolute;
   top: 35%;
-  right: 12.4%;
+  right: 10%;
 }
 
 .Pending{
   font-size: 30px;
   font-weight: bold;
+  width: 144.95px;
+  text-align: center;
   position: absolute;
   top: 35%;
-  right: 13%;
+  right: 10%;
   color: #009;
 }
 
@@ -608,6 +526,13 @@ z-index: -1;
   align-self: center;
 }
 
+.noReqs {
+  color: red;
+  font-size: x-large;
+  text-align: center;
+  font-weight: bold;
+}
+
 .login-form {
   display: none;
   z-index: 1;
@@ -621,9 +546,14 @@ z-index: -1;
   background-color: rgba(0,0,0,0.4);
 }
 
+#login-form li {
+  color: red;
+}
+
 .lakeSearchList {
   position: absolute;
-  left: 38px;
+  left: 60px;
+  top: 21px;
 }
 
 .lakeSearchBox {
@@ -682,7 +612,6 @@ z-index: -1;
 
 .postResultsHeaderWrapper .random:hover {
   background-color: #009;
-  width: 28%;
 }
 
 .postList .random {

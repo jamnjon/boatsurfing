@@ -77,6 +77,38 @@ Lake.create(name: "Mono Lake", image_url: "http://www.summitpost.org/images/orig
 
 activities = ["Wakeboarding", "Wakesurfing", "Kneeboarding", "Tubing", "Waterskiing"]
 boat_types = ["wakeboard", "waterski"]
+postingCount = 0
+(1..44).each do |lake|
+  if(lake % 4 == 0)
+    month = rand(7)+6
+    day=rand(28)+1
+    start_hour=rand(8)+5
+    end_hour= start_hour + rand(9)+2
+    boat = boat_types[rand(boat_types.length)]
+    if (boat=="wakeboard")
+      sport=activities[rand(activities.length - 1)]
+    else
+      sport="Waterskiing"
+    end
+    Posting.create(user_id: 1,
+    start_time: DateTime.new(2016,month,day,start_hour,0,0),
+    end_time: DateTime.new(2016,month,day,end_hour,0,0), boat_type: boat, activity: sport,
+    lake_id: lake, posting_type: "Hosts")
+    postingCount += 1
+
+    if(rand(6)==3)
+      BoatingRequest.create(status:"Pending", sending_user_id: rand(23)+2, receiving_user_id: 1, posting_id: postingCount)
+    end
+
+    Posting.create(user_id: 1,
+    start_time: DateTime.new(2016,month,day,start_hour,0,0),
+    end_time: DateTime.new(2016,month,day,end_hour,0,0), boat_type: boat, activity: sport,
+    lake_id: lake, posting_type: "Guests")
+    postingCount+= 1
+  end
+end
+
+
 (1..44).each do |lake|
   (rand(5)+2).times do
     user = rand(24)+1
@@ -94,6 +126,21 @@ boat_types = ["wakeboard", "waterski"]
     start_time: DateTime.new(2016, month, day, start_hour, 0, 0), end_time:
     DateTime.new(2016, month, day, end_hour, 0, 0), boat_type: boat,
     lake_id: lake, activity: sport, posting_type: "Hosts")
+    postingCount += 1
+    rand_num = rand(9)
+    if(rand_num == 1 && user != 1)
+      BoatingRequest.create(status: "Accepted", sending_user_id: 1,
+      receiving_user_id: user, posting_id: postingCount)
+    elsif (rand_num == 2 && user != 1)
+      BoatingRequest.create(status: "Declined", sending_user_id: 1,
+      receiving_user_id: user, posting_id: postingCount)
+    elsif (rand_num == 3 && user != 1)
+      if(rand(3) == 1)
+        BoatingRequest.create(status: "Pending", sending_user_id: 1,
+        receiving_user_id: user, posting_id: postingCount)
+      end
+    end
+
   end
   (rand(5)+2).times do
     user = rand(24)+1
@@ -105,11 +152,25 @@ boat_types = ["wakeboard", "waterski"]
     if (boat=="wakeboard")
       sport=activities[rand(activities.length - 1)]
     else
-      sport="waterskiing"
+      sport="Waterskiing"
     end
     Posting.create(user_id: user,
     start_time: DateTime.new(2016, month, day, start_hour, 0, 0), end_time:
     DateTime.new(2016, month, day, end_hour, 0, 0), boat_type: boat,
     lake_id: lake, activity: sport, posting_type: "Guests")
+    postingCount += 1
+    rand_num=rand(9)
+    if(rand_num == 1 && user != 1)
+      BoatingRequest.create(status: "Accepted", sending_user_id: 1,
+      receiving_user_id: user, posting_id: postingCount)
+    elsif (rand_num == 2 && user != 1)
+      BoatingRequest.create(status: "Declined", sending_user_id: 1,
+      receiving_user_id: user, posting_id: postingCount)
+    elsif (rand_num == 3 && user != 1)
+      if(rand(3)== 2)
+        BoatingRequest.create(status: "Pending", sending_user_id: 1,
+        receiving_user_id: user, posting_id: postingCount)
+      end
+    end
   end
 end

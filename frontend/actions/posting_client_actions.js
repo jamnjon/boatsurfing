@@ -6,7 +6,6 @@ module.exports = {
   },
 
   createPosting: function(newPost){
-    console.log("clientActions");
     PostingsUtil.createPosting(newPost);
   }
 };

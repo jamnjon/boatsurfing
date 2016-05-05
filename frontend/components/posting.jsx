@@ -137,6 +137,11 @@ module.exports = React.createClass({
 
   render: function(){
     if(this.props.target){
+      if(this.props.target === "Hosts"){
+        var newPostType = "Create New Event as Host";
+      } else{
+        newPostType = "Create New Event as Guest";
+      }
       var lakePartners = [];
       this.state.postings.forEach(function(posting){
         var matched = false;
@@ -195,13 +200,13 @@ module.exports = React.createClass({
       <Modal className="modal" isOpen={this.state.newPostModalOpen}
       onRequestClose={this.closeNewPostModal}>
         <div className="closeModal" onClick={this.closeNewPostModal}>X</div>
-        <CreateNewPost lake={this.props.lake}/>
+        <CreateNewPost target={this.props.target} lake={this.props.lake}/>
       </Modal>
       <div className="postResultsHeaderWrapper">
         <h2 className="postResultsPage">{this.props.target} at {this.props.lake.name}:<br/><br/>
         {lakePartners.length} {this.props.target.toLowerCase()} found:<br/><br/></h2>
         <button onClick={this.createNewPost} className="random"
-        >Create New Post</button></div>
+        >{newPostType}</button></div>
         <ul className="postList">{lakePartners}</ul>
         </div>);
 
