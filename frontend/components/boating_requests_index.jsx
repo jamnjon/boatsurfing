@@ -88,33 +88,42 @@ module.exports = React.createClass({
   },
 
   render: function(){
-    if(this.state.approvedRequests.length === 0){
-      var appReq = "";
-    } else {
-      appReq = <div className="approvedReqs"
-      ><b className="BRState">Accepted:</b> <br/><ul>{this.state.approvedRequests}</ul>
-      <br/><br/></div>;
+    if(this.props.showType === "app"){
+      if(this.state.approvedRequests.length === 0){
+        return(
+          <div className="reqs">You Have no Accepted Requests</div>
+        );
+      } else {
+      return(
+        <div className="reqs"><div className="approvedReqs"
+        ><b className="BRState">Accepted:</b> <br/>
+        <ul>{this.state.approvedRequests}</ul></div></div>
+      );
     }
-    if(this.state.pendingRequests.length === 0){
-      var pendReq = "";
-    } else {
-      pendReq = <div className="pendingReqs"
-      ><b className="BRState">Pending:</b> <br/>
-      <ul>{this.state.pendingRequests}</ul>
-      <br/><br/></div>;
-    }
+  } else if(this.props.showType === "pend"){
+      if(this.state.pendingRequests.length === 0){
+        return <div className="reqs">You Have no Pending Requests</div>;
+      } else {
+        return(
+          <div classname="reqs">
+          <div className="pendingReqs"
+          ><b className="BRState">Pending:</b> <br/>
+          <ul>{this.state.pendingRequests}</ul>
+          <br/><br/></div></div>
+        );
+      }
+  } else if (this.props.showType === "dec"){
     if(this.state.declinedRequests.length === 0){
-      var decReq = "";
+      return <div className="reqs">You Have no Declined Requests</div>;
     } else {
-      decReq = <div className="declinedReqs"
-      ><b className="BRState">Declined:</b> <br/><ul>{this.state.declinedRequests}</ul></div>;
+      return(
+        <div className="reqs">
+          <div className="declinedReqs"
+          ><b className="BRState">Declined:</b>
+          <br/><ul>{this.state.declinedRequests}</ul></div>
+        </div>
+      );
     }
-
-    return(
-      <div className="reqs">{appReq}
-      {pendReq}
-      {decReq}
-      </div>
-    );
+  }
   }
 });

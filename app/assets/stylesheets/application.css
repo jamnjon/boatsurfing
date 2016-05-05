@@ -371,6 +371,14 @@ color: $ocean;
   }
 }
 
+.navBar .random {
+  background-color: #2b90d9;
+}
+
+.navBar .random:hover {
+  background-color: #009;
+}
+
 
 .modalForm{
   font-size: 24px;
@@ -573,8 +581,48 @@ z-index: -1;
 .postResults {
   font-size: 20px;
   background:white;
-  padding: 20px;
+  padding: 100px;
   color: black;
+}
+
+.postResultsHeaderWrapper{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.postResultsPage {
+  text-align: center;
+  font-size: 30px;
+}
+
+.postResultsHeaderWrapper .random {
+  background-color: #2b90d9;
+  align-self: center;
+  width: 30%;
+}
+
+.postResultsHeaderWrapper .random:hover {
+  background-color: #009;
+  width: 28%;
+}
+
+.postList .random {
+  background-color: #2b90d9;
+  position: absolute;
+  top: 18px;
+  right: 10%;
+}
+
+.yourPost {
+  color: green;
+  position: absolute;
+  top: 35px;
+  right: 14%;
+}
+
+.postList .random:hover {
+  background-color: #009;
 }
 
 .postingResults{

@@ -129,13 +129,20 @@ module.exports = React.createClass({
           posting.posting_type === this.props.target){
             var date = this.date(posting);
             var startTime = this.startTime(posting);
-
             var endTime = this.endTime(posting);
+            if(this.state.currentUser){
+              if(posting.user.id === this.state.currentUser.id){
+                var postBtn = <div className="yourPost">Your Post!</div>;
+              } else if(this.state.currentUser.id !== posting.user.id){
+                postBtn = <button className="random"
+                onClick={this.request.bind(this, posting)}
+                >Request to Join</button>;
+              }
+            }
             lakePartners.push(<li className="posting" key={posting.id}
             data-postId = {posting.id}>
             <ul className="postingResults">
-            <button className="signUpForPosting"
-            onClick={this.request.bind(this, posting)}>Request to Join</button>
+            {postBtn}
             <li className="postingUser">{posting.user.username}</li>
             <li className="postingActivity"
             ><b>Activity: </b>{posting.activity} behind a {posting.boat_type} boat</li>
@@ -145,21 +152,27 @@ module.exports = React.createClass({
           }
       }.bind(this));
       return (<div className="postResults">
-      <Modal className="BRModal" isOpen={this.state.modalOpen} onRequestClose={this.closeModal}>
+      <Modal className="BRModal" isOpen={this.state.modalOpen}
+      onRequestClose={this.closeModal}>
       <div className="closeModal" onClick={this.closeModal}>X</div>
-        <BoatingRequestIndex />
+        <BoatingRequestIndex/>
       </Modal>
-      <Modal className="modal" isOpen={this.state.loginModalOpen} onRequestClose={this.closeLoginModal}>
+      <Modal className="modal" isOpen={this.state.loginModalOpen}
+      onRequestClose={this.closeLoginModal}>
         <div className="closeModal" onClick={this.closeLoginModal}>X</div>
-        <LoginForm modalCloseMethod={this.closeModal} modalOpen={this.state.loginModalOpen}/>
+        <LoginForm modalCloseMethod={this.closeModal}
+        modalOpen={this.state.loginModalOpen}/>
       </Modal>
-      <Modal className="newPostModal" isOpen={this.state.newPostModalOpen} onRequestClose={this.closeNewPostModal}>
+      <Modal className="newPostModal" isOpen={this.state.newPostModalOpen}
+      onRequestClose={this.closeNewPostModal}>
         <div className="closeModal" onClick={this.closeNewPostModal}>X</div>
         <CreateNewPost lake={this.props.lake}/>
       </Modal>
-        {this.props.target} at {this.props.lake.name}:<br/><br/>
-        {lakePartners.length} {this.props.target.toLowerCase()} found:<br/><br/>
-        <button onClick={this.createNewPost} className="createNewPost">Create New Post</button>
+      <div className="postResultsHeaderWrapper">
+        <h2 className="postResultsPage">{this.props.target} at {this.props.lake.name}:<br/><br/>
+        {lakePartners.length} {this.props.target.toLowerCase()} found:<br/><br/></h2>
+        <button onClick={this.createNewPost} className="random"
+        >Create New Post</button></div>
         <ul className="postList">{lakePartners}</ul>
         </div>);
 

@@ -33034,7 +33034,13 @@
 	
 	  mixins: [CurrentUserState],
 	  getInitialState: function () {
-	    return { modalOpen: false, loginModalOpen: false, includeLakeSearch: false };
+	    return {
+	      loginModalOpen: false,
+	      appModalOpen: false,
+	      pendModalOpen: false,
+	      decModalOpen: false,
+	      includeLakeSearch: false
+	    };
 	  },
 	  componentWillReceiveProps: function (nextProps) {
 	    if (nextProps.path === '/') {
@@ -33045,6 +33051,18 @@
 	  },
 	
 	  openLoginModal: function () {
+	    if (this.state.appModalOpen) {
+	      console.log('appOpen');
+	      this.closeAppModal();
+	    }
+	    if (this.state.pendModalOpen) {
+	      console.log('appOpen');
+	      this.closePendModal();
+	    }
+	    if (this.state.decModalOpen) {
+	      console.log('decOpen');
+	      this.closeDecModal();
+	    }
 	    this.setState({ loginModalOpen: true });
 	  },
 	
@@ -33052,21 +33070,60 @@
 	    this.setState({ loginModalOpen: false });
 	  },
 	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
+	  openAppModal: function () {
+	    if (this.state.loginModalOpen) {
+	      this.closeLoginModal();
+	    }
+	    if (this.state.pendModalOpen) {
+	      this.closePendModal();
+	    }
+	    if (this.state.decModalOpen) {
+	      this.closeDecModal();
+	    }
+	    this.setState({ appModalOpen: true });
 	  },
 	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
+	  closeAppModal: function () {
+	    this.setState({ appModalOpen: false });
+	  },
+	
+	  openPendModal: function () {
+	    if (this.state.appModalOpen) {
+	      this.closeAppModal();
+	    }
+	    if (this.state.loginModalOpen) {
+	      this.closeLoginModal();
+	    }
+	    if (this.state.decModalOpen) {
+	      this.closeDecModal();
+	    }
+	    this.setState({ pendModalOpen: true });
+	  },
+	
+	  closePendModal: function () {
+	    this.setState({ pendModalOpen: false });
+	  },
+	
+	  openDecModal: function () {
+	    if (this.state.appModalOpen) {
+	      this.closeAppModal();
+	    }
+	    if (this.state.pendModalOpen) {
+	      this.closePendModal();
+	    }
+	    if (this.state.loginModalOpen) {
+	      this.closeLoginModal();
+	    }
+	    this.setState({ decModalOpen: true });
+	  },
+	
+	  closeDecModal: function () {
+	    this.setState({ decModalOpen: false });
 	  },
 	
 	  homeButton: function () {
 	    hashHistory.push("/");
 	  },
-	
-	  // inUp: function(){
-	  //   hashHistory.push("/register");
-	  // },
 	
 	  out: function () {
 	    this.setState({ loginModalOpen: false });
@@ -33093,7 +33150,8 @@
 	          ' ',
 	          React.createElement(
 	            'button',
-	            { onClick: this.homeButton, className: 'homeButton' },
+	            { onClick: this.homeButton,
+	              className: 'homeButton' },
 	            'BoatSurfing'
 	          )
 	        ),
@@ -33107,7 +33165,8 @@
 	            { className: 'options'
 	            },
 	            this.state.currentUser.username,
-	            React.createElement('span', { className: 'arrow-down' })
+	            React.createElement('span', { className: 'arrow-down'
+	            })
 	          ),
 	          React.createElement(
 	            'ul',
@@ -33119,19 +33178,56 @@
 	            ),
 	            React.createElement(
 	              'a',
-	              { className: 'inUpOut', onClick: this.openModal
-	              },
-	              'All Requests',
+	              { className: 'inUpOut', onClick: this.openAppModal },
+	              'Accepted Requests',
 	              React.createElement(
 	                Modal,
-	                { className: 'BRModal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
+	                { className: 'BRModal', isOpen: this.state.appModalOpen,
+	                  onRequestClose: this.closeAppModal },
 	                React.createElement(
 	                  'div',
-	                  { className: 'closeModal', onClick: this.closeModal },
+	                  { className: 'closeModal', onClick: this.closeAppModal },
 	                  'X'
 	                ),
-	                React.createElement(BR, null)
+	                React.createElement(BR, { showType: 'app' })
 	              )
+	            ),
+	            React.createElement(
+	              'a',
+	              { className: 'inUpOut', onClick: this.openPendModal },
+	              'Pending Requests',
+	              React.createElement(
+	                Modal,
+	                { className: 'BRModal', isOpen: this.state.pendModalOpen,
+	                  onRequestClose: this.closePendModal },
+	                React.createElement(
+	                  'div',
+	                  { className: 'closeModal', onClick: this.closePendModal },
+	                  'X'
+	                ),
+	                React.createElement(BR, { showType: 'pend' })
+	              )
+	            ),
+	            React.createElement(
+	              'a',
+	              { className: 'inUpOut', onClick: this.openDecModal },
+	              'Declined Requests',
+	              React.createElement(
+	                Modal,
+	                { className: 'BRModal', isOpen: this.state.decModalOpen,
+	                  onRequestClose: this.closeDecModal },
+	                React.createElement(
+	                  'div',
+	                  { className: 'closeModal', onClick: this.closeDecModal },
+	                  'X'
+	                ),
+	                React.createElement(BR, { showType: 'dec' })
+	              )
+	            ),
+	            React.createElement(
+	              'a',
+	              { className: 'inUpOut' },
+	              'My Postings'
 	            )
 	          )
 	        )
@@ -33146,7 +33242,8 @@
 	        ' ',
 	        React.createElement(
 	          'button',
-	          { onClick: this.homeButton, className: 'homeButton' },
+	          { onClick: this.homeButton,
+	            className: 'homeButton' },
 	          'BoatSurfing'
 	        )
 	      ),
@@ -33156,12 +33253,14 @@
 	        { className: 'liInUpOut' },
 	        React.createElement(
 	          'button',
-	          { className: 'inUpOut', onClick: this.openLoginModal },
+	          { className: 'random',
+	            onClick: this.openLoginModal },
 	          'Join or Log in'
 	        ),
 	        React.createElement(
 	          Modal,
-	          { className: 'modal', isOpen: this.state.loginModalOpen, onRequestClose: this.closeLoginModal },
+	          { className: 'modal', isOpen: this.state.loginModalOpen,
+	            onRequestClose: this.closeLoginModal },
 	          React.createElement(
 	            'div',
 	            { className: 'closeModal', onClick: this.closeLoginModal },
@@ -33366,8 +33465,24 @@
 	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target) {
 	          var date = this.date(posting);
 	          var startTime = this.startTime(posting);
-	
 	          var endTime = this.endTime(posting);
+	          if (this.state.currentUser) {
+	            if (posting.user.id === this.state.currentUser.id) {
+	              var postBtn = React.createElement(
+	                'div',
+	                { className: 'yourPost' },
+	                'Your Post!'
+	              );
+	            } else if (this.state.currentUser.id !== posting.user.id) {
+	              postBtn = React.createElement(
+	                'button',
+	                { className: 'random',
+	                  onClick: this.request.bind(this, posting)
+	                },
+	                'Request to Join'
+	              );
+	            }
+	          }
 	          lakePartners.push(React.createElement(
 	            'li',
 	            { className: 'posting', key: posting.id,
@@ -33375,12 +33490,7 @@
 	            React.createElement(
 	              'ul',
 	              { className: 'postingResults' },
-	              React.createElement(
-	                'button',
-	                { className: 'signUpForPosting',
-	                  onClick: this.request.bind(this, posting) },
-	                'Request to Join'
-	              ),
+	              postBtn,
 	              React.createElement(
 	                'li',
 	                { className: 'postingUser' },
@@ -33424,7 +33534,8 @@
 	        { className: 'postResults' },
 	        React.createElement(
 	          Modal,
-	          { className: 'BRModal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal },
+	          { className: 'BRModal', isOpen: this.state.modalOpen,
+	            onRequestClose: this.closeModal },
 	          React.createElement(
 	            'div',
 	            { className: 'closeModal', onClick: this.closeModal },
@@ -33434,17 +33545,20 @@
 	        ),
 	        React.createElement(
 	          Modal,
-	          { className: 'modal', isOpen: this.state.loginModalOpen, onRequestClose: this.closeLoginModal },
+	          { className: 'modal', isOpen: this.state.loginModalOpen,
+	            onRequestClose: this.closeLoginModal },
 	          React.createElement(
 	            'div',
 	            { className: 'closeModal', onClick: this.closeLoginModal },
 	            'X'
 	          ),
-	          React.createElement(LoginForm, { modalCloseMethod: this.closeModal, modalOpen: this.state.loginModalOpen })
+	          React.createElement(LoginForm, { modalCloseMethod: this.closeModal,
+	            modalOpen: this.state.loginModalOpen })
 	        ),
 	        React.createElement(
 	          Modal,
-	          { className: 'newPostModal', isOpen: this.state.newPostModalOpen, onRequestClose: this.closeNewPostModal },
+	          { className: 'newPostModal', isOpen: this.state.newPostModalOpen,
+	            onRequestClose: this.closeNewPostModal },
 	          React.createElement(
 	            'div',
 	            { className: 'closeModal', onClick: this.closeNewPostModal },
@@ -33452,22 +33566,31 @@
 	          ),
 	          React.createElement(CreateNewPost, { lake: this.props.lake })
 	        ),
-	        this.props.target,
-	        ' at ',
-	        this.props.lake.name,
-	        ':',
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        lakePartners.length,
-	        ' ',
-	        this.props.target.toLowerCase(),
-	        ' found:',
-	        React.createElement('br', null),
-	        React.createElement('br', null),
 	        React.createElement(
-	          'button',
-	          { onClick: this.createNewPost, className: 'createNewPost' },
-	          'Create New Post'
+	          'div',
+	          { className: 'postResultsHeaderWrapper' },
+	          React.createElement(
+	            'h2',
+	            { className: 'postResultsPage' },
+	            this.props.target,
+	            ' at ',
+	            this.props.lake.name,
+	            ':',
+	            React.createElement('br', null),
+	            React.createElement('br', null),
+	            lakePartners.length,
+	            ' ',
+	            this.props.target.toLowerCase(),
+	            ' found:',
+	            React.createElement('br', null),
+	            React.createElement('br', null)
+	          ),
+	          React.createElement(
+	            'button',
+	            { onClick: this.createNewPost, className: 'random'
+	            },
+	            'Create New Post'
+	          )
 	        ),
 	        React.createElement(
 	          'ul',
@@ -35639,81 +35762,98 @@
 	  },
 	
 	  render: function () {
-	    if (this.state.approvedRequests.length === 0) {
-	      var appReq = "";
-	    } else {
-	      appReq = React.createElement(
-	        'div',
-	        { className: 'approvedReqs'
-	        },
-	        React.createElement(
-	          'b',
-	          { className: 'BRState' },
-	          'Accepted:'
-	        ),
-	        ' ',
-	        React.createElement('br', null),
-	        React.createElement(
-	          'ul',
-	          null,
-	          this.state.approvedRequests
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null)
-	      );
+	    if (this.props.showType === "app") {
+	      if (this.state.approvedRequests.length === 0) {
+	        return React.createElement(
+	          'div',
+	          { className: 'reqs' },
+	          'You Have no Accepted Requests'
+	        );
+	      } else {
+	        return React.createElement(
+	          'div',
+	          { className: 'reqs' },
+	          React.createElement(
+	            'div',
+	            { className: 'approvedReqs'
+	            },
+	            React.createElement(
+	              'b',
+	              { className: 'BRState' },
+	              'Accepted:'
+	            ),
+	            ' ',
+	            React.createElement('br', null),
+	            React.createElement(
+	              'ul',
+	              null,
+	              this.state.approvedRequests
+	            )
+	          )
+	        );
+	      }
+	    } else if (this.props.showType === "pend") {
+	      if (this.state.pendingRequests.length === 0) {
+	        return React.createElement(
+	          'div',
+	          { className: 'reqs' },
+	          'You Have no Pending Requests'
+	        );
+	      } else {
+	        return React.createElement(
+	          'div',
+	          { classname: 'reqs' },
+	          React.createElement(
+	            'div',
+	            { className: 'pendingReqs'
+	            },
+	            React.createElement(
+	              'b',
+	              { className: 'BRState' },
+	              'Pending:'
+	            ),
+	            ' ',
+	            React.createElement('br', null),
+	            React.createElement(
+	              'ul',
+	              null,
+	              this.state.pendingRequests
+	            ),
+	            React.createElement('br', null),
+	            React.createElement('br', null)
+	          )
+	        );
+	      }
+	    } else if (this.props.showType === "dec") {
+	      if (this.state.declinedRequests.length === 0) {
+	        return React.createElement(
+	          'div',
+	          { className: 'reqs' },
+	          'You Have no Declined Requests'
+	        );
+	      } else {
+	        return React.createElement(
+	          'div',
+	          { className: 'reqs' },
+	          React.createElement(
+	            'div',
+	            { className: 'declinedReqs'
+	            },
+	            React.createElement(
+	              'b',
+	              { className: 'BRState' },
+	              'Declined:'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement(
+	              'ul',
+	              null,
+	              this.state.declinedRequests
+	            )
+	          )
+	        );
+	      }
 	    }
-	    if (this.state.pendingRequests.length === 0) {
-	      var pendReq = "";
-	    } else {
-	      pendReq = React.createElement(
-	        'div',
-	        { className: 'pendingReqs'
-	        },
-	        React.createElement(
-	          'b',
-	          { className: 'BRState' },
-	          'Pending:'
-	        ),
-	        ' ',
-	        React.createElement('br', null),
-	        React.createElement(
-	          'ul',
-	          null,
-	          this.state.pendingRequests
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null)
-	      );
-	    }
-	    if (this.state.declinedRequests.length === 0) {
-	      var decReq = "";
-	    } else {
-	      decReq = React.createElement(
-	        'div',
-	        { className: 'declinedReqs'
-	        },
-	        React.createElement(
-	          'b',
-	          { className: 'BRState' },
-	          'Declined:'
-	        ),
-	        ' ',
-	        React.createElement('br', null),
-	        React.createElement(
-	          'ul',
-	          null,
-	          this.state.declinedRequests
-	        )
-	      );
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'reqs' },
-	      appReq,
-	      pendReq,
-	      decReq
-	    );
 	  }
 	});
 
