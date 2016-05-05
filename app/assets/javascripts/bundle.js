@@ -33492,9 +33492,13 @@
 	            { className: 'posting', key: posting.id,
 	              'data-postId': posting.id },
 	            React.createElement(
+	              'div',
+	              { className: 'profilePicWrapper' },
+	              React.createElement('img', { className: 'profilePic', src: posting.user.profile_pic_url })
+	            ),
+	            React.createElement(
 	              'ul',
 	              { className: 'postingResults' },
-	              postBtn,
 	              React.createElement(
 	                'li',
 	                { className: 'postingUser' },
@@ -33529,7 +33533,8 @@
 	                ' until ',
 	                endTime
 	              )
-	            )
+	            ),
+	            postBtn
 	          ));
 	        }
 	      }.bind(this));

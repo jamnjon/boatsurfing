@@ -549,7 +549,21 @@ z-index: -1;
 }
 
 .navBarSearch .lakeSearchList {
-  left: 134px;
+  left: 42px;
+  top: 21px;
+}
+
+.profilePicWrapper{
+  height: 128px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+}
+
+.profilePic{
+  height: 75%;
+  width: 100px;
 }
 
 .BRlist {
@@ -647,7 +661,7 @@ z-index: -1;
 .postList .random {
   background-color: #2b90d9;
   position: absolute;
-  top: 15%;
+  top: 32%;
   right: 10%;
 }
 
@@ -667,10 +681,13 @@ z-index: -1;
   color: #009;
   border-bottom: 1px solid black;
   margin-top: 25px;
+  width: 100%;
 }
 
 .posting{
   position: relative;
+  display: flex;
+  justify-content: space-between;
 }
 
 .signUpForPosting{

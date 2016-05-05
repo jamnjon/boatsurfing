@@ -143,16 +143,21 @@ module.exports = React.createClass({
                 >Request to Join</button>;
               }
             }
-            lakePartners.push(<li className="posting" key={posting.id}
-            data-postId = {posting.id}>
-            <ul className="postingResults">
-            {postBtn}
-            <li className="postingUser">{posting.user.username}</li>
-            <li className="postingActivity"
-            ><b>Activity: </b>{posting.activity} behind a {posting.boat_type} boat</li>
-            <li className="postingTiming"
-            ><b>On: </b>{date} from {startTime} until {endTime}</li>
-            </ul></li>);
+            lakePartners.push(
+              <li className="posting" key={posting.id}
+                data-postId = {posting.id}>
+                <div className="profilePicWrapper">
+                  <img className="profilePic" src={posting.user.profile_pic_url} />
+                </div>
+                <ul className="postingResults">
+                  <li className="postingUser">{posting.user.username}</li>
+                  <li className="postingActivity"
+                  ><b>Activity: </b>{posting.activity} behind a {posting.boat_type} boat</li>
+                  <li className="postingTiming"
+                  ><b>On: </b>{date} from {startTime} until {endTime}</li>
+                </ul>
+                {postBtn}
+              </li>);
           }
       }.bind(this));
       return (<div className="postResults">
