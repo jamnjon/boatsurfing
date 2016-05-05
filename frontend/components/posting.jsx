@@ -5,6 +5,7 @@ var PostConstants = require('../constants/posting_constants');
 var BRClientActions = require('../actions/boating_request_client_actions');
 var CurrentUserState = require('../mixins/current_user_state');
 var Modal = require('react-modal');
+var BRStore = require('../stores/boating_request_store');
 var BoatingRequestIndex = require('./boating_requests_index');
 var LoginForm = require('./LoginForm');
 var CreateNewPost = require('./posting_form');
@@ -16,6 +17,7 @@ module.exports = React.createClass({
   getInitialState: function(){
     return {
       postings: [],
+      boatingRequests: [],
       modalOpen: false,
       loginModalOpen: false,
       newPostModalOpen: false
@@ -47,10 +49,13 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function(){
+    BRClientActions.fetchBoatingRequests();
     this.postingsListener = PostingStore.addListener(this.getPostings);
+    this.BRsListener = BRStore.addListener(this.getBRs);
   },
 
   componentWillReceiveProps: function(nextProps){
+    BRClientActions.fetchBoatingRequests();
     PostingClientActions.fetchPostings(nextProps.lake);
     this.setState({postings: PostingStore.all()});
   },
@@ -63,10 +68,15 @@ module.exports = React.createClass({
 
   componentWillUnmount: function(){
     this.postingsListener.remove();
+    this.BRsListener.remove();
   },
 
   getPostings: function(){
     this.setState({postings: PostingStore.all(), newPostModalOpen: false});
+  },
+
+  getBRs: function(){
+    this.setState({boatingRequests: BRStore.all()});
   },
 
   date: function(posting){
@@ -113,7 +123,7 @@ module.exports = React.createClass({
           receiving_user_id: posting.user.id,
           sending_user_id: this.state.currentUser.id
         });
-        this.openModal();
+        this.getBRs();
       }
   },
 
@@ -129,6 +139,7 @@ module.exports = React.createClass({
     if(this.props.target){
       var lakePartners = [];
       this.state.postings.forEach(function(posting){
+        var matched = false;
         if(posting.lake_id === this.props.lake.id &&
           posting.posting_type === this.props.target){
             var date = this.date(posting);
@@ -136,12 +147,21 @@ module.exports = React.createClass({
             var endTime = this.endTime(posting);
             if(this.state.currentUser){
               if(posting.user.id === this.state.currentUser.id){
+                matched = true;
                 var postBtn = <div className="yourPost">Your Post!</div>;
               } else if(this.state.currentUser.id !== posting.user.id){
-                postBtn = <button className="random"
-                onClick={this.request.bind(this, posting)}
-                >Request to Join</button>;
+                this.state.boatingRequests.forEach(function(req){
+                  if(req.posting.id === posting.id && req.requester.id === this.state.currentUser.id){
+                    matched=true;
+                    postBtn= <div className={req.status}>{req.status}</div>;
+                  }
+                }.bind(this));
               }
+            }
+            if(!matched){
+              postBtn = <button className="random"
+              onClick={this.request.bind(this, posting)}
+              >Request to Join</button>;
             }
             lakePartners.push(
               <li className="posting" key={posting.id}

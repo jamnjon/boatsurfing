@@ -33342,6 +33342,7 @@
 	var BRClientActions = __webpack_require__(292);
 	var CurrentUserState = __webpack_require__(255);
 	var Modal = __webpack_require__(270);
+	var BRStore = __webpack_require__(291);
 	var BoatingRequestIndex = __webpack_require__(290);
 	var LoginForm = __webpack_require__(225);
 	var CreateNewPost = __webpack_require__(296);
@@ -33354,6 +33355,7 @@
 	  getInitialState: function () {
 	    return {
 	      postings: [],
+	      boatingRequests: [],
 	      modalOpen: false,
 	      loginModalOpen: false,
 	      newPostModalOpen: false
@@ -33385,10 +33387,13 @@
 	  },
 	
 	  componentDidMount: function () {
+	    BRClientActions.fetchBoatingRequests();
 	    this.postingsListener = PostingStore.addListener(this.getPostings);
+	    this.BRsListener = BRStore.addListener(this.getBRs);
 	  },
 	
 	  componentWillReceiveProps: function (nextProps) {
+	    BRClientActions.fetchBoatingRequests();
 	    PostingClientActions.fetchPostings(nextProps.lake);
 	    this.setState({ postings: PostingStore.all() });
 	  },
@@ -33401,10 +33406,15 @@
 	
 	  componentWillUnmount: function () {
 	    this.postingsListener.remove();
+	    this.BRsListener.remove();
 	  },
 	
 	  getPostings: function () {
 	    this.setState({ postings: PostingStore.all(), newPostModalOpen: false });
+	  },
+	
+	  getBRs: function () {
+	    this.setState({ boatingRequests: BRStore.all() });
 	  },
 	
 	  date: function (posting) {
@@ -33450,7 +33460,7 @@
 	        receiving_user_id: posting.user.id,
 	        sending_user_id: this.state.currentUser.id
 	      });
-	      this.openModal();
+	      this.getBRs();
 	    }
 	  },
 	
@@ -33466,26 +33476,40 @@
 	    if (this.props.target) {
 	      var lakePartners = [];
 	      this.state.postings.forEach(function (posting) {
+	        var matched = false;
 	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target) {
 	          var date = this.date(posting);
 	          var startTime = this.startTime(posting);
 	          var endTime = this.endTime(posting);
 	          if (this.state.currentUser) {
 	            if (posting.user.id === this.state.currentUser.id) {
+	              matched = true;
 	              var postBtn = React.createElement(
 	                'div',
 	                { className: 'yourPost' },
 	                'Your Post!'
 	              );
 	            } else if (this.state.currentUser.id !== posting.user.id) {
-	              postBtn = React.createElement(
-	                'button',
-	                { className: 'random',
-	                  onClick: this.request.bind(this, posting)
-	                },
-	                'Request to Join'
-	              );
+	              this.state.boatingRequests.forEach(function (req) {
+	                if (req.posting.id === posting.id && req.requester.id === this.state.currentUser.id) {
+	                  matched = true;
+	                  postBtn = React.createElement(
+	                    'div',
+	                    { className: req.status },
+	                    req.status
+	                  );
+	                }
+	              }.bind(this));
 	            }
+	          }
+	          if (!matched) {
+	            postBtn = React.createElement(
+	              'button',
+	              { className: 'random',
+	                onClick: this.request.bind(this, posting)
+	              },
+	              'Request to Join'
+	            );
 	          }
 	          lakePartners.push(React.createElement(
 	            'li',
@@ -35904,7 +35928,7 @@
 	
 	module.exports = {
 	  fetchBoatingRequests: function () {
-	    BoatingRequestUtil.fetchLakes();
+	    BoatingRequestUtil.fetchBoatingRequests();
 	  },
 	
 	  post: function (posting) {
@@ -35927,7 +35951,7 @@
 	var BoatingRequestServerActions = __webpack_require__(294);
 	
 	module.exports = {
-	  fetchLakes: function () {
+	  fetchBoatingRequests: function () {
 	    $.ajax({
 	      type: "GET",
 	      url: "api/boating_requests",
@@ -35941,7 +35965,10 @@
 	    $.ajax({
 	      type: "POST",
 	      url: "api/boating_requests",
-	      data: { boating_request: posting }
+	      data: { boating_request: posting },
+	      success: function () {
+	        this.fetchBoatingRequests();
+	      }.bind(this)
 	    });
 	  },
 	
@@ -35951,7 +35978,7 @@
 	      url: "api/boating_requests/" + id,
 	      data: { boating_request: { status: newStatus } },
 	      success: function () {
-	        this.fetchLakes();
+	        this.fetchBoatingRequests();
 	      }.bind(this)
 	    });
 	  },
@@ -35961,7 +35988,7 @@
 	      type: "DELETE",
 	      url: "api/boating_requests/" + id,
 	      success: function () {
-	        this.fetchLakes();
+	        this.fetchBoatingRequests();
 	      }.bind(this)
 	    });
 	  }

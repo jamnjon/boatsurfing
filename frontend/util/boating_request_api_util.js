@@ -2,7 +2,7 @@ var BoatingRequestServerActions =
   require('../actions/boating_request_server_actions');
 
 module.exports = {
-  fetchLakes: function(){
+  fetchBoatingRequests: function(){
     $.ajax({
       type: "GET",
       url: "api/boating_requests",
@@ -17,6 +17,9 @@ module.exports = {
       type: "POST",
       url: "api/boating_requests",
       data: {boating_request: posting},
+      success: function(){
+        this.fetchBoatingRequests();
+      }.bind(this)
     });
   },
 
@@ -26,7 +29,7 @@ module.exports = {
       url: "api/boating_requests/"+ id,
       data: {boating_request: {status: newStatus}},
       success: function(){
-        this.fetchLakes();
+        this.fetchBoatingRequests();
       }.bind(this)
     });
   },
@@ -36,7 +39,7 @@ module.exports = {
       type: "DELETE",
       url: "api/boating_requests/" + id,
       success:function(){
-        this.fetchLakes();
+        this.fetchBoatingRequests();
       }.bind(this)
     });
   }
