@@ -49,13 +49,34 @@ Postings are also stored in a  table in the database, containing: `lake_id`,`id`
   },
 ```
 
-### Tags
+### BoatingRequests
 
-As with notebooks, tags are stored in the database through a `tag` table and a join table.  The `tag` table contains the columns `id` and `tag_name`.  The `tagged_notes` table is the associated join table, which contains three columns: `id`, `tag_id`, and `note_id`.  
+BoatingRequests are stored in the database through a `boating_requests` table which contains the columns: `id`, `sending_user_id`, `receiving_user_id`, `status`, and `posting_id`.  
 
-Tags are maintained on the frontend in the `TagStore`.  Because creating, editing, and destroying notes can potentially affect `Tag` objects, the `NoteIndex` and the `NotebookIndex` both listen to the `TagStore`.  It was not necessary to create a `Tag` component, as tags are simply rendered as part of the individual `Note` components.  
+BoatingRequests are maintained on the frontend in the `BoatingRequestStore`.  They are rendered within a `boating_request_index` component which renders each `boating_request_index_item` component. These are accessed via a button from a dropdown on the `navBar` component, separated by their `status` (`Accepted`, `Pending`, or `Declined`), and displayed in a Modal. Each one shows the details of the `posting` (when the event is, which lake, the activity, and the other user's username) along with (optionally, depending on the status and whether you're the sender or the receiver) buttons to `cancel`, `approve`, or `decline` the request. `cancel` will remove the request from the database, `approve` or `decline` will change the status which will make it appear in a different window.
 
-![tag screenshot](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/tagScreenshot.png)
+![BoatingRequest screenshot](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Pending.png)
+
+`BoatingRequests` render for approved Requests.
+
+````javascript
+if(this.props.showType === "app"){
+  if(this.state.approvedRequests.length === 0){
+    return(
+      <div className="noReqs">You Have no Accepted Requests</div>
+    );
+  } else {
+  return(
+    <div className="reqs"><div className="approvedReqs"
+    ><b className="BRState">Accepted:</b> <br/>
+    <ul>{this.state.approvedRequests}</ul></div></div>
+  );
+}
+````
+
+### LakeSearch
+
+The `lakeSearch` component listens to the `LakeStore` and uses the `find` function within the store in order to sort the 
 
 ## Future Directions for the Project
 
