@@ -1,10 +1,10 @@
-# BoatSurfing
+# ![logo](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Logo.png)
 
-[BoatSurfing live][location] **NB:** This should be a link to your production site
+[BoatSurfing live][location]
 
 [location]: http://www.boatsurfing.site
 
-![logo](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Logo.png)
+
 
 BoatSurfing is a full-stack web application inspired by CouchSurfing.  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
 
@@ -26,7 +26,7 @@ sample ruby code
 
   Notes are rendered in two different components: the `CondensedNote` components, which show the title and first few words of the note content, and the `ExpandedNote` components, which are editable and show all note text.  The `NoteIndex` renders all of the `CondensedNote`s as subcomponents, as well as one `ExpandedNote` component, which renders based on `NoteStore.selectedNote()`. The UI of the `NoteIndex` is taken directly from Evernote for a professional, clean look:  
 
-![image of notebook index](https://github.com/jamnjon/couchsurfing/blob/master/docs/noteIndex.png)
+![image of notebook index](https://github.com/jamnjon/couchsurfing/tree/master/docs/noteIndex.png)
 
 Note editing is implemented using the Quill.js library, allowing for a Word-processor-like user experience.
 
