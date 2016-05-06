@@ -44,7 +44,7 @@ module.exports = React.createClass({
 
   render: function(){
     return (
-      <div>
+      <div className="lakePageBody">
 
         <img className="lakeImg" src={this.state.lake.image_url} />
         <Postings target={this.state.target} lake={this.state.lake}/>

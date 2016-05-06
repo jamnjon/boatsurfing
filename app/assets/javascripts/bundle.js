@@ -33320,7 +33320,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'lakePageBody' },
 	      React.createElement('img', { className: 'lakeImg', src: this.state.lake.image_url }),
 	      React.createElement(Postings, { target: this.state.target, lake: this.state.lake })
 	    );

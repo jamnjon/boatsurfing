@@ -8,12 +8,12 @@
 
 BoatSurfing is a web application inspired by CouchSurfing that will be build using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
 
-- [ ] New account creation, login, and guest/demo login
-- [ ] Smooth, bug-free navigation
-- [ ] Adequate seed data to demonstrate the site's features
-- [ ] The minimally necessary features for an Couchsurfing-inspired site: find a host to allow you to wakeboard/waterski/...behind their boat or be a host and allow someone to come out with you on your boat (after all, you can't drive yourself).
-- [ ] Hosting on Heroku
-- [ ] CSS styling that is satisfactorily visually appealing
+- [x] New account creation, login, and guest/demo login
+- [x] Smooth, bug-free navigation
+- [x] Adequate seed data to demonstrate the site's features
+- [x] The minimally necessary features for an Couchsurfing-inspired site: find a host to allow you to wakeboard/waterski/...behind their boat or be a host and allow someone to come out with you on your boat (after all, you can't drive yourself).
+- [x] Hosting on Heroku
+- [x] CSS styling that is satisfactorily visually appealing
 - [ ] A production README, replacing this README (**NB**: check out the [sample production README](https://github.com/appacademy/sample-project-proposal/blob/master/docs/production_readme.md) -- you'll write this later)
 
 ## Product Goals and Priorities

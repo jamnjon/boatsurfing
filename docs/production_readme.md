@@ -1,29 +1,23 @@
 # BoatSurfing
 
-[BoatSurfing live][heroku] **NB:** This should be a link to your production site
+[BoatSurfing live][location] **NB:** This should be a link to your production site
 
-[heroku]: http://www.herokuapp.com
+[location]: http://www.boatsurfing.site
 
-BoatSurfing is a full-stack web application inspired by Evernote.  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
+![image of logo](https://github.com/jamnjon/couchsurfing/tree/master/docs/pics/Logo.png)
+
+BoatSurfing is a full-stack web application inspired by CouchSurfing.  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
 
 ## Features & Implementation
 
- **NB**: don't copy and paste any of this.  Many folks will implement similar features, and many employers will see the READMEs of a lot of a/A grads.  You must write in a way that distinguishes your README from that of other students', but use this as a guide for what topics to cover.  
+
 
 ### Single-Page App
 
-BoatSurfing is truly a single-page; all content is delivered on one static page.  The root page listens to a `SessionStore` and renders content based on a call to `SessionStore.currentUser()`.  Sensitive information is kept out of the frontend of the app by making an API call to `SessionsController#get_user`.
+BoatSurfing is a single page app. There are four stores that the site listens to (BoatingRequests, Lakes, Postings, Users), and it displays content based on the current status of the stores. The frontend of the app doesn't have access to sensitive information.
 
 ```ruby
-class Api::SessionsController < ApplicationController
-    def get_user
-      if current_user
-        render :current_user
-      else
-        render json: errors.full_messages
-      end
-    end
- end
+sample ruby code
   ```
 
 ### Note Rendering and Editing
@@ -32,7 +26,7 @@ class Api::SessionsController < ApplicationController
 
   Notes are rendered in two different components: the `CondensedNote` components, which show the title and first few words of the note content, and the `ExpandedNote` components, which are editable and show all note text.  The `NoteIndex` renders all of the `CondensedNote`s as subcomponents, as well as one `ExpandedNote` component, which renders based on `NoteStore.selectedNote()`. The UI of the `NoteIndex` is taken directly from Evernote for a professional, clean look:  
 
-![image of notebook index](https://github.com/appacademy/sample-project-proposal/blob/master/docs/noteIndex.png)
+![image of notebook index](https://github.com/jamnjon/couchsurfing/tree/master/docs/noteIndex.png)
 
 Note editing is implemented using the Quill.js library, allowing for a Word-processor-like user experience.
 
