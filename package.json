@@ -1,14 +1,14 @@
 {
   "name": "couchsurfing",
   "version": "1.0.0",
-  "description": "[Heroku link][heroku] **NB:** This should be a link to your production site",
+  "description": "[Heroku link][www.boatsurfing.site]",
   "main": "webpack.config.js",
   "directories": {
     "doc": "docs",
     "test": "test"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/webpack"
+    "heroku-postbuild": "webpack --config webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
