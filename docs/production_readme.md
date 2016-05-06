@@ -6,7 +6,7 @@
 
 
 
-BoatSurfing is a full-stack web application inspired by CouchSurfing.  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
+BoatSurfing is a full-stack web application for boat sharing. Like many people, I hate it when I feel like going out on my boat but nobody is available to come out with me (can't really do water sports without a driver). People without a boat can now post on this app and join me, or anybody else, to do some water sports!  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
 
 ## Features & Implementation
 
@@ -23,12 +23,13 @@ end
   ```
 
 ### Lake Rendering
-  Lakes are stored in a table in the database with columns for `id`, `name`, `image_url`, `created_at`, and `updated_at`. The lake is displayed on the frontend by showing the `lake` component, which begins by showing the `lake image`, then a display of the `posting` component for that `lake`, including a button to launch the `posting_form` component along with an option to `request to join` which creates a new `boating_request`, or shows the status of any previously submitted `boating_requests` depending on the `status` of any `boating_request_index_item` for that particular `posting_id`. The Lakes are stored in the `LakeStore`.
+  Lakes are stored in a table in the database with columns for `id`, `name`, `image_url`. The lake is displayed on the frontend by showing the `lake` component, which begins by showing the `lake image`, then a display of the `posting` component for that `lake`, including a button to launch the `posting_form` component along with an option to `request to join` which creates a new `boating_request`, or shows the status of any previously submitted `boating_requests` depending on the `status` of any `boating_request_index_item` for that particular `posting_id`. The Lakes are stored in the `LakeStore`.
 
 ![image of lake page](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/LakePageTop.png)
 
-### Notebooks
+### Postings
 
+Postings are also stored in a  table in the database, containing: `lake_id`,`id`, `user_id`, `start_time`, `end_time`, `boat_type`, `activity`, `lake_id`, and `posting_type`.
 Implementing Notebooks started with a notebook table in the database.  The `Notebook` table contains two columns: `title` and `id`.  Additionally, a `notebook_id` column was added to the `Note` table.  
 
 The React component structure for notebooks mirrored that of notes: the `NotebookIndex` component renders a list of `CondensedNotebook`s as subcomponents, along with one `ExpandedNotebook`, kept track of by `NotebookStore.selectedNotebook()`.  
@@ -50,7 +51,7 @@ As with notebooks, tags are stored in the database through a `tag` table and a j
 
 Tags are maintained on the frontend in the `TagStore`.  Because creating, editing, and destroying notes can potentially affect `Tag` objects, the `NoteIndex` and the `NotebookIndex` both listen to the `TagStore`.  It was not necessary to create a `Tag` component, as tags are simply rendered as part of the individual `Note` components.  
 
-![tag screenshot](https://github.com/appacademy/sample-project-proposal/blob/master/docs/tagScreenshot.png)
+![tag screenshot](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/tagScreenshot.png)
 
 ## Future Directions for the Project
 
