@@ -1,143 +1,109 @@
-# BoatSurfing
+# ![logo](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Logo.png)
 
-[Heroku link][heroku] **NB:** This should be a link to your production site
+[BoatSurfing live][location]
 
-[heroku]: http://www.herokuapp.com
-
-## Minimum Viable Product
-
-BoatSurfing is a web application inspired by CouchSurfing that will be build using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
-
-- [x] New account creation, login, and guest/demo login
-- [x] Smooth, bug-free navigation
-- [x] Adequate seed data to demonstrate the site's features
-- [x] The minimally necessary features for an Couchsurfing-inspired site: find a host to allow you to wakeboard/waterski/...behind their boat or be a host and allow someone to come out with you on your boat (after all, you can't drive yourself).
-- [x] Hosting on Heroku
-- [x] CSS styling that is satisfactorily visually appealing
-- [ ] A production README, replacing this README (**NB**: check out the [sample production README](https://github.com/appacademy/sample-project-proposal/blob/master/docs/production_readme.md) -- you'll write this later)
-
-## Product Goals and Priorities
-
-BoatSurfing will allow users to do the following:
-
-<!-- This is a Markdown checklist. Use it to keep track of your
-progress. Put an x between the brackets for a checkmark: [x] -->
-
-- [x] Create an account (MVP)
-- [x] Log in / Log out, including as a Guest/Demo User (MVP)
-- [x] Search a lake for potential hosts (MVP)
-- [x] Search a lake for potential guests (MVP)
-- [ ] Rate a host/guest (expected feature, but not MVP)
-- [ ] Sort potential hosts/guests by specific water sport and/or by rating (expected feature, but not MVP)
-- [ ] Favorite previous hosts or guests so that they will come up first in future searches (expected feature, but not MVP)
-
-## Design Docs
-* [View Wireframes][views]
-* [React Components][components]
-* [Flux Cycles][flux-cycles]
-* [API endpoints][api-endpoints]
-* [DB schema][schema]
-
-[views]: ./docs/views.md
-[components]: ./docs/components.md
-[flux-cycles]: ./docs/flux-cycles.md
-[api-endpoints]: ./docs/api-endpoints.md
-[schema]: ./docs/schema.md
-
-## Implementation Timeline
-
-### Phase 1: Backend setup and User Authentication (0.5 days)
-
-**Objective:** Functioning rails project with Authentication
-
-- [x] create new project
-- [x] create `User` model
-- [x] authentication
-- [x] user signup/signin pages
-- [x] blank landing page after signin
-
-### Phase 2: Lakes Model, API, and basic APIUtil (1.0 days)
-
-**Objective:** Lakes can only be indexed and shown through the API.
-
-- [x] create `Lake` model
-- [x] seed the database with a small amount of test data
-- [x] CRUD API for notes (`LakesController`)
-- [x] jBuilder views for lakes
-- [x] setup Webpack & Flux scaffold
-- [x] setup `APIUtil` to interact with the API
-- [x] test out API interaction in the console.
-
-### Phase 3: BoatingRequests Model, API, and basic APIUtil (1.5 days)
-
-**Objective:** BoatingRequests can be created, edited, read, and destroyed through the API.
-
-- [x] create `BoatingRequest` model
-- [x] seed the database with a small amount of test data
-- [x] CRUD API for BoatingRequest (`BoatingRequestsController`)
-- [x] jBuilder views for BoatingRequests
-- [x] setup Webpack & Flux scaffold
-- [x] setup `APIUtil` to interact with the API
-- [x] test out API interaction in the console.
+[location]: http://www.boatsurfing.site
 
 
-### Phase 4: Flux Architecture and Router (1.5 days)
 
-**Objective:** BoatingRequests can be created, read, edited and destroyed with the
-user interface.
+BoatSurfing is a full-stack web application for boat sharing. Like many people, I hate it when I feel like going out on my boat but nobody is available to come out with me (can't really do water sports without a driver). People without a boat can now post on this app and join me, or anybody else, to do some water sports!  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
 
-- [x] setup the flux loop with skeleton files
-- [x] setup React Router
-- implement each note component, building out the flux loop as needed.
-  - [x] `BoatingRequestsIndex`
-  - [x] `BoatingRequestIndexItem`
-
-### Phase 5: Start Styling (0.5 days)
-
-**Objective:** Existing pages (including singup/signin) will look good.
-
-- [x] create a basic style guide
-- [x] position elements on the page
-- [x] add basic colors & styles
-
-### Phase 6: Postings Model, API, and basic APIUtil (1.5 days)
-
-**Objective:** Postings can be created, edited, read, and destroyed through the API.
-
-- [x] create `Posting` model
-- [x] seed the database with a small amount of test data
-- [x] CRUD API for notes (`PostingsController`)
-- [x] jBuilder views for hosts
-- [x] setup Webpack & Flux scaffold
-- [x] setup `APIUtil` to interact with the API
-- [x] test out API interaction in the console.
+## Features & Implementation
 
 
-### Phase 7: Flux Architecture and Router (1.5 days)
 
-**Objective:** Postings can be created, read, edited and destroyed with the
-user interface.
+### Single-Page App
 
-- [x] setup the flux loop with skeleton files
-- [x] setup React Router
-- implement each posting component within the lake view, building out the flux loop as needed.
-  - [x] `Postings`
-  - [x] `PostingForm`
-- [x] save Postings to the DB when the form loses focus or is left idle
-  after editing.
+BoatSurfing is a single page app. There are four stores that the site listens to (BoatingRequests, Lakes, Postings, Users), and it displays content based on the current status of the stores. The BoatingRequests controller makes sure to pull all of its necessary data to avoid N+1 queries.
 
+```ruby
+def index
+  @requests = BoatingRequest.includes(:posting, :lake, :receiver, :requester).all
+end
+  ```
 
-### Phase 8: Styling Cleanup and Seeding (1 day)
+### Lake Rendering
+  Lakes are stored in a table in the database with columns for `id`, `name`, `image_url`. The lake is displayed on the frontend by showing the `lake` component, which begins by showing the `lake image`, then a display of the `posting` component for that `lake`, which allows the user to see all available events that match their search parameters (`lake` and whether they're the `host` or the `guest`), as well post new events.
+![image of lake page](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/LakePageTop.png)
 
-**objective:** Make the site feel more cohesive and awesome.
+### Postings
 
-- [x] Get feedback on my UI from others
-- [x] Refactor HTML classes & CSS rules
-- [x] Add modals, transitions, and other styling flourishes.
-- [x] Add footer (contact info)
+Postings are also stored in a  table in the database, containing: `lake_id`,`id`, `user_id`, `start_time`, `end_time`, `boat_type`, `activity`, `lake_id`, and `posting_type`. It is rendered in the `posting` component which is only shown within the `lake` component. It includes the method for creating new postings via a button to launch the `posting_form` component. These listen to the `PostingStore` to see all the postings and the `BoatingRequestStore` to check the status of any pending requests to join a particular posting that you might already have. It renders all of the postings for that particular lake, of that particular posting type (`host` or `guest`), along with either the button to join a posting or a display of the status of your previous request.
 
-### Bonus Features (TBD)
-- [ ] Rate hosts/travelers
-- [ ] Pagination / infinite scroll for Hosts/Postings Index
-- [ ] Favorite previous Hosts/Guests and have them show up at top of search
-- [ ] Multiple sessions
+![image of postings](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Postings.png)
+
+`Posting` startTime method (Parsing input into proper time format for display):
+
+```javascript
+  startTime: function(posting){
+    var startHour = parseInt(posting.start_time.slice(11,13));
+    var ampm = " am";
+    if(startHour > 12){
+      startHour -= 12;
+      ampm = " pm";
+    }
+    if(startHour === 12){
+      ampm = " pm";
+    }
+    return (startHour + posting.start_time.slice(13,16) + ampm);
+  },
+```
+
+### PostingForm
+
+This is a form to create new `postings`. It is launched via a button on the `posting` component, which is displayed in the `lake` component. It has access to the `posting_client_actions` so that it can submit items into the `postings` table in the database.
+
+![PostingForm screenshot](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/NewEvent.png)
+
+### BoatingRequests
+
+BoatingRequests are stored in the database through a `boating_requests` table which contains the columns: `id`, `sending_user_id`, `receiving_user_id`, `status`, and `posting_id`.  
+
+BoatingRequests are maintained on the frontend in the `BoatingRequestStore`.  They are rendered within a `boating_request_index` component which renders each `boating_request_index_item` component. These are accessed via a button from a dropdown on the `navBar` component, separated by their `status` (`Accepted`, `Pending`, or `Declined`), and displayed in a Modal. Each one shows the details of the `posting` (when the event is, which lake, the activity, and the other user's username) along with (optionally, depending on the status and whether you're the sender or the receiver) buttons to `cancel`, `approve`, or `decline` the request. `cancel` will remove the request from the database, `approve` or `decline` will change the status which will make it appear in a different window.
+
+![BoatingRequest screenshot](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/PendingRequests.png)
+
+`BoatingRequests` render for approved Requests.
+
+````javascript
+if(this.props.showType === "app"){
+  if(this.state.approvedRequests.length === 0){
+    return(
+      <div className="noReqs">You Have no Accepted Requests</div>
+    );
+  } else {
+  return(
+    <div className="reqs"><div className="approvedReqs"
+    ><b className="BRState">Accepted:</b> <br/>
+    <ul>{this.state.approvedRequests}</ul></div></div>
+  );
+}
+````
+
+### LakeSearch
+
+The `lakeSearch` component listens to the `LakeStore` and uses the `find` function within the store in order to allow the user to find a specific lake by name.
+
+![Search screenshot](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Search.png)
+
+### NavBar
+
+The `navBar` component listens to the `UserStore` via the `CurrentUserState` mixin. Depending on whether the user is logged in or not, as well as what page they're on, they will see something different. Whether logged in or out, they will see the logo towards the left side of the screen. When logged out, they see a button to launch the `LoginForm` component which will allow them to either register or sign in (including as a guest). When logged in, they see they're username as a dropdown, giving access to the `boating_request_index` components (separated by `status`) as well as the ability to logout.
+
+![navBar screenshot with dropdown](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/UserOptions.png)
+
+## Future Directions for the Project
+
+In addition to the features already implemented, I plan to continue work on this project.  The next steps for BoatSurfing are outlined below.
+
+### Filter/Improved Search Functionality
+
+I plan to allow the user to search by location (plug in a city name and a range and find lakes near them, whether in a list, or ideally in an interactive map via google maps API that allows them to click a lake to be directed to the lake page). Additionally, filtering search results by particular sport, date, or user would allow the user to not need to navigate extra unneeded information (if I'm looking to go wakeboarding, I don't need to see people with waterski boats looking to go waterskiing). Additionally, I intend to allow the user to sort the results by date, by user rating (see below),...
+
+### Ratings/Completion Status/User Show Page
+
+Allow users to rate the person they went with. The users already have the columns in the database necessary to do this, but there is no functionality to add this yet. Once the `end_time` passes, the next time the user logs in, the item should be moved out of the `boating_request_index`, and if the status was `Accepted` they should have it appear in a `completed` section. If they select that option, they should be able to rate the other user and post comments about them which would appear on a (yet to be created) user show page. Users should be allowed to update their password as well as their profile picture, and maybe post a "home lake" where they are most likely to be available to go out.
+
+### Direct Messaging
+
+Messaging between BoatSurfing users is an important feature.  This will enable them to coordinate their activities a bit better (for instance, find out exactly where on the lake to meet up).
