@@ -23,26 +23,30 @@ end
   ```
 
 ### Lake Rendering
-  Lakes are stored in a table in the database with columns for `id`, `name`, `image_url`. The lake is displayed on the frontend by showing the `lake` component, which begins by showing the `lake image`, then a display of the `posting` component for that `lake`, including a button to launch the `posting_form` component along with an option to `request to join` which creates a new `boating_request`, or shows the status of any previously submitted `boating_requests` depending on the `status` of any `boating_request_index_item` for that particular `posting_id`. The Lakes are stored in the `LakeStore`.
-
+  Lakes are stored in a table in the database with columns for `id`, `name`, `image_url`. The lake is displayed on the frontend by showing the `lake` component, which begins by showing the `lake image`, then a display of the `posting` component for that `lake`, which allows the user to see all available events that match their search parameters (`lake` and whether they're the `host` or the `guest`), as well post new events.
 ![image of lake page](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/LakePageTop.png)
 
 ### Postings
 
-Postings are also stored in a  table in the database, containing: `lake_id`,`id`, `user_id`, `start_time`, `end_time`, `boat_type`, `activity`, `lake_id`, and `posting_type`.
-Implementing Notebooks started with a notebook table in the database.  The `Notebook` table contains two columns: `title` and `id`.  Additionally, a `notebook_id` column was added to the `Note` table.  
+Postings are also stored in a  table in the database, containing: `lake_id`,`id`, `user_id`, `start_time`, `end_time`, `boat_type`, `activity`, `lake_id`, and `posting_type`. It is rendered in the `posting` component which is only shown within the `lake` component. It includes the method for creating new postings via a button to launch the `posting_form` component. These listen to the `PostingStore` to see all the postings and the `BoatingRequestStore` to check the status of any pending requests to join a particular posting that you might already have. It renders all of the postings for that particular lake, of that particular posting type (`host` or `guest`), along with either the button to join a posting or a display of the status of your previous request.
 
-The React component structure for notebooks mirrored that of notes: the `NotebookIndex` component renders a list of `CondensedNotebook`s as subcomponents, along with one `ExpandedNotebook`, kept track of by `NotebookStore.selectedNotebook()`.  
+![image of postings](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Postings.png)
 
-`NotebookIndex` render method:
+`Posting` startTime method (Parsing input into proper time format for display):
 
 ```javascript
-render: function () {
-  return ({this.state.notebooks.map(function (notebook) {
-    return <CondensedNotebook notebook={notebook} />
-  }
-  <ExpandedNotebook notebook={this.state.selectedNotebook} />)
-}
+  startTime: function(posting){
+    var startHour = parseInt(posting.start_time.slice(11,13));
+    var ampm = " am";
+    if(startHour > 12){
+      startHour -= 12;
+      ampm = " pm";
+    }
+    if(startHour === 12){
+      ampm = " pm";
+    }
+    return (startHour + posting.start_time.slice(13,16) + ampm);
+  },
 ```
 
 ### Tags
