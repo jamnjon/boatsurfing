@@ -36108,6 +36108,18 @@
 	        );
 	      }
 	    }
+	    if (this.props.BR.status === "Accepted") {
+	      buttons = React.createElement(
+	        'div',
+	        { className: 'requests' },
+	        React.createElement(
+	          'button',
+	          { className: 'random',
+	            onClick: this.cancelReq },
+	          'Cancel Request'
+	        )
+	      );
+	    }
 	    return React.createElement(
 	      'li',
 	      null,
@@ -36165,7 +36177,11 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          buttons
+	          React.createElement(
+	            'div',
+	            { className: 'buttonsWrapper' },
+	            buttons
+	          )
 	        )
 	      )
 	    );

@@ -63,6 +63,10 @@ module.exports = React.createClass({
         onClick={this.updateReq}>Decline Request</button></div>;
       }
     }
+    if(this.props.BR.status === "Accepted"){
+      buttons = <div className="requests"><button className="random"
+      onClick={this.cancelReq}>Cancel Request</button></div>;
+    }
     return(
       <li>
         <ul className="BRlist">
@@ -70,7 +74,7 @@ module.exports = React.createClass({
           <li><b>Time:</b> {this.startTime(this.props.BR.posting)} until {this.endTime(this.props.BR.posting)}</li>
           <li><b>Activity:</b> {this.props.BR.posting.activity} with {username}</li>
           <li><b>Location:</b> {this.props.BR.lake.name}</li>
-          <li>{buttons}</li>
+          <li><div className="buttonsWrapper">{buttons}</div></li>
         </ul>
       </li>
     );

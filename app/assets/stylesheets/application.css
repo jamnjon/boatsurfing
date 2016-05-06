@@ -495,6 +495,11 @@ color: $ocean;
   right: 10%;
 }
 
+.buttonsWrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
 .Pending{
   font-size: 30px;
   font-weight: bold;
@@ -589,7 +594,7 @@ color: $ocean;
 .postResults {
   font-size: 20px;
   background:white;
-  padding: 100px;
+  padding: 50px 100px;
   color: black;
 }
 
