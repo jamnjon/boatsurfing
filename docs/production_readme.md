@@ -14,21 +14,18 @@ BoatSurfing is a full-stack web application inspired by CouchSurfing.  It utiliz
 
 ### Single-Page App
 
-BoatSurfing is a single page app. There are four stores that the site listens to (BoatingRequests, Lakes, Postings, Users), and it displays content based on the current status of the stores. The frontend of the app doesn't have access to sensitive information.
+BoatSurfing is a single page app. There are four stores that the site listens to (BoatingRequests, Lakes, Postings, Users), and it displays content based on the current status of the stores. The BoatingRequests controller makes sure to pull all of its necessary data to avoid N+1 queries.
 
 ```ruby
-sample ruby code
+def index
+  @requests = BoatingRequest.includes(:posting, :lake, :receiver, :requester).all
+end
   ```
 
-### Note Rendering and Editing
+### Lake Rendering
+  Lakes are stored in a table in the database with columns for `id`, `name`, `image_url`, `created_at`, and `updated_at`. The lake is displayed on the frontend by showing the `lake` component, which begins by showing the `lake image`, then a display of the `posting` component for that `lake`, including a button to launch the `posting_form` component along with an option to `request to join` which creates a new `boating_request`, or shows the status of any previously submitted `boating_requests` depending on the `status` of any `boating_request_index_item` for that particular `posting_id`. The Lakes are stored in the `LakeStore`.
 
-  On the database side, the notes are stored in one table in the database, which contains columns for `id`, `user_id`, `content`, and `updated_at`.  Upon login, an API call is made to the database which joins the user table and the note table on `user_id` and filters by the current user's `id`.  These notes are held in the `NoteStore` until the user's session is destroyed.  
-
-  Notes are rendered in two different components: the `CondensedNote` components, which show the title and first few words of the note content, and the `ExpandedNote` components, which are editable and show all note text.  The `NoteIndex` renders all of the `CondensedNote`s as subcomponents, as well as one `ExpandedNote` component, which renders based on `NoteStore.selectedNote()`. The UI of the `NoteIndex` is taken directly from Evernote for a professional, clean look:  
-
-![image of notebook index](https://github.com/jamnjon/couchsurfing/tree/master/docs/noteIndex.png)
-
-Note editing is implemented using the Quill.js library, allowing for a Word-processor-like user experience.
+![image of lake page](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/LakePageTop.png)
 
 ### Notebooks
 
