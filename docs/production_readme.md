@@ -4,7 +4,8 @@
 
 [location]: http://www.boatsurfing.site
 
-![image of logo](https://github.com/jamnjon/couchsurfing/tree/master/docs/pics/Logo.png)
+![logo](https://github.com/jamnjon/couchsurfing/blob/master/docs/pics/Logo.png)
+
 
 BoatSurfing is a full-stack web application inspired by CouchSurfing.  It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.  
 
