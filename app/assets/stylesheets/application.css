@@ -132,7 +132,7 @@
   color: #00f;
   overflow: scroll;
   position: relative;
-  top: 80px;
+  top: 20vh;
   z-index: 1000;
   background: white;
   max-width: 40%;
@@ -142,7 +142,7 @@
 }
 
 .closeModal{
-  color: white;
+  color: #009;
   position: absolute;
   left: 2px;
   top: 3px;
@@ -156,7 +156,7 @@
 .modal {
   color: #009;
   position: relative;
-  top: 100px;
+  top: 20vh;
   z-index: 1000;
   background: white;
   max-width: 30%;
