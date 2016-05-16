@@ -25,7 +25,7 @@ var UserActions = {
 		});
 	},
 	guestLogin: function(){
-		UserActions.login({username: "I Should Hire Jon", password: "password"});
+		UserActions.login({username: "Guest", password: "password"});
 	},
 
 	receiveCurrentUser: function(user){

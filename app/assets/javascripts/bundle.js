@@ -27469,7 +27469,7 @@
 			});
 		},
 		guestLogin: function () {
-			UserActions.login({ username: "I Should Hire Jon", password: "password" });
+			UserActions.login({ username: "Guest", password: "password" });
 		},
 	
 		receiveCurrentUser: function (user) {
@@ -34886,7 +34886,7 @@
 		},
 		guest: function () {
 			UserActions.guestLogin();
-			this.setState({ username: "I Should Hire Jon", password: "password" });
+			this.setState({ username: "Guest", password: "password" });
 		},
 	
 		logout: function (e) {
