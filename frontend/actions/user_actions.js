@@ -6,7 +6,8 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 
 var UserActions = {
 	fetchCurrentUser: function(){
-		UserApiUtil.fetchCurrentUser(UserActions.receiveCurrentUser, UserActions.handleError);
+		UserApiUtil.fetchCurrentUser(
+			UserActions.receiveCurrentUser, UserActions.handleError);
 	},
 	signup: function(user){
 		UserApiUtil.post({
@@ -46,7 +47,8 @@ var UserActions = {
 		});
 	},
 	logout: function(){
-		UserApiUtil.logout(UserActions.removeCurrentUser, UserActions.handleError);
+		UserApiUtil.logout(UserActions.removeCurrentUser,
+			UserActions.handleError);
 	}
 };
 

@@ -68,6 +68,9 @@
  .reqs > .declinedReqs{
    color: red;
  }
+ *:focus{
+   outline: none;
+ }
 
 .splashImg {
   /*display: flex;*/
@@ -139,6 +142,7 @@
   height: 60%;
   margin: 0 auto 100px;
   padding: 45px;
+  border: 8px solid #2b90d9;
 }
 
 .closeModal{
@@ -159,6 +163,7 @@
   top: 20vh;
   z-index: 1000;
   background: white;
+  border: 8px solid #2b90d9;
   max-width: 30%;
   margin: 0 auto 100px;
   padding: 45px;
@@ -614,6 +619,30 @@ color: $ocean;
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.filter{
+  margin: 20px 0px;
+  color: white;
+  padding: 20px 0px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  /*width: 100%;*/
+  background-color: #2b90d9;
+}
+
+.filterToggle{
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: normal;
+  display: flex;
+  justify-content: space-around;
+}
+
+.radioButton{
+  margin-left: 10px;
 }
 
 .postResultsPage {

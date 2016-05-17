@@ -60,27 +60,33 @@ var LoginForm = React.createClass({
 				<form onSubmit={this.handleSubmit} className="modalForm">
 					<section>
 						<label> Username:<br/>
-							<input type="text" value={this.state.username} onChange = {this.changeUsername}/>
+							<input type="text" value={this.state.username}
+							onChange = {this.changeUsername}/>
 						</label><br/><br/>
 
 						<label> Password:<br/>
-							<input type="password" value={this.state.password} onChange = {this.changePassword}/>
+							<input type="password" value={this.state.password}
+							onChange = {this.changePassword}/>
 						</label><br/><br/>
 					</section>
 
 					<section className="radioButtons">
 						<label className="radio"> Login
-							<input type="Radio" name="action" value="login" onChange={this.setForm}/>
+							<input type="Radio" name="action"
+							value="login" onChange={this.setForm}/>
 						</label>
 
 						<label className="radio"> Sign Up
-							<input type="Radio" name="action" value="signup" onChange={this.setForm}/>
+							<input type="Radio" name="action"
+							value="signup" onChange={this.setForm}/>
 						</label>
 
 					</section>
 					<br/><br/>
-					<input className="random" defaultValue="Submit" type="Submit"/><br/><br/>
-					<button className="random" type="reset" onClick={this.guest}>Log In As Guest
+					<input className="random" defaultValue="Submit"
+					type="Submit"/><br/><br/>
+					<button className="random"
+					type="reset" onClick={this.guest}>Log In As Guest
           </button>
 				</form>
 		);

@@ -34935,7 +34935,8 @@
 						null,
 						" Username:",
 						React.createElement("br", null),
-						React.createElement("input", { type: "text", value: this.state.username, onChange: this.changeUsername })
+						React.createElement("input", { type: "text", value: this.state.username,
+							onChange: this.changeUsername })
 					),
 					React.createElement("br", null),
 					React.createElement("br", null),
@@ -34944,7 +34945,8 @@
 						null,
 						" Password:",
 						React.createElement("br", null),
-						React.createElement("input", { type: "password", value: this.state.password, onChange: this.changePassword })
+						React.createElement("input", { type: "password", value: this.state.password,
+							onChange: this.changePassword })
 					),
 					React.createElement("br", null),
 					React.createElement("br", null)
@@ -34956,23 +34958,27 @@
 						"label",
 						{ className: "radio" },
 						" Login",
-						React.createElement("input", { type: "Radio", name: "action", value: "login", onChange: this.setForm })
+						React.createElement("input", { type: "Radio", name: "action",
+							value: "login", onChange: this.setForm })
 					),
 					React.createElement(
 						"label",
 						{ className: "radio" },
 						" Sign Up",
-						React.createElement("input", { type: "Radio", name: "action", value: "signup", onChange: this.setForm })
+						React.createElement("input", { type: "Radio", name: "action",
+							value: "signup", onChange: this.setForm })
 					)
 				),
 				React.createElement("br", null),
 				React.createElement("br", null),
-				React.createElement("input", { className: "random", defaultValue: "Submit", type: "Submit" }),
+				React.createElement("input", { className: "random", defaultValue: "Submit",
+					type: "Submit" }),
 				React.createElement("br", null),
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "random", type: "reset", onClick: this.guest },
+					{ className: "random",
+						type: "reset", onClick: this.guest },
 					"Log In As Guest"
 				)
 			);
@@ -35809,7 +35815,8 @@
 	      boatingRequests: [],
 	      modalOpen: false,
 	      loginModalOpen: false,
-	      newPostModalOpen: false
+	      newPostModalOpen: false,
+	      activity: "All"
 	    };
 	  },
 	
@@ -35923,6 +35930,10 @@
 	    }
 	  },
 	
+	  sortByActivity: function (e) {
+	    this.setState({ activity: e.target.value });
+	  },
+	
 	  render: function () {
 	    if (this.props.target) {
 	      if (this.props.target === "Hosts") {
@@ -35933,7 +35944,8 @@
 	      var lakePartners = [];
 	      this.state.postings.forEach(function (posting) {
 	        var matched = false;
-	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target) {
+	        if (posting.lake_id === this.props.lake.id && posting.posting_type === this.props.target && (this.state.activity === "All" || this.state.activity === posting.activity)) {
+	          //TODO: filter by event
 	          var date = this.date(posting);
 	          var startTime = this.startTime(posting);
 	          var endTime = this.endTime(posting);
@@ -35974,7 +35986,8 @@
 	            React.createElement(
 	              'div',
 	              { className: 'profilePicWrapper' },
-	              React.createElement('img', { className: 'profilePic', src: posting.user.profile_pic_url })
+	              React.createElement('img', { className: 'profilePic',
+	                src: posting.user.profile_pic_url })
 	            ),
 	            React.createElement(
 	              'ul',
@@ -36079,6 +36092,58 @@
 	            { onClick: this.createNewPost, className: 'random'
 	            },
 	            newPostType
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'filter' },
+	          'Filter By Activity:',
+	          React.createElement('br', null),
+	          React.createElement(
+	            'section',
+	            { className: 'filterToggle' },
+	            React.createElement(
+	              'label',
+	              { onClick: this.sortByActivity, className: 'radio' },
+	              'All',
+	              React.createElement('input', { type: 'radio', className: 'radioButton', name: 'action',
+	                defaultValue: 'All', onChange: this.setForm })
+	            ),
+	            React.createElement(
+	              'label',
+	              { onClick: this.sortByActivity, className: 'radio' },
+	              'Waterskiing',
+	              React.createElement('input', { type: 'radio', className: 'radioButton', name: 'action',
+	                defaultValue: 'Waterskiing', onChange: this.setForm })
+	            ),
+	            React.createElement(
+	              'label',
+	              { onClick: this.sortByActivity, className: 'radio' },
+	              'Wakeboarding',
+	              React.createElement('input', { type: 'radio', className: 'radioButton', name: 'action',
+	                defaultValue: 'Wakeboarding', onChange: this.setForm })
+	            ),
+	            React.createElement(
+	              'label',
+	              { onClick: this.sortByActivity, className: 'radio' },
+	              'Wakesurfing',
+	              React.createElement('input', { type: 'radio', className: 'radioButton', name: 'action',
+	                defaultValue: 'Wakesurfing', onChange: this.setForm })
+	            ),
+	            React.createElement(
+	              'label',
+	              { onClick: this.sortByActivity, className: 'radio' },
+	              'Kneeboarding',
+	              React.createElement('input', { type: 'radio', className: 'radioButton', name: 'action',
+	                defaultValue: 'Kneeboarding', onChange: this.setForm })
+	            ),
+	            React.createElement(
+	              'label',
+	              { onClick: this.sortByActivity, className: 'radio' },
+	              'Tubing',
+	              React.createElement('input', { type: 'radio', className: 'radioButton', name: 'action',
+	                defaultValue: 'Tubing', onChange: this.setForm })
+	            )
 	          )
 	        ),
 	        React.createElement(

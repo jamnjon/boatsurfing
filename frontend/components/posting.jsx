@@ -20,7 +20,8 @@ module.exports = React.createClass({
       boatingRequests: [],
       modalOpen: false,
       loginModalOpen: false,
-      newPostModalOpen: false
+      newPostModalOpen: false,
+      activity: "All"
     };
   },
 
@@ -135,6 +136,10 @@ module.exports = React.createClass({
     }
   },
 
+  sortByActivity: function(e){
+    this.setState({activity: e.target.value});
+  },
+
   render: function(){
     if(this.props.target){
       if(this.props.target === "Hosts"){
@@ -146,7 +151,9 @@ module.exports = React.createClass({
       this.state.postings.forEach(function(posting){
         var matched = false;
         if(posting.lake_id === this.props.lake.id &&
-          posting.posting_type === this.props.target){
+          posting.posting_type === this.props.target &&
+          (this.state.activity === "All" || this.state.activity === posting.activity)){
+//TODO: filter by event
             var date = this.date(posting);
             var startTime = this.startTime(posting);
             var endTime = this.endTime(posting);
@@ -156,7 +163,8 @@ module.exports = React.createClass({
                 var postBtn = <div className="yourPost">Your Post!</div>;
               } else if(this.state.currentUser.id !== posting.user.id){
                 this.state.boatingRequests.forEach(function(req){
-                  if(req.posting.id === posting.id && req.requester.id === this.state.currentUser.id){
+                  if(req.posting.id === posting.id &&
+                    req.requester.id === this.state.currentUser.id){
                     matched=true;
                     postBtn= <div className={req.status}>{req.status}</div>;
                   }
@@ -172,7 +180,8 @@ module.exports = React.createClass({
               <li className="posting" key={posting.id}
                 data-postId = {posting.id}>
                 <div className="profilePicWrapper">
-                  <img className="profilePic" src={posting.user.profile_pic_url} />
+                  <img className="profilePic"
+                  src={posting.user.profile_pic_url} />
                 </div>
                 <ul className="postingResults">
                   <li className="postingUser">{posting.user.username}</li>
@@ -207,6 +216,34 @@ module.exports = React.createClass({
         {lakePartners.length} {this.props.target.toLowerCase()} found:<br/><br/></h2>
         <button onClick={this.createNewPost} className="random"
         >{newPostType}</button></div>
+        <div className="filter">Filter By Activity:<br/>
+        <section className="filterToggle">
+          <label onClick={this.sortByActivity} className="radio">All
+            <input type="radio" className="radioButton" name="action"
+            defaultValue="All" onChange={this.setForm}/>
+          </label>
+          <label onClick={this.sortByActivity} className="radio">Waterskiing
+            <input type="radio" className="radioButton" name="action"
+            defaultValue="Waterskiing" onChange={this.setForm}/>
+          </label>
+          <label onClick={this.sortByActivity} className="radio">Wakeboarding
+            <input type="radio" className="radioButton" name="action"
+            defaultValue="Wakeboarding" onChange={this.setForm}/>
+          </label>
+          <label onClick={this.sortByActivity} className="radio">Wakesurfing
+            <input type="radio" className="radioButton" name="action"
+            defaultValue="Wakesurfing" onChange={this.setForm}/>
+          </label>
+          <label onClick={this.sortByActivity} className="radio">Kneeboarding
+            <input type="radio" className="radioButton" name="action"
+            defaultValue="Kneeboarding" onChange={this.setForm}/>
+          </label>
+          <label onClick={this.sortByActivity} className="radio">Tubing
+            <input type="radio" className="radioButton" name="action"
+            defaultValue="Tubing" onChange={this.setForm}/>
+          </label>
+        </section>
+        </div>
         <ul className="postList">{lakePartners}</ul>
         </div>);
 
